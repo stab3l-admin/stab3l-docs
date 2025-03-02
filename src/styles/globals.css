@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: 0, 0, 0;
+  --background: 255, 255, 255;
+  --border-color: 0, 0, 0;
+}
+
+.dark {
+  --foreground: 255, 255, 255;
+  --background: 0, 0, 0;
+  --border-color: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--border-color), 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--border-color), 0.5);
+}
+
+/* Terminal styling */
+.terminal-text {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Blinking cursor */
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1.2em;
+  animation: blink 0.5s step-end infinite;
+}
+
+.dark .cursor {
+  background-color: white;
+}
+
+.cursor {
+  background-color: black;
+}
+
+@keyframes blink {
+  from, to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Documentation specific styles */
+.docs-content {
+  @apply prose max-w-none bg-white dark:bg-black text-black dark:text-white;
+}
+
+.dark .docs-content {
+  @apply prose-invert;
+}
+
+.docs-content h1 {
+  @apply text-xl font-bold mb-4 mt-6 text-black dark:text-white;
+}
+
+.docs-content h2 {
+  @apply text-lg font-semibold mb-3 mt-5 text-black dark:text-white;
+}
+
+.docs-content h3 {
+  @apply text-base font-medium mb-2 mt-4 text-black dark:text-white;
+}
+
+.docs-content p {
+  @apply mb-4 text-black dark:text-white;
+}
+
+.docs-content ul, .docs-content ol {
+  @apply mb-4 ml-6 text-black dark:text-white;
+}
+
+.docs-content ul {
+  @apply list-disc;
+}
+
+.docs-content ol {
+  @apply list-decimal;
+}
+
+.docs-content a {
+  @apply text-black dark:text-white hover:underline;
+}
+
+.docs-content code {
+  @apply bg-white dark:bg-black border border-black dark:border-white px-1 py-0.5 rounded text-sm text-black dark:text-white;
+}
+
+.docs-content pre {
+  @apply bg-white dark:bg-black border border-black dark:border-white p-4 rounded-md overflow-x-auto mb-4;
+}
+
+.docs-content blockquote {
+  @apply border-l-4 border-black dark:border-white pl-4 italic text-black dark:text-white;
+}
+
+.docs-content table {
+  @apply w-full border-collapse mb-4 text-black dark:text-white;
+}
+
+.docs-content th, .docs-content td {
+  @apply border border-black dark:border-white p-2 text-black dark:text-white;
+}
+
+.docs-content th {
+  @apply bg-white dark:bg-black text-black dark:text-white;
+}
+
+/* Sidebar styles */
+.sidebar {
+  @apply w-80 flex-shrink-0;
+}
+
+.sidebar-item {
+  @apply px-4 py-2 rounded-md transition-colors;
+}
+
+.sidebar-item.active {
+  @apply font-medium;
+}
+
+/* Mobile navigation */
+.mobile-nav {
+  @apply md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t border-black dark:border-white z-10;
+}
+
+/* Add border utility classes */
+.border-theme {
+  @apply border-black dark:border-white;
+}
+
+/* Ensure proper light/dark mode for all elements */
+body.dark {
+  @apply bg-black text-white;
+}
+
+body:not(.dark) {
+  @apply bg-white text-black;
+} 
