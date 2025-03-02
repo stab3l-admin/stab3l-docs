@@ -164,4 +164,64 @@ body.dark {
 
 body:not(.dark) {
   @apply bg-white text-black;
+}
+
+/* GitBook-like content blocks */
+.hint {
+  @apply p-4 my-4 border rounded-md;
+}
+
+.hint-info {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800;
+}
+
+.hint-warning {
+  @apply bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800;
+}
+
+.hint-danger {
+  @apply bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800;
+}
+
+.hint-success {
+  @apply bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800;
+}
+
+/* Tabs component */
+.tabs {
+  @apply border border-black dark:border-white rounded-md overflow-hidden mb-4;
+}
+
+.tabs-header {
+  @apply flex border-b border-black dark:border-white;
+}
+
+.tab-button {
+  @apply px-4 py-2 cursor-pointer;
+}
+
+.tab-button.active {
+  @apply bg-black text-white dark:bg-white dark:text-black;
+}
+
+.tab-content {
+  @apply p-4;
+}
+
+/* Card component */
+.card {
+  @apply border border-black dark:border-white rounded-md p-4 my-4;
+}
+
+/* Expandable component */
+.expandable {
+  @apply border border-black dark:border-white rounded-md my-4 overflow-hidden;
+}
+
+.expandable-header {
+  @apply p-4 cursor-pointer flex justify-between items-center;
+}
+
+.expandable-content {
+  @apply p-4 border-t border-black dark:border-white;
 } 
