@@ -6,9 +6,9 @@ import { FileText } from "lucide-react";
  * Documentation index page
  * Displays all available documentation organized by category
  */
-export default function DocsIndexPage() {
-  const docs = getAllDocs();
-  const categories = getAllCategories();
+export default async function DocsIndexPage() {
+  const docs = await getAllDocs();
+  const categories = await getAllCategories();
 
   return (
     <div>

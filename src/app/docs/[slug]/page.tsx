@@ -11,8 +11,8 @@ interface DocPageProps {
 /**
  * Generate static params for all documentation pages
  */
-export function generateStaticParams() {
-  const docs = getAllDocs();
+export async function generateStaticParams() {
+  const docs = await getAllDocs();
   return docs.map((doc) => ({
     slug: doc.slug,
   }));
@@ -21,8 +21,8 @@ export function generateStaticParams() {
 /**
  * Generate metadata for the page
  */
-export function generateMetadata({ params }: DocPageProps) {
-  const doc = getDocBySlug(params.slug);
+export async function generateMetadata({ params }: DocPageProps) {
+  const doc = await getDocBySlug(params.slug);
   
   if (!doc) {
     return {
@@ -41,8 +41,8 @@ export function generateMetadata({ params }: DocPageProps) {
  * Documentation page component
  * Displays the content of a markdown file
  */
-export default function DocPage({ params }: DocPageProps) {
-  const doc = getDocBySlug(params.slug);
+export default async function DocPage({ params }: DocPageProps) {
+  const doc = await getDocBySlug(params.slug);
   
   if (!doc) {
     notFound();

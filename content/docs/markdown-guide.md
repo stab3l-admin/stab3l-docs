@@ -7,7 +7,11 @@ order: 1
 
 # Markdown Guide
 
-TerminalDocs uses Markdown for writing documentation. This guide will help you understand how to use Markdown to format your documentation.
+TerminalDocs uses Markdown for writing documentation. This guide will help you understand how to use Markdown to format your documentation, including the new GitBook-like features.
+
+{% hint style="info" %}
+TerminalDocs now supports GitBook-like syntax for creating rich content blocks. This guide covers both standard Markdown and these extended features.
+{% endhint %}
 
 ## Basic Syntax
 
@@ -38,19 +42,41 @@ You can emphasize text using asterisks or underscores:
 
 You can create ordered and unordered lists:
 
+#### Unordered Lists
+
 ```markdown
-Unordered list:
 - Item 1
 - Item 2
   - Subitem 1
   - Subitem 2
+- Item 3
+```
 
-Ordered list:
+Which renders as:
+
+- Item 1
+- Item 2
+  - Subitem 1
+  - Subitem 2
+- Item 3
+
+#### Ordered Lists
+
+```markdown
 1. Item 1
 2. Item 2
    1. Subitem 1
    2. Subitem 2
+3. Item 3
 ```
+
+Which renders as:
+
+1. Item 1
+2. Item 2
+   1. Subitem 1
+   2. Subitem 2
+3. Item 3
 
 ### Links
 
@@ -69,6 +95,64 @@ You can add images to your documentation:
 ![Alt text](URL)
 ```
 
+## GitBook-like Features
+
+TerminalDocs now supports several GitBook-like features to enhance your documentation.
+
+### Hint Blocks
+
+Hint blocks are used to highlight important information. There are four types of hint blocks available:
+
+{% hint style="info" %}
+**Info blocks (blue)** are used for general information and definitions.
+{% endhint %}
+
+{% hint style="warning" %}
+**Warning blocks (yellow)** are used to warn users about potential issues.
+{% endhint %}
+
+{% hint style="danger" %}
+**Danger blocks (red)** are used to alert users about critical issues.
+{% endhint %}
+
+{% hint style="success" %}
+**Success blocks (green)** are used for tips and best practices.
+{% endhint %}
+
+To create a hint block, use this syntax:
+
+```markdown
+{% hint style="TYPE" %}
+Your content here
+{% endhint %}
+```
+
+Replace `TYPE` with: `info`, `warning`, `danger`, or `success`
+
+### Tabs
+
+You can create tabs to organize content:
+
+{% tabs %}
+{% tab title="Syntax" %}
+```markdown
+{% tabs %}
+{% tab title="Tab 1" %}
+Content for tab 1
+{% endtab %}
+
+{% tab title="Tab 2" %}
+Content for tab 2
+{% endtab %}
+{% endtabs %}
+```
+{% endtab %}
+
+{% tab title="Result" %}
+This is actually a nested example of tabs! You're viewing the "Result" tab inside the "Tabs" section.
+{% endtab %}
+{% endtabs %}
+
 ## Advanced Syntax
 
 ### Code Blocks
@@ -83,6 +167,14 @@ function hello() {
 ```
 ````
 
+Which renders as:
+
+```javascript
+function hello() {
+  console.log("Hello, world!");
+}
+```
+
 ### Tables
 
 You can create tables:
@@ -94,6 +186,13 @@ You can create tables:
 | Cell 3   | Cell 4   |
 ```
 
+Which renders as:
+
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+
 ### Blockquotes
 
 You can create blockquotes:
@@ -103,13 +202,10 @@ You can create blockquotes:
 > It can span multiple lines.
 ```
 
-### Horizontal Rules
+Which renders as:
 
-You can create horizontal rules:
-
-```markdown
----
-```
+> This is a blockquote.
+> It can span multiple lines.
 
 ## GitHub Flavored Markdown
 
@@ -124,6 +220,11 @@ You can create task lists:
 - [ ] Task 2 (not completed)
 ```
 
+Which renders as:
+
+- [x] Task 1 (completed)
+- [ ] Task 2 (not completed)
+
 ### Strikethrough
 
 You can strikethrough text:
@@ -132,14 +233,10 @@ You can strikethrough text:
 ~~Strikethrough text~~
 ```
 
-### Emoji
+Which renders as:
 
-You can use emoji shortcodes:
+~~Strikethrough text~~
 
-```markdown
-:smile: :heart: :rocket:
-```
-
-## Conclusion
-
-This guide covers the basics of Markdown syntax. For more information, check out the [Markdown Guide](https://www.markdownguide.org/) website. 
+{% hint style="success" %}
+Now you know how to use both standard Markdown and GitBook-like features in TerminalDocs! For more examples, check out the [GitBook Features](/docs/gitbook-features) page. 
+{% endhint %}

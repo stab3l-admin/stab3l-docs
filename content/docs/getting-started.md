@@ -9,14 +9,36 @@ order: 1
 
 Welcome to TerminalDocs, a standalone documentation site for your projects. This guide will help you get started with using TerminalDocs to create beautiful documentation for your projects.
 
+{% hint style="info" %}
+TerminalDocs now supports GitBook-like features such as hint blocks, tabs, and more. Check out the [GitBook Features](/docs/gitbook-features) page for more information.
+{% endhint %}
+
 ## Installation
 
 To install TerminalDocs, you need to have Node.js and npm installed on your system. Then, you can clone the repository and install the dependencies:
 
+### Using npm
+
 ```bash
-git clone https://github.com/yourusername/terminaldocs.git
+git clone https://github.com/stab3l/terminaldocs.git
 cd terminaldocs
 npm install
+```
+
+### Using yarn
+
+```bash
+git clone https://github.com/stab3l/terminaldocs.git
+cd terminaldocs
+yarn install
+```
+
+### Using pnpm
+
+```bash
+git clone https://github.com/stab3l/terminaldocs.git
+cd terminaldocs
+pnpm install
 ```
 
 ## Running the Development Server
@@ -28,6 +50,10 @@ npm run dev
 ```
 
 This will start the development server at [http://localhost:3000](http://localhost:3000).
+
+{% hint style="warning" %}
+Make sure port 3000 is available on your system. If it's already in use, the development server will try to use the next available port.
+{% endhint %}
 
 ## Adding Documentation
 
@@ -48,24 +74,32 @@ Your content here...
 
 ### Frontmatter Options
 
-- `title`: The title of the document (required)
-- `description`: A brief description of the document (optional)
-- `category`: The category the document belongs to (optional, defaults to "Uncategorized")
-- `order`: The order in which the document appears in its category (optional, defaults to 999)
+| Option | Type | Description | Required |
+|--------|------|-------------|----------|
+| title | string | The title of the document | Yes |
+| description | string | A brief description of the document | No |
+| category | string | The category the document belongs to | No (defaults to "Uncategorized") |
+| order | number | The order in which the document appears in its category | No (defaults to 999) |
 
 ## Building for Production
 
 To build the application for production, run:
 
+### Build command
+
 ```bash
 npm run build
 ```
 
-Then, you can start the production server:
+### Start command
 
 ```bash
 npm run start
 ```
+
+{% hint style="success" %}
+Your documentation site is now ready for deployment! Check out the [Deployment](/docs/deployment) guide for more information on how to deploy your site.
+{% endhint %}
 
 ## Next Steps
 
@@ -73,4 +107,5 @@ Now that you have TerminalDocs up and running, you can start adding your own doc
 
 - [Markdown Guide](/docs/markdown-guide)
 - [Customization](/docs/customization)
-- [Deployment](/docs/deployment) 
+- [Deployment](/docs/deployment)
+- [GitBook Features](/docs/gitbook-features) 

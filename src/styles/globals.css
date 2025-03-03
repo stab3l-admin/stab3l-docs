@@ -6,12 +6,16 @@
   --foreground: 0, 0, 0;
   --background: 255, 255, 255;
   --border-color: 0, 0, 0;
+  --box-bg-light: 245, 245, 245;
+  --box-bg-dark: 30, 30, 30;
 }
 
 .dark {
   --foreground: 255, 255, 255;
   --background: 0, 0, 0;
   --border-color: 255, 255, 255;
+  --box-bg-light: 245, 245, 245;
+  --box-bg-dark: 30, 30, 30;
 }
 
 body {
@@ -111,15 +115,15 @@ body {
 }
 
 .docs-content code {
-  @apply bg-white dark:bg-black border border-black dark:border-white px-1 py-0.5 rounded text-sm text-black dark:text-white;
+  @apply bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-2 py-1 rounded text-sm text-black dark:text-white;
 }
 
 .docs-content pre {
-  @apply bg-white dark:bg-black border border-black dark:border-white p-4 rounded-md overflow-x-auto mb-4;
+  @apply bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-md overflow-x-auto mb-4;
 }
 
 .docs-content blockquote {
-  @apply border-l-4 border-black dark:border-white pl-4 italic text-black dark:text-white;
+  @apply border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic text-black dark:text-white;
 }
 
 .docs-content table {
@@ -127,11 +131,11 @@ body {
 }
 
 .docs-content th, .docs-content td {
-  @apply border border-black dark:border-white p-2 text-black dark:text-white;
+  @apply border border-gray-300 dark:border-gray-700 p-3 text-black dark:text-white;
 }
 
 .docs-content th {
-  @apply bg-white dark:bg-black text-black dark:text-white;
+  @apply bg-gray-100 dark:bg-gray-800 text-black dark:text-white;
 }
 
 /* Sidebar styles */
@@ -149,12 +153,12 @@ body {
 
 /* Mobile navigation */
 .mobile-nav {
-  @apply md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t border-black dark:border-white z-10;
+  @apply md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t border-gray-300 dark:border-gray-700 z-10;
 }
 
 /* Add border utility classes */
 .border-theme {
-  @apply border-black dark:border-white;
+  @apply border-gray-300 dark:border-gray-700;
 }
 
 /* Ensure proper light/dark mode for all elements */
@@ -168,60 +172,77 @@ body:not(.dark) {
 
 /* GitBook-like content blocks */
 .hint {
-  @apply p-4 my-4 border rounded-md;
+  @apply p-6 my-6 border rounded-md;
 }
 
 .hint-info {
-  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800;
+  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700;
 }
 
 .hint-warning {
-  @apply bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800;
+  @apply bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700;
 }
 
 .hint-danger {
-  @apply bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800;
+  @apply bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700;
 }
 
 .hint-success {
-  @apply bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800;
+  @apply bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700;
+}
+
+/* Add padding for nested blocks */
+.hint .hint,
+.tabs .hint,
+.card .hint,
+.expandable .hint,
+.tab-content .hint {
+  @apply mx-2 my-4;
+}
+
+/* Ensure proper spacing between nested components */
+.hint > *:last-child,
+.tab-content > *:last-child,
+.card > *:last-child,
+.expandable-content > *:last-child {
+  @apply mb-0;
 }
 
 /* Tabs component */
 .tabs {
-  @apply border border-black dark:border-white rounded-md overflow-hidden mb-4;
+  @apply border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden mb-6;
 }
 
 .tabs-header {
-  @apply flex border-b border-black dark:border-white;
+  @apply flex border-b border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800;
 }
 
 .tab-button {
-  @apply px-4 py-2 cursor-pointer;
+  @apply px-6 py-3 cursor-pointer;
 }
 
 .tab-button.active {
-  @apply bg-black text-white dark:bg-white dark:text-black;
+  @apply bg-white dark:bg-black text-black dark:text-white;
 }
 
 .tab-content {
-  @apply p-4;
+  @apply p-6 bg-white dark:bg-black;
 }
 
 /* Card component */
 .card {
-  @apply border border-black dark:border-white rounded-md p-4 my-4;
+  @apply border border-gray-300 dark:border-gray-700 rounded-md p-6 my-6 bg-gray-100 dark:bg-gray-800;
 }
 
 /* Expandable component */
 .expandable {
-  @apply border border-black dark:border-white rounded-md my-4 overflow-hidden;
+  @apply border border-gray-300 dark:border-gray-700 rounded-md my-6 overflow-hidden;
 }
 
 .expandable-header {
-  @apply p-4 cursor-pointer flex justify-between items-center;
+  @apply p-6 cursor-pointer flex justify-between items-center bg-gray-100 dark:bg-gray-800;
 }
 
 .expandable-content {
-  @apply p-4 border-t border-black dark:border-white;
+  @apply p-6 border-t border-gray-300 dark:border-gray-700 bg-white dark:bg-black;
 } 

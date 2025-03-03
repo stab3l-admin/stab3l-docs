@@ -13,17 +13,18 @@ TerminalDocs provides a set of utility functions that you can use to customize a
 
 ### `getAllDocs()`
 
-Returns an array of all documentation files with their metadata.
+Returns a Promise that resolves to an array of all documentation files with their metadata.
 
 ```typescript
 import { getAllDocs } from "@/lib/docs";
 
-const docs = getAllDocs();
+// In an async function
+const docs = await getAllDocs();
 ```
 
 #### Return Value
 
-An array of `DocMeta` objects:
+A Promise that resolves to an array of `DocMeta` objects:
 
 ```typescript
 interface DocMeta {
@@ -38,12 +39,13 @@ interface DocMeta {
 
 ### `getDocBySlug(slug: string)`
 
-Returns a specific document by its slug.
+Returns a Promise that resolves to a specific document by its slug.
 
 ```typescript
 import { getDocBySlug } from "@/lib/docs";
 
-const doc = getDocBySlug("getting-started");
+// In an async function
+const doc = await getDocBySlug("getting-started");
 ```
 
 #### Parameters
@@ -52,7 +54,7 @@ const doc = getDocBySlug("getting-started");
 
 #### Return Value
 
-A `DocContent` object or `null` if the document is not found:
+A Promise that resolves to a `DocContent` object or `null` if the document is not found:
 
 ```typescript
 interface DocContent extends DocMeta {
@@ -62,12 +64,13 @@ interface DocContent extends DocMeta {
 
 ### `getDocsByCategory(category: string)`
 
-Returns all documents in a specific category.
+Returns a Promise that resolves to all documents in a specific category.
 
 ```typescript
 import { getDocsByCategory } from "@/lib/docs";
 
-const docs = getDocsByCategory("Introduction");
+// In an async function
+const docs = await getDocsByCategory("Introduction");
 ```
 
 #### Parameters
@@ -76,21 +79,22 @@ const docs = getDocsByCategory("Introduction");
 
 #### Return Value
 
-An array of `DocMeta` objects in the specified category.
+A Promise that resolves to an array of `DocMeta` objects in the specified category.
 
 ### `getAllCategories()`
 
-Returns an array of all categories.
+Returns a Promise that resolves to an array of all categories.
 
 ```typescript
 import { getAllCategories } from "@/lib/docs";
 
-const categories = getAllCategories();
+// In an async function
+const categories = await getAllCategories();
 ```
 
 #### Return Value
 
-An array of category names as strings.
+A Promise that resolves to an array of category names as strings.
 
 ## Component Props
 

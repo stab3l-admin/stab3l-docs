@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Footer } from "@/components/footer";
 
 /**
  * Home page component
@@ -7,9 +8,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
  */
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col font-mono">
+    <div className="min-h-screen flex flex-col font-mono bg-white dark:bg-black text-black dark:text-white">
       {/* Header */}
-      <header className="border-b border-theme">
+      <header className="border-b border-black dark:border-white">
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between">
           <Link href="/" className="text-lg font-bold">
             TerminalDocs
@@ -28,7 +29,7 @@ export default function HomePage() {
             <p className="text-sm mb-6">
               A minimal, terminal-style documentation site.
             </p>
-            <pre className="border border-theme p-4 mb-6 overflow-x-auto text-xs">
+            <pre className="border border-black dark:border-white p-4 mb-6 overflow-x-auto text-xs bg-white dark:bg-black text-black dark:text-white">
               <code>{`$ npm install terminaldocs
 $ npx terminaldocs init
 $ npx terminaldocs dev`}</code>
@@ -36,13 +37,13 @@ $ npx terminaldocs dev`}</code>
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <Link
                 href="/docs"
-                className="px-3 py-1 border border-theme hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-xs"
+                className="px-3 py-1 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-xs"
               >
                 BROWSE DOCS
               </Link>
               <Link
                 href="/docs/getting-started"
-                className="px-3 py-1 border border-theme hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-xs"
+                className="px-3 py-1 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-xs"
               >
                 GET STARTED
               </Link>
@@ -58,13 +59,14 @@ $ npx terminaldocs dev`}</code>
               <li>Responsive design</li>
               <li>Simple and minimal interface</li>
               <li>Fast and lightweight</li>
+              <li>GitBook-like features (hint blocks, tabs, and more)</li>
             </ul>
           </div>
 
           <div className="my-12">
             <h2 className="text-lg font-bold mb-4">Commands</h2>
             <div className="text-xs font-mono">
-              <pre className="border border-theme p-4 overflow-x-auto">
+              <pre className="border border-black dark:border-white p-4 overflow-x-auto bg-white dark:bg-black text-black dark:text-white">
                 <code>{`$ npx terminaldocs --help
 Usage: terminaldocs [command] [options]
 
@@ -85,13 +87,7 @@ Options:
       </main>
 
       {/* Footer */}
-      <footer className="py-4 border-t border-theme">
-        <div className="max-w-6xl mx-auto px-4 text-center text-xs">
-          <p>
-            &copy; {new Date().getFullYear()} TerminalDocs
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 } 
