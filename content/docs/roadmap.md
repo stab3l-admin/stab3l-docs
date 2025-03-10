@@ -90,7 +90,7 @@ The Marketplace Expansion phase focuses on enhancing the marketplace functionali
 - ✅ Launch of provider onboarding program (Q3 2023)
 - ✅ Development of futures market (Q3 2023)
 - ✅ Implementation of governance system (Q3-Q4 2023)
-- ✅ Launch of STB-GOV token (Q4 2023)
+- ✅ Launch of rSTB token (Q4 2023)
 - ✅ Development of options market (Q4 2023 - Q1 2024)
 - 🔄 Integration with major DeFi protocols (In Progress)
 - 🔄 Enhanced analytics and reporting tools (In Progress)
@@ -185,8 +185,8 @@ In addition to the technical roadmap, STAB3L is committed to building a vibrant 
 The governance system will evolve over time to become more decentralized and community-driven:
 
 1. **Initial Governance**: Core team and key stakeholders (Current)
-2. **Transitional Governance**: Core team and STB-GOV token holders (Q1-Q2 2024)
-3. **Community Governance**: Primarily STB-GOV token holders with minimal core team involvement (Q3 2024 onwards)
+2. **Transitional Governance**: Core team and rSTB token holders (Q1-Q2 2024)
+3. **Community Governance**: Primarily rSTB token holders with minimal core team involvement (Q3 2024 onwards)
 4. **Full DAO**: Complete transition to a decentralized autonomous organization (2025)
 
 ## Research and Development

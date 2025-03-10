@@ -47,7 +47,7 @@ A process for resolving conflicts between users and providers, such as when a pr
 ## E
 
 ### ERC-20
-A token standard on Ethereum that defines a common list of rules for fungible tokens. The STAB3L and STB-GOV tokens follow the ERC-20 standard.
+A token standard on Ethereum that defines a common list of rules for fungible tokens. The sSTB and rSTB tokens follow the ERC-20 standard.
 
 ### ERC-1155
 A token standard on Ethereum that supports both fungible and non-fungible tokens in a single contract. CU tokens in STAB3L are implemented as ERC-1155 tokens.
@@ -66,7 +66,7 @@ An agreement to buy or sell an asset at a predetermined price at a specified tim
 The fee required to perform a transaction or execute a contract on the Ethereum network. Gas fees are paid in the native cryptocurrency of the network (e.g., ETH on Ethereum).
 
 ### Governance
-The process by which decisions are made in a decentralized system. STAB3L's governance system allows STB-GOV token holders to vote on proposals that affect the platform.
+The process by which decisions are made in a decentralized system. STAB3L's governance system allows rSTB token holders to vote on proposals that affect the platform.
 
 ## L
 
@@ -113,13 +113,13 @@ An entity that monitors events on one blockchain and submits proofs to another b
 ### Smart Contract
 Self-executing code deployed on a blockchain that automatically enforces the terms of an agreement. STAB3L uses smart contracts for tokenization, marketplace functionality, governance, and more.
 
-### STAB3L Token (STAB3L)
+### sSTB Token (sSTB)
 The main utility token of the STAB3L platform, used for fee payments, staking, and liquidity provision.
 
 ### Staking
-The process of locking up tokens to support network operations and earn rewards. STAB3L offers staking programs for both STAB3L and STB-GOV tokens.
+The process of locking up tokens to support network operations and earn rewards. STAB3L offers staking programs for both sSTB and rSTB tokens.
 
-### STB Governance Token (STB-GOV)
+### STB Governance Token (rSTB)
 The governance and rewards token of the STAB3L platform, used for voting on proposals and earning rewards.
 
 ### Standardization Algorithm
@@ -131,7 +131,7 @@ An algorithm that normalizes benchmark results across different hardware configu
 A security feature that delays the execution of certain actions, giving users time to react. STAB3L implements timelocks for governance actions and bridge operations.
 
 ### Token
-A digital asset that represents a certain value or utility within a blockchain ecosystem. STAB3L has a dual-token system (STAB3L and STB-GOV) plus CU tokens.
+A digital asset that represents a certain value or utility within a blockchain ecosystem. STAB3L has a dual-token system (sSTB and rSTB) plus CU tokens.
 
 ### Trusted Execution Environment (TEE)
 A secure area within a processor that ensures the confidentiality and integrity of code and data. STAB3L uses TEEs as one method for verifying compute resources.

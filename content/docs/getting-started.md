@@ -103,11 +103,11 @@ Before you start using STAB3L, make sure you have:
 
 STAB3L uses a dual-token system:
 
-1. **STAB3L Token (STAB3L)** - The main utility token of the ecosystem
-2. **STB Governance Token (STB-GOV)** - The governance and rewards token
+1. **sSTB Token (sSTB)** - The main utility token of the ecosystem
+2. **STB Governance Token (rSTB)** - The governance and rewards token
 
 {% hint style="success" %}
-Holding STB-GOV tokens allows you to participate in governance decisions and earn rewards for staking and other activities.
+Holding rSTB tokens allows you to participate in governance decisions and earn rewards for staking and other activities.
 {% endhint %}
 
 ## Next Steps

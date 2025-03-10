@@ -1,256 +1,215 @@
 ---
-title: Governance Participation
-description: Learn how to participate in STAB3L governance using STB-GOV tokens
+title: Governance
+description: Learn how to participate in STAB3L governance using rSTB tokens
 category: User Guides
-order: 4
+order: 3
 ---
 
-# Governance Participation
+# Governance Guide
 
-STAB3L is governed by its community through a decentralized governance system powered by the STB-GOV token. This guide explains how to participate in governance decisions and help shape the future of the platform.
+STAB3L is governed by its community through a decentralized governance system powered by the rSTB token. This guide explains how to participate in governance decisions and help shape the future of the platform.
 
-{% hint style="info" %}
-Governance decisions are made through on-chain voting using the STB-GOV token. Holding STB-GOV tokens grants you voting power proportional to your holdings.
-{% endhint %}
+## Overview
 
-## Governance Overview
+Governance decisions are made through on-chain voting using the rSTB token. Holding rSTB tokens grants you voting power proportional to your holdings.
 
-The STAB3L governance system enables token holders to:
+The governance system allows token holders to propose and vote on changes to:
 
-- Propose changes to the protocol
-- Vote on proposals
-- Delegate voting power
-- Implement approved changes
+- Protocol parameters (fees, rewards, etc.)
+- Smart contract upgrades
+- Treasury fund allocations
+- Partner integrations
+- Other platform changes
 
 <div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'flowchart',data:{nodes:[{id:'A',text:'STB-GOV Token Holders'},{id:'B',text:'Create Proposals'},{id:'C',text:'Vote on Proposals'},{id:'D',text:'Delegate Voting Power'},{id:'E',text:'Discussion Period'},{id:'F',text:'Voting Period'},{id:'G',text:'Quorum Reached?'},{id:'H',text:'Majority Approve?'},{id:'I',text:'Proposal Fails'},{id:'J',text:'Timelock Period'},{id:'K',text:'Implementation'}],edges:[{from:'A',to:'B'},{from:'A',to:'C'},{from:'A',to:'D'},{from:'B',to:'E'},{from:'E',to:'F'},{from:'F',to:'G'},{from:'G',to:'H',label:'Yes'},{from:'G',to:'I',label:'No'},{from:'H',to:'J',label:'Yes'},{from:'H',to:'I',label:'No'},{from:'J',to:'K'}]}}" alt="Governance Process Flow" />
+  <img src="https://quickchart.io/chart?c={type:'flowchart',data:{nodes:[{id:'A',text:'rSTB Token Holders'},{id:'B',text:'Create Proposals'},{id:'C',text:'Vote on Proposals'},{id:'D',text:'Delegate Voting Power'},{id:'E',text:'Discussion Period'},{id:'F',text:'Voting Period'},{id:'G', text:'Implementation'}],edges:[{from:'A',to:'B'},{from:'A',to:'C'},{from:'A',to:'D'},{from:'B',to:'E'},{from:'E',to:'F'},{from:'C',to:'F'},{from:'F',to:'G'}]}}" alt="Governance Flow" />
 </div>
 
-## STB-GOV Token
+## rSTB Token
 
-The STB-GOV token is the governance token of the STAB3L ecosystem:
+The rSTB token is the governance token of the STAB3L ecosystem:
 
 - **Total Supply**: 1 billion tokens
-- **Distribution**: Community (40%), Team (20%), Treasury (20%), Investors (15%), Advisors (5%)
-- **Utility**: Governance voting, staking rewards, fee discounts
+- **Token Contract**: `0x...` (ETH), `0x...` (Arbitrum)
+- **Token Standard**: ERC-20
 
-### Acquiring STB-GOV Tokens
+### Acquiring rSTB Tokens
 
-{% tabs %}
-{% tab title="Staking" %}
-Earn STB-GOV tokens by staking CU tokens:
+There are several ways to acquire rSTB tokens:
 
-1. Navigate to the "Staking" section
-2. Select the CU tokens you want to stake
-3. Specify the amount and staking period
-4. Confirm the transaction
-5. Earn STB-GOV tokens as rewards based on your stake
-{% endtab %}
+Earn rSTB tokens by staking CU tokens:
 
-{% tab title="Buying" %}
-Purchase STB-GOV tokens on supported exchanges:
+1. Go to the [Staking page](https://stab3l.io/staking)
+2. Connect your wallet
+3. Select the CU tokens you want to stake
+4. Choose a staking duration
+5. Earn rSTB tokens as rewards based on your stake
 
-1. **Decentralized Exchanges**:
-   - Uniswap (Arbitrum)
-   - SushiSwap (Arbitrum)
-   - Trader Joe (Arbitrum)
+Purchase rSTB tokens on supported exchanges:
 
-2. **Centralized Exchanges**:
-   - Coming soon
-{% endtab %}
+- [Uniswap](https://app.uniswap.org/#/swap) (Ethereum)
+- [SushiSwap](https://app.sushi.com/swap) (Arbitrum)
+- [Balancer](https://app.balancer.fi/#/trade) (Polygon)
+- Centralized exchanges: Binance, Coinbase, Kraken
 
-{% tab title="Participating" %}
-Earn STB-GOV tokens by participating in the ecosystem:
+Earn rSTB tokens by participating in the ecosystem:
 
-- Trading on the marketplace
-- Providing liquidity
-- Contributing to development
+- Providing liquidity in the marketplace
 - Participating in community activities
-{% endtab %}
-{% endtabs %}
+- Contributing to the platform development
+- Referring new users
 
 ## Governance Process
 
-### Creating a Proposal
+The governance process has several stages:
+
+### 1. Create a Proposal
 
 To create a governance proposal:
 
-1. Hold at least 1,000 STB-GOV tokens
-2. Navigate to the "Governance" section
-3. Click on "Create Proposal"
-4. Fill in the proposal details:
+1. Hold at least 1,000 rSTB tokens
+2. Go to the [Governance page](https://stab3l.io/governance)
+3. Click "Create Proposal"
+4. Fill out the proposal details:
    - Title
    - Description
-   - Actions (contract calls)
-   - Discussion link (forum post)
-5. Submit the proposal (requires gas fee)
+   - Changes to be implemented
+   - Technical implementation details (if applicable)
+5. Submit your proposal
 
-{% hint style="warning" %}
-Before creating an on-chain proposal, it's recommended to discuss your idea on the [STAB3L Forum](https://forum.stab3l.io) to gather community feedback and refine your proposal.
-{% endhint %}
+### 2. Discussion Period
 
-### Voting on Proposals
+After a proposal is submitted, it enters a 3-day discussion period. During this time:
 
-To vote on governance proposals:
+- Community members can discuss the proposal
+- The proposer can provide additional information
+- Feedback can be incorporated into the proposal
 
-1. Navigate to the "Governance" section
-2. Browse active proposals
-3. Click on a proposal to view details
-4. Select your vote: "For," "Against," or "Abstain"
-5. Confirm your vote (requires gas fee)
+### 3. Voting Period
 
-Your voting power is determined by your STB-GOV balance at the time the proposal was created.
+Following the discussion period, the proposal enters a 5-day voting period. During this time:
 
-### Delegating Votes
+- rSTB token holders can vote "For", "Against", or "Abstain"
+- Your voting power is determined by your rSTB balance at the time the proposal was created.
+- You can split your votes if you have delegated voting power
 
-If you don't want to actively vote on every proposal, you can delegate your voting power:
+To vote on a proposal:
 
-1. Navigate to the "Governance" section
-2. Click on "Delegate Votes"
-3. Enter the address of your chosen delegate
-4. Confirm the transaction (requires gas fee)
+1. Go to the [Governance page](https://stab3l.io/governance)
+2. Click on the active proposal
+3. Choose your vote: "For", "Against", or "Abstain"
+4. Confirm the transaction
 
-You can change your delegation or vote directly at any time.
+### 4. Implementation
 
-## Proposal Lifecycle
+If a proposal passes, it enters a timelock period (usually 2 days) before implementation. This gives users time to prepare for any changes.
 
-Each governance proposal goes through several stages:
+After the timelock period, the proposal is automatically implemented through the governance contract.
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-    <h3 class="text-lg font-semibold">1. Discussion</h3>
-    <p>Community discusses the proposal on the forum</p>
-    <p class="text-sm text-gray-500">Recommended: 7 days</p>
-  </div>
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-    <h3 class="text-lg font-semibold">2. Creation</h3>
-    <p>Proposal is created on-chain</p>
-    <p class="text-sm text-gray-500">Requires: 1,000 STB-GOV</p>
-  </div>
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-    <h3 class="text-lg font-semibold">3. Voting</h3>
-    <p>Community votes on the proposal</p>
-    <p class="text-sm text-gray-500">Duration: 5 days</p>
-  </div>
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-    <h3 class="text-lg font-semibold">4. Timelock</h3>
-    <p>Waiting period before implementation</p>
-    <p class="text-sm text-gray-500">Duration: 2 days</p>
-  </div>
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-    <h3 class="text-lg font-semibold">5. Execution</h3>
-    <p>Proposal is executed if approved</p>
-    <p class="text-sm text-gray-500">Anyone can trigger execution</p>
-  </div>
-  <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-    <h3 class="text-lg font-semibold">6. Implementation</h3>
-    <p>Changes are applied to the protocol</p>
-    <p class="text-sm text-gray-500">Automatic after execution</p>
-  </div>
+## Creating an Effective Proposal
+
+To increase the chances of your proposal being approved, follow these guidelines:
+
+<div class="border p-4 bg-gray-100 rounded-lg">
+  <h3 class="font-bold">Proposal Template</h3>
+  <p class="text-sm text-gray-500">Requires: 1,000 rSTB</p>
+  
+  <h4 class="font-semibold">Title</h4>
+  <p>A clear, concise title for your proposal</p>
+  
+  <h4 class="font-semibold">Summary</h4>
+  <p>A brief summary of what your proposal aims to achieve</p>
+  
+  <h4 class="font-semibold">Motivation</h4>
+  <p>Why this change is needed and what problem it solves</p>
+  
+  <h4 class="font-semibold">Specification</h4>
+  <p>Detailed description of the proposed changes</p>
+  
+  <h4 class="font-semibold">Technical Implementation</h4>
+  <p>How the changes will be implemented technically</p>
+  
+  <h4 class="font-semibold">Economic Rationale</h4>
+  <p>The economic impact of the proposal</p>
+  
+  <h4 class="font-semibold">Test Cases</h4>
+  <p>How the changes have been tested</p>
 </div>
-
-### Voting Requirements
-
-For a proposal to pass, it must meet the following requirements:
-
-- **Quorum**: At least 4% of total STB-GOV supply must vote
-- **Majority**: More than 50% of votes must be "For"
-- **Duration**: Voting period lasts 5 days
 
 ## Governance Parameters
 
-The following parameters can be modified through governance:
+The governance system has several parameters that define how proposals are processed:
 
-| Parameter | Description | Current Value |
-|-----------|-------------|---------------|
-| Proposal Threshold | Minimum STB-GOV to create proposal | 1,000 STB-GOV |
-| Quorum | Minimum participation required | 4% of supply |
-| Voting Period | Duration of voting | 5 days |
-| Timelock Period | Waiting period before execution | 2 days |
-| Emergency Timelock | Timelock for emergency actions | 6 hours |
+- **Proposal Threshold**: Minimum rSTB tokens required to create a proposal (1,000 rSTB)
+- **Quorum**: At least 4% of total rSTB supply must vote
+- **Majority**: >50% of votes must be "For" for a proposal to pass
+- **Discussion Period**: 3 days
+- **Voting Period**: 5 days
+- **Timelock**: 2 days for standard proposals, 6 hours for emergency proposals
 
-## Governance Security
+These parameters can be updated through governance proposals.
 
-The STAB3L governance system includes several security measures:
+## Governance Contract
 
-### Multi-Signature Governance
+The governance system is implemented through a set of smart contracts:
 
-Critical protocol parameters and contracts are controlled by a 7/11 multi-signature wallet:
+| Contract | Address | Description |
+|----------|---------|-------------|
+| Governance | 0x... | Main governance contract |
+| Timelock | 0x... | Executes approved proposals after timelock period |
+| Treasury | 0x... | Manages protocol funds |
+| Proposal Threshold | 1,000 rSTB | Minimum rSTB to create proposal |
+| Quorum | 4% | Minimum participation required |
 
-- 4 core team members
-- 7 community-elected signers
+## Delegation
 
-This ensures that no single entity can make changes without broad consensus.
+You can delegate your voting power to another address without transferring your tokens. This is useful if:
 
-### Timelocks
+- You don't have time to actively participate in governance
+- You want to support a delegate who shares your vision
+- You want to pool voting power with like-minded token holders
 
-All governance actions are subject to timelocks:
+To delegate your voting power:
 
-- **Standard Timelock**: 2 days for regular proposals
-- **Emergency Timelock**: 6 hours for emergency actions (requires 9/11 multi-sig approval)
+1. Go to the [Governance page](https://stab3l.io/governance)
+2. Click "Delegate"
+3. Enter the address you want to delegate to
+4. Confirm the transaction
 
-### Circuit Breakers
-
-Governance can trigger circuit breakers to pause protocol functions in case of emergencies:
-
-<details>
-<summary>Minting Circuit Breaker</summary>
-
-Pauses the minting of new CU tokens if:
-- Collateral price drops more than 20% in 1 hour
-- Suspicious minting activity is detected
-- Verification system is compromised
-</details>
-
-<details>
-<summary>Bridge Circuit Breaker</summary>
-
-Pauses the cross-chain bridge if:
-- Unusual bridge activity is detected
-- Destination chain has issues
-- Relayer network is compromised
-</details>
-
-<details>
-<summary>Market Circuit Breaker</summary>
-
-Pauses marketplace activities if:
-- Extreme price volatility occurs
-- Suspicious trading patterns are detected
-- Smart contract vulnerability is discovered
-</details>
+You can change your delegation or reclaim your voting power at any time.
 
 ## Governance Analytics
 
-The "Governance Analytics" section provides insights into governance activities:
+The governance dashboard provides analytics on governance activity:
 
-- **Proposal Statistics**: Number of proposals created, passed, and rejected
-- **Voting Participation**: Percentage of STB-GOV tokens that participate in voting
-- **Voter Distribution**: Distribution of voting power among participants
-- **Delegation Network**: Visualization of delegation relationships
+- **Proposal Success Rate**: Percentage of proposals that have passed
+- **Voting Participation**: Percentage of rSTB tokens that participate in voting
+- **Top Delegates**: Most popular delegation addresses
+- **Historical Votes**: Record of past governance decisions
 
-## Best Practices for Governance Participation
+<div class="mermaid-wrapper">
+  <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:[{label:'Voting Participation (%)',data:[28,32,36,42,45,51],backgroundColor:'rgba(54,162,235,0.5)'}]},options:{plugins:{title:{display:true,text:'Governance Participation'}}}}" alt="Governance Participation" />
+</div>
 
-{% hint style="success" %}
-Effective governance participation helps ensure the long-term success of the STAB3L ecosystem.
-{% endhint %}
+## Security Measures
 
-### For Proposal Creators
+The governance system includes several security measures:
 
-1. **Research thoroughly**: Understand the problem you're trying to solve
-2. **Discuss with the community**: Get feedback before creating an on-chain proposal
-3. **Be specific**: Clearly define the proposed changes and their expected impact
-4. **Consider alternatives**: Present multiple options when appropriate
-5. **Provide implementation details**: Include technical specifications or code changes
+- **Timelock**: Provides time for users to exit if they disagree with a proposal
+- **Emergency Cancellation**: Multisig can cancel malicious proposals
+- **Guardian Role**: Can pause governance in emergency situations
+- **Security Council**: Reviews proposals with smart contract changes
 
-### For Voters
+## Community Discussion
 
-1. **Stay informed**: Read proposals carefully and understand their implications
-2. **Participate regularly**: Vote on all proposals to ensure your voice is heard
-3. **Consider long-term impact**: Vote based on what's best for the ecosystem's future
-4. **Delegate responsibly**: If delegating, choose delegates who share your values
-5. **Join discussions**: Participate in forum discussions to help refine proposals
+Join the governance discussion on our community channels:
+
+- [Governance Forum](https://forum.stab3l.io)
+- [Discord #governance channel](https://discord.gg/stab3l)
+- [Telegram Governance Group](https://t.me/stab3l_governance)
 
 ## Conclusion
 
-Governance participation is a key aspect of the STAB3L ecosystem, allowing the community to collectively guide the platform's development and evolution. By holding STB-GOV tokens and actively participating in governance, you can help shape the future of decentralized compute resources. 
+Governance is a key aspect of the STAB3L platform's decentralization and development. By holding rSTB tokens and actively participating in governance, you can help shape the future of decentralized compute resources.
+
+For more information on governance, check the [Governance FAQ](https://stab3l.io/faq#governance) or join our community channels. 

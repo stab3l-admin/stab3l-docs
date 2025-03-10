@@ -53,8 +53,8 @@ Additional blockchain integrations are planned for the future.
 
 STAB3L has a dual-token system:
 
-1. **STAB3L Token (STAB3L)**: The main utility token used for fee payments, staking, and liquidity provision.
-2. **STB Governance Token (STB-GOV)**: The governance and rewards token used for voting on proposals and earning rewards.
+1. **sSTB Token (sSTB)**: The main utility token used for fee payments, staking, and liquidity provision.
+2. **STB Governance Token (rSTB)**: The governance and rewards token used for voting on proposals and earning rewards.
 
 Additionally, Compute Unit (CU) tokens represent standardized compute resources.
 </details>
@@ -249,13 +249,13 @@ Each market serves different trading needs and strategies.
 
 The fee structure for the STAB3L marketplace is as follows:
 
-| Market Type | Trading Fee | Maker Rebate | STB-GOV Rewards |
-|-------------|-------------|--------------|-----------------|
-| Spot        | 0.25%       | 0.05%        | 0.10%           |
-| Futures     | 0.05%       | 0.02%        | 0.05%           |
-| Options     | 0.30%       | 0.10%        | 0.15%           |
+| Market Type | Trading Fee | Maker Rebate | rSTB Rewards |
+|-------------|-------------|--------------|-------------|
+| Spot        | 0.25%       | 0.05%        | 0.10%       |
+| Futures     | 0.05%       | 0.02%        | 0.05%       |
+| Options     | 0.30%       | 0.10%        | 0.15%       |
 
-Fees can be reduced by staking STB-GOV tokens. Stake 1,000 STB-GOV to reduce fees by 10%, up to a maximum of 50% reduction for 10,000 STB-GOV.
+Fees can be reduced by staking rSTB tokens. Stake 1,000 rSTB to reduce fees by 10%, up to a maximum of 50% reduction for 10,000 rSTB.
 </details>
 
 <details>
@@ -295,13 +295,13 @@ STAB3L options are European style, meaning they can only be exercised at expirat
 
 STAB3L is governed by its community through a decentralized governance system:
 
-1. **Proposal Creation**: STB-GOV holders with at least 1,000 tokens can create proposals
+1. **Proposal Creation**: rSTB holders with at least 1,000 tokens can create proposals
 2. **Discussion**: Community discusses proposals on the forum
-3. **Voting**: STB-GOV holders vote on proposals (1 token = 1 vote)
+3. **Voting**: rSTB holders vote on proposals (1 token = 1 vote)
 4. **Execution**: Approved proposals are implemented after a timelock period
 
 For a proposal to pass, it must meet the following requirements:
-- **Quorum**: At least 4% of total STB-GOV supply must vote
+- **Quorum**: At least 4% of total rSTB supply must vote
 - **Majority**: More than 50% of votes must be "For"
 - **Duration**: Voting period lasts 5 days
 </details>
@@ -328,9 +328,9 @@ Critical protocol parameters and contracts are controlled by a 7/11 multi-signat
 
 To participate in governance:
 
-1. Acquire STB-GOV tokens through staking, trading, or participating in the ecosystem
+1. Acquire rSTB tokens through staking, trading, or participating in the ecosystem
 2. Navigate to the "Governance" section of the platform
-3. Browse active proposals or create your own (requires 1,000 STB-GOV)
+3. Browse active proposals or create your own (requires 1,000 rSTB)
 4. Vote on proposals: "For," "Against," or "Abstain"
 5. Participate in forum discussions to help refine proposals
 
@@ -351,10 +351,10 @@ The timelock period allows the community to review and react to approved proposa
 ## Tokens and Economics
 
 <details>
-<summary>What is the total supply of STAB3L and STB-GOV tokens?</summary>
+<summary>What is the total supply of sSTB and rSTB tokens?</summary>
 
-- **STAB3L Token**: Total supply of 10 billion tokens
-- **STB-GOV Token**: Total supply of 1 billion tokens
+- **sSTB Token**: Total supply of 10 billion tokens
+- **rSTB Token**: Total supply of 1 billion tokens
 
 Both tokens follow a deflationary emission schedule with burning mechanisms to create deflationary pressure over time.
 </details>
@@ -362,14 +362,14 @@ Both tokens follow a deflationary emission schedule with burning mechanisms to c
 <details>
 <summary>How are tokens distributed?</summary>
 
-**STAB3L Token Distribution**:
+**sSTB Token Distribution**:
 - Community & Ecosystem: 40% (4 billion)
 - Treasury: 25% (2.5 billion)
 - Team & Advisors: 15% (1.5 billion)
 - Investors: 15% (1.5 billion)
 - Liquidity Mining: 5% (0.5 billion)
 
-**STB-GOV Token Distribution**:
+**rSTB Token Distribution**:
 - Community: 40% (400 million)
 - Team: 20% (200 million)
 - Treasury: 20% (200 million)
@@ -378,14 +378,14 @@ Both tokens follow a deflationary emission schedule with burning mechanisms to c
 </details>
 
 <details>
-<summary>What are the staking benefits for STAB3L and STB-GOV tokens?</summary>
+<summary>What are the staking benefits for sSTB and rSTB tokens?</summary>
 
-**STAB3L Staking Benefits**:
+**sSTB Staking Benefits**:
 - Fee reduction (10-50% depending on tier)
 - Boosted rewards (5-25% depending on tier)
 - Priority access to new features
 
-**STB-GOV Staking Benefits**:
+**rSTB Staking Benefits**:
 - Fee reduction (10-50% depending on tier)
 - Increased governance weight (1x-3x depending on tier)
 - Governance rewards
@@ -397,8 +397,8 @@ Both tokens follow a deflationary emission schedule with burning mechanisms to c
 
 Both tokens include burning mechanisms:
 
-- **STAB3L**: 10% of all fees collected in STAB3L are burned
-- **STB-GOV**: 5% of all rewards distributed are burned
+- **sSTB**: 10% of all fees collected in sSTB are burned
+- **rSTB**: 5% of all rewards distributed are burned
 
 Additionally, the treasury may periodically buy back and burn tokens based on governance decisions. These mechanisms create deflationary pressure, potentially increasing the value of remaining tokens over time.
 </details>
@@ -411,8 +411,8 @@ Additionally, the treasury may periodically buy back and burn tokens based on go
 STAB3L uses the following smart contract standards:
 
 - **CU Tokens**: ERC-1155 multi-token standard
-- **STAB3L Token**: ERC-20 standard
-- **STB-GOV Token**: ERC-20 standard with voting capabilities
+- **sSTB Token**: ERC-20 standard
+- **rSTB Token**: ERC-20 standard with voting capabilities
 - **Marketplace**: Custom implementation with EIP-712 signatures for gasless listings
 - **Bridge**: Custom implementation compatible with major cross-chain messaging protocols
 
@@ -649,7 +649,7 @@ All updates are announced in advance on our [blog](https://blog.stab3l.io) and [
 
 You can suggest new features through several channels:
 
-1. **Governance Proposals**: Create a formal proposal if you hold sufficient STB-GOV tokens
+1. **Governance Proposals**: Create a formal proposal if you hold sufficient rSTB tokens
 2. **Community Forum**: Post your suggestion on the [STAB3L Forum](https://forum.stab3l.io)
 3. **Discord**: Share your idea in the #feature-requests channel on our [Discord server](https://discord.gg/stab3l)
 4. **GitHub**: Create an issue or pull request on our [GitHub repository](https://github.com/stab3l/stab3l-platform)
