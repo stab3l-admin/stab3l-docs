@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
 import { Footer } from "@/components/footer";
+import { DocsToolbar } from "@/components/docs-toolbar";
 import { getAllDocs, getAllCategories } from "@/lib/docs";
 
 /**
@@ -34,10 +35,16 @@ export default async function DocsLayout({
           <Sidebar docs={docs} categories={categories} />
         </div>
         
-        {/* Main content - scrollable */}
-        <main className="flex-1 p-4 md:p-6 overflow-y-auto bg-white dark:bg-black h-[calc(100vh-57px-40px)]">
-          <div className="max-w-4xl">{children}</div>
-        </main>
+        {/* Main content area */}
+        <div className="flex-1 flex flex-col bg-white dark:bg-black h-[calc(100vh-57px-40px)]">
+          {/* Docs toolbar with font size control */}
+          <DocsToolbar />
+          
+          {/* Main content - scrollable */}
+          <main className="flex-1 p-4 md:p-6 overflow-y-auto">
+            <div className="max-w-4xl">{children}</div>
+          </main>
+        </div>
       </div>
       <Footer />
     </div>

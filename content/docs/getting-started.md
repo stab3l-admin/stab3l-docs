@@ -1,111 +1,121 @@
 ---
 title: Getting Started
-description: Learn how to use TerminalDocs
+description: Learn how to use STAB3L platform
 category: Introduction
 order: 1
 ---
 
-# Getting Started with TerminalDocs
+# Getting Started with STAB3L
 
-Welcome to TerminalDocs, a standalone documentation site for your projects. This guide will help you get started with using TerminalDocs to create beautiful documentation for your projects.
+Welcome to STAB3L, a decentralized compute unit (CU) standardization, verification, and marketplace platform. This guide will help you get started with using STAB3L to tokenize, trade, and utilize compute resources.
 
 {% hint style="info" %}
-TerminalDocs now supports GitBook-like features such as hint blocks, tabs, and more. Check out the [GitBook Features](/docs/gitbook-features) page for more information.
+STAB3L enables the tokenization of compute resources with standardized units, verified through zero-knowledge proofs (ZKPs) or trusted execution environments (TEEs).
 {% endhint %}
 
-## Installation
+## What is STAB3L?
 
-To install TerminalDocs, you need to have Node.js and npm installed on your system. Then, you can clone the repository and install the dependencies:
+STAB3L is a platform that solves the problem of standardizing and verifying compute resources in a decentralized manner. It allows:
 
-### Using npm
+- **Providers** to tokenize their compute resources
+- **Users** to purchase and utilize standardized compute units
+- **Traders** to participate in spot, futures, and options markets for compute units
 
-```bash
-git clone https://github.com/stab3l/terminaldocs.git
-cd terminaldocs
-npm install
-```
+## System Architecture
 
-### Using yarn
+STAB3L follows a modular, layered architecture:
 
-```bash
-git clone https://github.com/stab3l/terminaldocs.git
-cd terminaldocs
-yarn install
-```
+### Data Layer
+- On-chain storage (Arbitrum, Solana) for CU data, collateral, and token balances
+- IPFS for large datasets like benchmarks
 
-### Using pnpm
+### Business Logic Layer
+- Smart contracts (Solidity) for minting, redemption, marketplace, and cross-chain logic
+- Off-chain logic (Python/Rust) for ZKPs and pricing
 
-```bash
-git clone https://github.com/stab3l/terminaldocs.git
-cd terminaldocs
-pnpm install
-```
+### API Layer
+- REST/gRPC APIs for provider compute delivery
+- Hosted on Kubernetes clusters (AWS EKS) with load balancers
 
-## Running the Development Server
+### Presentation Layer
+- React frontend for users, with Web3 integration (Wagmi, MetaMask)
 
-To start the development server, run:
+## Prerequisites
 
-```bash
-npm run dev
-```
+Before you start using STAB3L, make sure you have:
 
-This will start the development server at [http://localhost:3000](http://localhost:3000).
+- A Web3-compatible wallet (MetaMask, Trust Wallet, etc.)
+- Some ETH for gas fees on Arbitrum
+- Collateral tokens (USDC) if you plan to mint CU tokens
 
-{% hint style="warning" %}
-Make sure port 3000 is available on your system. If it's already in use, the development server will try to use the next available port.
-{% endhint %}
+## Quick Start Guide
 
-## Adding Documentation
+### For Users
 
-Documentation files are stored in the `content/docs` directory as Markdown files. Each file should include frontmatter with metadata:
+{% tabs %}
+{% tab title="Connect Wallet" %}
+1. Visit the [STAB3L platform](https://app.stab3l.io)
+2. Click on the "Connect Wallet" button in the top right corner
+3. Select your wallet provider and follow the prompts to connect
+4. Once connected, you'll see your wallet address and balance
+{% endtab %}
 
-```markdown
----
-title: Getting Started
-description: Learn how to use TerminalDocs
-category: Introduction
-order: 1
----
+{% tab title="Buy CU Tokens" %}
+1. Navigate to the "Marketplace" section
+2. Browse available CU tokens from different providers
+3. Select the CU tokens you want to purchase
+4. Specify the amount and confirm the transaction
+5. Once the transaction is confirmed, you'll own the CU tokens
+{% endtab %}
 
-# Getting Started with TerminalDocs
+{% tab title="Redeem CU Tokens" %}
+1. Navigate to the "Redeem" section
+2. Select the CU tokens you want to redeem
+3. Specify the amount and confirm the transaction
+4. Follow the instructions to access your compute resources
+5. The provider will deliver the compute resources as specified
+{% endtab %}
+{% endtabs %}
 
-Your content here...
-```
+### For Providers
 
-### Frontmatter Options
+{% tabs %}
+{% tab title="Register" %}
+1. Visit the [STAB3L platform](https://app.stab3l.io)
+2. Connect your wallet
+3. Navigate to the "Provider" section
+4. Click on "Register as Provider"
+5. Fill in your provider details and submit
+6. Wait for approval from the STAB3L governance
+{% endtab %}
 
-| Option | Type | Description | Required |
-|--------|------|-------------|----------|
-| title | string | The title of the document | Yes |
-| description | string | A brief description of the document | No |
-| category | string | The category the document belongs to | No (defaults to "Uncategorized") |
-| order | number | The order in which the document appears in its category | No (defaults to 999) |
+{% tab title="Mint CU Tokens" %}
+1. Navigate to the "Mint" section
+2. Specify the compute resources you want to tokenize
+3. Submit your compute resources for verification
+4. Once verified, deposit the required collateral
+5. Confirm the minting transaction
+6. Your CU tokens will be minted and available for sale
+{% endtab %}
+{% endtabs %}
 
-## Building for Production
+## Token System
 
-To build the application for production, run:
+STAB3L uses a dual-token system:
 
-### Build command
-
-```bash
-npm run build
-```
-
-### Start command
-
-```bash
-npm run start
-```
+1. **STAB3L Token (STAB3L)** - The main utility token of the ecosystem
+2. **STB Governance Token (STB-GOV)** - The governance and rewards token
 
 {% hint style="success" %}
-Your documentation site is now ready for deployment! Check out the [Deployment](/docs/deployment) guide for more information on how to deploy your site.
+Holding STB-GOV tokens allows you to participate in governance decisions and earn rewards for staking and other activities.
 {% endhint %}
 
 ## Next Steps
 
-Now that you have TerminalDocs up and running, you can start adding your own documentation. Check out the following guides to learn more:
+Now that you have a basic understanding of STAB3L, you can explore the following guides to learn more:
 
-- [Markdown Guide](/docs/markdown-guide)
-- [Customization](/docs/customization)
-- [Deployment](/docs/deployment)
-- [GitBook Features](/docs/gitbook-features) 
+- [Understanding Compute Units](/docs/compute-units)
+- [Marketplace Guide](/docs/marketplace-guide)
+- [Cross-Chain Bridge](/docs/cross-chain-bridge)
+- [Governance Participation](/docs/governance)
+- [Provider Guide](/docs/provider-guide) 

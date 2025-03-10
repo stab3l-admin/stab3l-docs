@@ -1,0 +1,153 @@
+/* Custom styling for equations */
+
+/* Block equations - display in a grey box */
+.equation-block {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  font-family: monospace;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* Dark mode for block equations */
+:root.dark .equation-block,
+.dark .equation-block {
+  background-color: #1a1a1a;
+}
+
+/* Inline equations - display inline with monospace font */
+.equation-inline {
+  font-family: monospace;
+  white-space: nowrap;
+  padding: 0 0.2em;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+/* Dark mode for inline equations */
+:root.dark .equation-inline,
+.dark .equation-inline {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Make sure superscripts look right */
+.equation-inline sup,
+.equation-block sup {
+  vertical-align: super;
+  font-size: 0.75em;
+  position: relative;
+  top: -0.5em;
+}
+
+/* Make sure subscripts look right */
+.equation-inline sub,
+.equation-block sub {
+  vertical-align: sub;
+  font-size: 0.75em;
+  position: relative;
+  bottom: -0.5em;
+}
+
+/* MathJax styling */
+
+/* Display equations - centered, padded box */
+.MathJax_Display,
+.MathJax_SVG_Display,
+.mathjax-display,
+mjx-container[display="true"] {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  text-align: center;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Dark mode for display equations */
+.dark .MathJax_Display,
+.dark .MathJax_SVG_Display,
+.dark .mathjax-display,
+.dark mjx-container[display="true"],
+:root.dark .MathJax_Display,
+:root.dark .MathJax_SVG_Display,
+:root.dark .mathjax-display,
+:root.dark mjx-container[display="true"] {
+  background-color: #1a1a1a;
+}
+
+/* Inline equations styling */
+mjx-container:not([display="true"]) {
+  display: inline-block;
+  margin: 0 0.2em; 
+  vertical-align: middle;
+}
+
+/* Ensure normal text isn't handled as math */
+.math-ignore {
+  font-family: inherit !important;
+  white-space: normal !important;
+  display: inline !important;
+  color: inherit !important;
+}
+
+/* Fix rendering of dollar signs in text */
+.dollar-sign {
+  display: inline !important;
+  font-family: inherit !important;
+  font-style: normal !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+  margin-right: 0 !important;
+  white-space: normal !important;
+}
+
+/* Apply appropriate margins for inline math */
+p mjx-container {
+  vertical-align: middle;
+}
+
+/* Prevent code blocks from being processed by MathJax */
+pre, code {
+  font-family: monospace !important;
+}
+
+/* Add explicit class for marking equations */
+.math-equation {
+  display: inline-block;
+}
+
+/* Add space after currency dollar signs */
+.docs-content .dollar-sign + * {
+  margin-left: 0.05em;
+}
+
+/* Ensure MathJax doesn't mess with spacing in paragraphs */
+p span.dollar-sign, td span.dollar-sign {
+  margin-right: -0.1em;
+}
+
+/* Special handling for dollar signs inside MathJax expressions */
+mjx-container .dollar-sign {
+  font-family: inherit !important;
+  display: inline-block !important;
+  margin-right: -0.1em !important;
+  margin-left: 0.05em !important;
+  vertical-align: baseline !important;
+}
+
+/* Ensure math in tabular environments renders correctly */
+mjx-mtable {
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+/* Make currency symbols more obvious in equations */
+mjx-container .dollar-sign::after {
+  content: '';
+  display: inline-block;
+  width: 0.05em;
+} 

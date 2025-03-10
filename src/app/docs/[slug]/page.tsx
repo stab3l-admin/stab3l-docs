@@ -9,19 +9,30 @@ interface DocPageProps {
 }
 
 /**
- * Generate static params for all documentation pages
+ * Generate static params for all documentation pages (excluding whitepaper)
  */
 export async function generateStaticParams() {
   const docs = await getAllDocs();
-  return docs.map((doc) => ({
-    slug: doc.slug,
-  }));
+  // Filter out whitepaper documents
+  return docs
+    .filter(doc => !doc.slug.startsWith('whitepaper/'))
+    .map((doc) => ({
+      slug: doc.slug,
+    }));
 }
 
 /**
  * Generate metadata for the page
  */
 export async function generateMetadata({ params }: DocPageProps) {
+  // Skip if this is a whitepaper document
+  if (params.slug.startsWith('whitepaper/')) {
+    return {
+      title: "Not Found",
+      description: "The page you're looking for doesn't exist.",
+    };
+  }
+  
   const doc = await getDocBySlug(params.slug);
   
   if (!doc) {
@@ -42,6 +53,11 @@ export async function generateMetadata({ params }: DocPageProps) {
  * Displays the content of a markdown file
  */
 export default async function DocPage({ params }: DocPageProps) {
+  // Skip if this is a whitepaper document
+  if (params.slug.startsWith('whitepaper/')) {
+    notFound();
+  }
+  
   const doc = await getDocBySlug(params.slug);
   
   if (!doc) {

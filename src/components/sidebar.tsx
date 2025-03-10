@@ -54,9 +54,9 @@ export function Sidebar({ docs, categories }: SidebarProps) {
               .map((doc) => (
                 <li key={doc.slug}>
                   <Link
-                    href={`/docs/${doc.slug}`}
+                    href={doc.path}
                     className={`block py-1 px-2 ${
-                      pathname === `/docs/${doc.slug}`
+                      pathname === doc.path
                         ? "bg-black text-white dark:bg-white dark:text-black"
                         : "bg-white dark:bg-black text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
                     }`}
