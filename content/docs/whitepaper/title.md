@@ -1,11 +1,11 @@
 ---
 title: STAB3L Whitepaper
-description: TAB3L - Stabilizing the Compute Economy with sSTB and rSTB
+description: STAB3L - Stabilizing the Compute Economy with sSTB and rSTB
 category: Whitepaper
-order: 1
+order: 0
 ---
 
-# TAB3L: Stabilizing the Compute Economy with sSTB and rSTB
+# STAB3L: Stabilizing the Compute Economy with sSTB and rSTB
 
 **Mitchell McLennan**
 
@@ -22,8 +22,6 @@ STAB3L introduces a dual-token, compute-backed stablecoin protocol designed to s
 This whitepaper provides a rigorous, mathematically grounded framework for STAB3L's architecture, validated through simulations and real-world testing, positioning it as a best-in-class solution for compute stabilization. The protocol's design mitigates energy, hardware, and demand risks through dynamic governance, liquidity incentives, and risk management, ensuring predictable compute costs for users while incentivizing providers to maintain a robust supply of CUs.
 
 ## Table of Contents
-
-📄 [STAB3L Litepaper](/docs/whitepaper/STAB3L_Litepaper) - Executive overview for investors and partners
 
 1. [Introduction](/docs/whitepaper/introduction)
 2. [Problem Statement: Compute Market Volatility](/docs/whitepaper/problem-statement)
