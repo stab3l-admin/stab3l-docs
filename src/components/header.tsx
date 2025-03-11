@@ -150,8 +150,17 @@ export function Header({ docs, toggleMobileSidebar }: HeaderProps) {
           )}
           
           {/* Logo */}
-          <Link href="/" className="text-sm font-bold text-black dark:text-white">
-            TerminalDocs
+          <Link href="/" className="text-sm font-bold text-black dark:text-white flex items-center">
+            <img 
+              src="/images/logo/stab3l-blu.png" 
+              alt="STAB3L" 
+              className="h-8 w-auto block dark:hidden" 
+            />
+            <img 
+              src="/images/logo/stab3l-orn.png" 
+              alt="STAB3L" 
+              className="h-8 w-auto hidden dark:block" 
+            />
           </Link>
         </div>
         

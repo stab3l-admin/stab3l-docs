@@ -259,7 +259,7 @@ export async function getDocsByCategory(category: string): Promise<DocMeta[]> {
 
 /**
  * Get all categories
- * @returns Array of category names with "Whitepaper" and "Litepaper" first if present
+ * @returns Array of category names with "Litepaper" first, then "Whitepaper", then others
  */
 export async function getAllCategories(): Promise<string[]> {
   const categoriesSet = new Set<string>();
@@ -271,27 +271,26 @@ export async function getAllCategories(): Promise<string[]> {
     }
   });
   
-  const categories = Array.from(categoriesSet);
+  // Convert to array and filter out priority categories
+  const regularCategories = Array.from(categoriesSet)
+    .filter(category => category !== "Litepaper" && category !== "Whitepaper")
+    .sort(); // Sort regular categories alphabetically
   
-  // Move "Whitepaper" and "Litepaper" to the front if they exist
-  const priorityCategories = ["Litepaper", "Whitepaper"];
+  // Create the final array with priority categories first
+  const orderedCategories = [];
   
-  // Remove priority categories from their current positions
-  priorityCategories.forEach(category => {
-    const index = categories.indexOf(category);
-    if (index !== -1) {
-      categories.splice(index, 1);
-    }
-  });
+  // Add Litepaper first if it exists
+  if (categoriesSet.has("Litepaper")) {
+    orderedCategories.push("Litepaper");
+  }
   
-  // Add priority categories to the beginning in reverse order (so Litepaper comes first)
-  priorityCategories.forEach(category => {
-    if (categoriesSet.has(category)) {
-      categories.unshift(category);
-    }
-  });
+  // Add Whitepaper second if it exists
+  if (categoriesSet.has("Whitepaper")) {
+    orderedCategories.push("Whitepaper");
+  }
   
-  return categories;
+  // Add all other categories
+  return [...orderedCategories, ...regularCategories];
 }
 
 /**
