@@ -10,7 +10,7 @@ order: 1
 This document provides answers to common questions about the STAB3L platform, its features, and how to use it.
 
 {% hint style="info" %}
-If you don't find an answer to your question here, please visit our [Community Forum](https://forum.stab3l.io) or contact [support@stab3l.io](mailto:support@stab3l.io).
+If you don't find an answer to your question here, please visit our [Community Forum](https://forum.stab3l.com) or contact [support@stab3l.com](mailto:support@stab3l.com).
 {% endhint %}
 
 ## General Questions
@@ -72,7 +72,9 @@ A Compute Unit (CU) is a standardized measure of computational power that includ
 - Network bandwidth
 - Duration of availability
 
-Each CU token represents a specific amount of standardized compute resources from a particular provider, with a defined value and, optionally, an expiration date.
+Each CU token represents a specific amount of standardized compute resources from a particular provider. In the STAB3L ecosystem, 1 CU is defined as 10^15 FLOPs (floating-point operations per second) and is valued at $0.06 at launch.
+
+The definition and value of 1 CU will be reviewed and potentially adjusted quarterly by the DAO through governance voting to ensure the CU standard remains relevant as compute technology evolves.
 </details>
 
 <details>
@@ -209,22 +211,25 @@ To mint CU tokens:
 1. Verify your compute resources using ZKPs or TEEs
 2. Navigate to the "Mint" section
 3. Select the verified compute resources
-4. Specify the amount of CU tokens to mint
-5. Deposit the required collateral (typically 120% of CU value)
-6. Confirm the minting transaction
-7. Your CU tokens will be minted and available for sale
+4. Choose your staking period (minimum 7 days)
+5. Specify the amount of CU tokens to mint
+6. Deposit the required collateral (minimum 120% of CU value)
+7. Confirm the minting transaction
+8. Your CU tokens will be minted, immediately exchanged for sSTB, and the CU tokens will be burned
+9. The sSTB tokens will be automatically staked for your chosen period
+10. You'll earn rSTB rewards throughout the staking period
 
-You can then list your CU tokens on the marketplace.
+The longer your staking period, the higher your rSTB rewards will be.
 </details>
 
 <details>
 <summary>What happens if my collateralization ratio falls below the minimum?</summary>
 
-If your collateralization ratio falls below the minimum (110%):
+If your collateralization ratio falls below the minimum (120%):
 
 1. You'll receive a notification to add more collateral
 2. You'll have a grace period (typically 24 hours) to restore the ratio
-3. If you fail to restore the ratio, a portion of your CU tokens may be liquidated
+3. If you fail to restore the ratio, a portion of your staked sSTB may be liquidated
 4. The liquidation proceeds will be used to maintain the collateralization of your remaining tokens
 
 To avoid liquidation, it's recommended to maintain a healthy collateralization ratio (150% or higher).
@@ -477,7 +482,7 @@ STAB3L smart contracts undergo rigorous security measures:
 - **Timelock Mechanisms**: Changes to contracts are subject to timelock periods
 - **Multi-Signature Control**: Critical parameters controlled by 7/11 multi-sig
 
-Audit reports are available in the [Security section](https://stab3l.io/security) of our website.
+Audit reports are available in the [Security section](https://stab3l.com/security) of our website.
 </details>
 
 <details>
@@ -536,7 +541,7 @@ Users are also encouraged to use hardware wallets and follow security best pract
 
 If your transaction has been pending for a long time:
 
-1. Check the network status on [status.stab3l.io](https://status.stab3l.io)
+1. Check the network status on [status.stab3l.com](https://status.stab3l.com)
 2. Verify that you have sufficient gas for the transaction
 3. If using MetaMask, you can try to speed up the transaction or cancel it
 4. For bridge transactions, check the transaction status in the "Bridge" section
@@ -595,13 +600,13 @@ Failure to fulfill redemption requests may result in penalties, including collat
 <details>
 <summary>What's the current version of the platform?</summary>
 
-The current version of the STAB3L platform is v1.2.0, released on July 15, 2023. This version includes:
+The current version of the STAB3L platform is v1.0.0, as of March 2025. This is the initial release version that includes:
 
-- Enhanced marketplace features
-- Improved verification system
-- Additional chain support for the bridge
-- Performance optimizations
-- Security enhancements
+- Core verification system (ZKP and TEE)
+- Dual-token system (sSTB and rSTB)
+- Provider staking mechanism
+- Basic marketplace functionality
+- Cross-chain bridge (Arbitrum to Ethereum)
 
 You can view the full changelog on our [GitHub repository](https://github.com/stab3l/stab3l-platform).
 </details>
@@ -611,19 +616,19 @@ You can view the full changelog on our [GitHub repository](https://github.com/st
 
 Upcoming features planned for the next releases include:
 
-- **Q3 2023**:
+- **Q2 2025**:
+  - Enhanced marketplace features
   - Futures market launch
-  - Additional chain integrations (Base, Avalanche)
+  - Additional chain integrations (Polygon, Optimism)
   - Enhanced provider dashboard
-  - Mobile app beta
 
-- **Q4 2023**:
+- **Q3 2025**:
   - Options market launch
   - Advanced analytics tools
   - Institutional features
   - API enhancements
 
-- **Q1 2024**:
+- **Q4 2025**:
   - Developer SDK
   - Integration with major DeFi protocols
   - Enterprise partnerships
@@ -641,7 +646,7 @@ STAB3L follows a regular update schedule:
 - **Major Updates**: Released every 3-4 months, including new features and significant improvements
 - **Security Updates**: Released as needed, prioritized based on severity
 
-All updates are announced in advance on our [blog](https://blog.stab3l.io) and [Twitter](https://twitter.com/stab3l_io).
+All updates are announced in advance on our [blog](https://blog.stab3l.com) and [Twitter](https://twitter.com/stab3l).
 </details>
 
 <details>
@@ -650,7 +655,7 @@ All updates are announced in advance on our [blog](https://blog.stab3l.io) and [
 You can suggest new features through several channels:
 
 1. **Governance Proposals**: Create a formal proposal if you hold sufficient rSTB tokens
-2. **Community Forum**: Post your suggestion on the [STAB3L Forum](https://forum.stab3l.io)
+2. **Community Forum**: Post your suggestion on the [STAB3L Forum](https://forum.stab3l.com)
 3. **Discord**: Share your idea in the #feature-requests channel on our [Discord server](https://discord.gg/stab3l)
 4. **GitHub**: Create an issue or pull request on our [GitHub repository](https://github.com/stab3l/stab3l-platform)
 
@@ -661,10 +666,10 @@ The STAB3L team and community regularly review and discuss feature suggestions.
 
 If you need additional help:
 
-- **Documentation**: Browse our comprehensive [documentation](https://docs.stab3l.io)
-- **Community Forum**: Ask questions on the [STAB3L Forum](https://forum.stab3l.io)
+- **Documentation**: Browse our comprehensive [documentation](https://docs.stab3l.com)
+- **Community Forum**: Ask questions on the [STAB3L Forum](https://forum.stab3l.com)
 - **Discord**: Join our [Discord server](https://discord.gg/stab3l) for real-time support
-- **Email Support**: Contact [support@stab3l.io](mailto:support@stab3l.io) for personalized assistance
+- **Email Support**: Contact [support@stab3l.com](mailto:support@stab3l.com) for personalized assistance
 - **Office Hours**: Join our weekly office hours (Thursdays at 2 PM UTC) for live Q&A
 
 {% hint style="success" %}

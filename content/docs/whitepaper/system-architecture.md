@@ -17,7 +17,7 @@ The foundational unit of STAB3L is the Compute Unit (CU), defined as:
 
 **Nominal Pricing**: At launch, 1 CU is priced at \$0.06 in USD, subject to market-driven volatility (±30%, as detailed in Section 2). This benchmark is periodically reviewed via governance to account for hardware advancements (e.g., quantum computing, next-gen GPUs).
 
-The CU serves as the collateral backing sSTB, ensuring a tangible, real-world asset for peg stability. Providers stake CUs, minting temporary CU tokens, which are exchanged 1:1 for sSTB after a 90-day lockup, with CU tokens burned to maintain scarcity.
+The CU serves as the collateral backing sSTB, ensuring a tangible, real-world asset for peg stability. Providers stake CUs for a period of their choosing (minimum 7 days), minting temporary CU tokens, which are immediately exchanged 1:1 for sSTB and burned to maintain scarcity. The newly minted sSTB tokens are automatically staked for the chosen period, with providers earning rSTB rewards throughout.
 
 ## 4.2 Price Dynamics
 
@@ -79,7 +79,7 @@ This equation demonstrates how $P_{sSTB}$ converges to USD 0.06 when $P_{CU} = \
 
 Arbitrage exploits price discrepancies between $P_{sSTB}$ and $P_{CU}$:
 
-- If $P_{sSTB} > P_{CU}$: Traders stake CUs (at $P_{CU}$), mint CU tokens, wait 90 days, exchange for sSTB, and sell at $P_{sSTB}$, earning $(P_{sSTB} - P_{CU})$ per CU.
+- If $P_{sSTB} > P_{CU}$: Traders stake CUs (at $P_{CU}$), mint CU tokens which are immediately exchanged for sSTB, and sell at $P_{sSTB}$, earning $(P_{sSTB} - P_{CU})$ per CU.
 - If $P_{sSTB} < P_{CU}$: Traders buy sSTB (at $P_{sSTB}$), redeem for CUs, and sell at $P_{CU}$, earning $(P_{CU} - P_{sSTB})$ per CU.
 
 The arbitrage adjustment is:
@@ -145,7 +145,7 @@ When:
 
 STAB3L's architecture comprises four key components:
 
-1. **Staking Module**: Providers stake CUs, minting CU tokens locked for 90 days, then exchanged 1:1 for sSTB. The module verifies CU availability via benchmarks (e.g., LINPACK, MLPerf) and monitors uptime.
+1. **Staking Module**: Providers stake CUs for a period of their choosing (minimum 7 days), minting temporary CU tokens which are immediately exchanged 1:1 for sSTB and burned. The newly minted sSTB tokens are automatically staked for the chosen period. The module verifies CU availability via benchmarks (e.g., LINPACK, MLPerf) and monitors uptime.
 
 2. **Redemption Module**: Users redeem sSTB for CUs at the stabilized price (\$0.06/CU), with the module matching redemption requests to available CUs, burning sSTB, and releasing CUs.
 

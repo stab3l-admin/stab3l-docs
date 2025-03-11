@@ -11,6 +11,12 @@ This glossary provides definitions for key terms used throughout the STAB3L docu
 
 ## A
 
+### Arbitrage
+A trading strategy that exploits price differences of the same asset in different markets. In STAB3L, arbitrage helps maintain the peg of sSTB to the value of 1 CU.
+
+### Arbitrage Efficiency (k)
+A parameter in the peg stabilization equation that determines how quickly arbitrage opportunities are exploited. The default value is 0.15, with a governance-adjustable range of 0.1–0.5.
+
 ### Arbitrum
 A Layer 2 scaling solution for Ethereum that uses optimistic rollups to increase transaction throughput and reduce gas costs. STAB3L primarily operates on Arbitrum for its main contracts and marketplace.
 
@@ -27,11 +33,14 @@ A cross-chain protocol that enables the transfer of tokens between different blo
 
 ## C
 
+### Circuit Breaker
+A security mechanism that automatically pauses certain operations when predefined thresholds are exceeded. STAB3L implements circuit breakers for unusual trading volume, large bridge transfers, and rapid price fluctuations.
+
 ### Collateral
 Assets deposited by providers as security against the compute resources they offer. If a provider fails to fulfill redemption requests, their collateral may be used to compensate users.
 
 ### Compute Unit (CU)
-A standardized measure of computational power that includes processing power, memory, storage, network bandwidth, and duration of availability. CUs are tokenized as ERC-1155 tokens on the STAB3L platform.
+A standardized measure of computational power that includes processing power, memory, storage, network bandwidth, and duration of availability. In STAB3L, 1 CU is defined as 10^15 FLOPs (floating-point operations per second) and is valued at $0.06 at launch.
 
 ### Cross-Chain
 Referring to interactions or transfers between different blockchain networks. STAB3L's Cross-Chain Bridge enables the movement of CU tokens across multiple blockchains.
@@ -40,6 +49,9 @@ Referring to interactions or transfers between different blockchain networks. ST
 
 ### Decentralized Finance (DeFi)
 A financial system built on blockchain technology that operates without centralized intermediaries. STAB3L integrates with various DeFi protocols to enhance liquidity and utility for CU tokens.
+
+### Derivative Market Efficiency (m)
+A parameter in the peg stabilization equation that determines how effectively futures and options markets influence the spot price of sSTB. The default value is 0.1, with a governance-adjustable range of 0.05–0.2.
 
 ### Dispute Resolution
 A process for resolving conflicts between users and providers, such as when a provider fails to fulfill a redemption request. STAB3L's dispute resolution system includes collateral slashing and reputation impacts.
@@ -57,8 +69,11 @@ A decentralized, open-source blockchain platform that enables smart contract fun
 
 ## F
 
+### FLOPs (Floating-Point Operations Per Second)
+A measure of computer performance. In STAB3L, 1 CU is defined as 10^15 FLOPs, benchmarked against high-performance instances like AWS p4d.24xlarge.
+
 ### Futures Contract
-An agreement to buy or sell an asset at a predetermined price at a specified time in the future. STAB3L's Futures Market allows trading of contracts for future delivery of compute resources.
+An agreement to buy or sell an asset at a predetermined price at a specified time in the future. STAB3L's Futures Market allows trading of contracts for future delivery of compute resources via sSTB.
 
 ## G
 
@@ -68,6 +83,9 @@ The fee required to perform a transaction or execute a contract on the Ethereum 
 ### Governance
 The process by which decisions are made in a decentralized system. STAB3L's governance system allows rSTB token holders to vote on proposals that affect the platform.
 
+### Governance Response Factor (g)
+A parameter in the peg stabilization equation that determines how strongly governance actions influence the peg stability. The default value is 0.2, with a governance-adjustable range of 0.1–0.5.
+
 ## L
 
 ### Liquidity
@@ -75,6 +93,9 @@ The ease with which an asset can be converted to cash or traded without affectin
 
 ### Liquidity Mining
 A process where users provide liquidity to a protocol and receive rewards in return. STAB3L offers liquidity mining programs to incentivize liquidity provision for CU tokens.
+
+### LogNormal Distribution
+A probability distribution of a random variable whose logarithm follows a normal distribution. In STAB3L, the market price of 1 CU (P_CU) is modeled as a lognormal distribution with parameters μ = ln(0.06) and σ_CU ≈ 0.3.
 
 ## M
 
@@ -94,6 +115,11 @@ A financial derivative that gives the buyer the right, but not the obligation, t
 
 ## P
 
+### Peg Stabilization Equation
+The mathematical formula that ensures the stability of sSTB's value:
+P_sSTB = P_CU + Δ_arbitrage + Δ_derivatives + Δ_governance
+Where P_sSTB is the target price of sSTB, fixed at $0.06 (1 CU).
+
 ### Provider
 An entity that offers compute resources on the STAB3L platform. Providers verify their resources, mint CU tokens, and fulfill redemption requests.
 
@@ -108,19 +134,22 @@ The process of exchanging CU tokens for actual compute resources. When a user re
 ### Relayer
 An entity that monitors events on one blockchain and submits proofs to another blockchain. In STAB3L's Cross-Chain Bridge, relayers facilitate the transfer of tokens between chains.
 
+### Reserve Ratio
+The ratio of collateral value to the value of tokens in circulation. STAB3L maintains a minimum reserve ratio to ensure the stability of the system.
+
 ## S
 
 ### Smart Contract
 Self-executing code deployed on a blockchain that automatically enforces the terms of an agreement. STAB3L uses smart contracts for tokenization, marketplace functionality, governance, and more.
 
 ### sSTB Token (sSTB)
-The main utility token of the STAB3L platform, used for fee payments, staking, and liquidity provision.
+The main utility token of the STAB3L platform, pegged to 1 CU (valued at $0.06 at launch). sSTB is used for fee payments, staking, and liquidity provision.
 
 ### Staking
 The process of locking up tokens to support network operations and earn rewards. STAB3L offers staking programs for both sSTB and rSTB tokens.
 
 ### STB Governance Token (rSTB)
-The governance and rewards token of the STAB3L platform, used for voting on proposals and earning rewards.
+The governance and rewards token of the STAB3L platform, used for voting on proposals and earning rewards. rSTB appreciates in value as the protocol grows.
 
 ### Standardization Algorithm
 An algorithm that normalizes benchmark results across different hardware configurations to ensure that CUs from different providers are comparable and interchangeable.
@@ -141,6 +170,9 @@ A secure area within a processor that ensures the confidentiality and integrity 
 ### Verification
 The process of confirming the authenticity and performance of compute resources. STAB3L uses Zero-Knowledge Proofs (ZKPs) or Trusted Execution Environments (TEEs) for verification.
 
+### Volatility
+The degree of variation in a trading price over time. STAB3L aims to reduce compute cost volatility from ±30% to <5%, creating a more predictable environment for AI development, blockchain operations, and scientific research.
+
 ## Z
 
 ### Zero-Knowledge Proof (ZKP)
@@ -149,5 +181,5 @@ A cryptographic method that allows one party to prove to another that a statemen
 ---
 
 {% hint style="info" %}
-This glossary is regularly updated as new terms are introduced to the STAB3L ecosystem. If you encounter a term that is not defined here, please contact us at [support@stab3l.io](mailto:support@stab3l.io).
+This glossary is regularly updated as new terms are introduced to the STAB3L ecosystem. If you encounter a term that is not defined here, please contact us at [support@stab3l.com](mailto:support@stab3l.com).
 {% endhint %} 

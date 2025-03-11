@@ -20,7 +20,7 @@ export default function HomePage() {
       </header>
 
       {/* Main content */}
-      <main className="flex-1 p-4 md:p-6">
+      <main className="flex-1 p-4 md:p-6 pb-12">
         <div className="max-w-4xl mx-auto">
           <div className="my-12 md:my-16">
             <h1 className="text-2xl font-bold mb-4">
@@ -86,8 +86,10 @@ Options:
         </div>
       </main>
 
-      {/* Footer */}
-      <Footer />
+      {/* Fixed Footer */}
+      <div className="fixed bottom-0 left-0 right-0 border-t border-black dark:border-white">
+        <Footer />
+      </div>
     </div>
   );
 } 

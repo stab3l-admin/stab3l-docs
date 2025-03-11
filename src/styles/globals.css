@@ -472,4 +472,284 @@ pre code {
 .dark .code-block {
   color: #f8f8f8;
   background-color: #1a1a1a;
+}
+
+/* Accordion styles */
+.accordion {
+  border: 1px solid rgba(var(--border-color), 0.8);
+  border-radius: 4px;
+  margin: 1rem 0;
+  overflow: hidden;
+  background-color: rgba(var(--background), 1);
+}
+
+.accordion-title {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(var(--box-bg-light), 0.3);
+}
+
+.dark .accordion-title {
+  background-color: rgba(var(--box-bg-dark), 0.3);
+}
+
+.accordion-title:hover {
+  background-color: rgba(var(--box-bg-light), 0.5);
+}
+
+.dark .accordion-title:hover {
+  background-color: rgba(var(--box-bg-dark), 0.5);
+}
+
+.accordion-title::after {
+  content: "+";
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+details[open] .accordion-title::after {
+  content: "-";
+}
+
+.accordion-content {
+  padding: 1rem;
+  border-top: 1px solid rgba(var(--border-color), 0.3);
+}
+
+/* Enhanced table styles */
+.markdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  overflow: hidden;
+  border: 1px solid rgba(var(--border-color), 0.5);
+}
+
+.markdown-table th,
+.markdown-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid rgba(var(--border-color), 0.3);
+}
+
+.markdown-table th {
+  background-color: rgba(var(--box-bg-light), 0.3);
+  font-weight: 600;
+}
+
+.dark .markdown-table th {
+  background-color: rgba(var(--box-bg-dark), 0.3);
+}
+
+.markdown-table tr:nth-child(even) {
+  background-color: rgba(var(--box-bg-light), 0.1);
+}
+
+.dark .markdown-table tr:nth-child(even) {
+  background-color: rgba(var(--box-bg-dark), 0.1);
+}
+
+/* Fix for charts and diagrams */
+.mermaid-wrapper img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  display: block;
+  border: 1px solid rgba(var(--border-color), 0.3);
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: white;
+}
+
+.dark .mermaid-wrapper img {
+  background-color: rgba(30, 30, 30, 0.7);
+  filter: brightness(0.9) contrast(1.1);
+}
+
+/* Fix for bold text */
+.docs-content strong {
+  font-weight: 700;
+}
+
+/* Improve chart container and images */
+.chart-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark .chart-container {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.chart-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.dark .chart-image {
+  background-color: rgba(30, 30, 30, 0.7);
+  filter: brightness(0.9) contrast(1.1);
+}
+
+/* Improve accordion content styling */
+.accordion-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+}
+
+.accordion-content ul,
+.accordion-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.accordion-content ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.accordion-content ul li {
+  display: list-item;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.accordion-content ol {
+  list-style-type: decimal;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.accordion-content ol li {
+  display: list-item;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.accordion-content ol li::marker {
+  font-weight: bold;
+}
+
+.accordion-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.accordion-content table th,
+.accordion-content table td {
+  padding: 0.5rem;
+  border: 1px solid rgba(var(--border-color), 0.3);
+  text-align: left;
+}
+
+.accordion-content table th {
+  background-color: rgba(var(--box-bg-light), 0.3);
+  font-weight: 600;
+}
+
+.dark .accordion-content table th {
+  background-color: rgba(var(--box-bg-dark), 0.3);
+}
+
+/* Ensure strong text is properly bold in accordions */
+.accordion-content strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+/* General list item styling */
+.accordion-content li {
+  margin-bottom: 0.5rem;
+}
+
+/* Tab item styling */
+.tab-item {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.tab-item::before {
+  content: "–";
+  position: absolute;
+  left: 0.5rem;
+  color: rgba(var(--foreground), 0.8);
+}
+
+.tab-item strong {
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+/* Improve tab content styling */
+.tab {
+  padding: 1rem;
+}
+
+.tab ul, .tab ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tab ul {
+  list-style-type: disc;
+}
+
+.tab ol {
+  list-style-type: decimal;
+}
+
+.tab li {
+  margin-bottom: 0.5rem;
+}
+
+/* Chart placeholder styling */
+.chart-placeholder {
+  width: 100%;
+  height: 400px;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.dark .chart-placeholder {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.chart-error {
+  width: 100%;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border: 2px solid #ff5252;
+  border-radius: 8px;
+  background-color: rgba(255, 82, 82, 0.1);
+  color: #ff5252;
+  font-weight: 500;
+  text-align: center;
+}
+
+.dark .chart-error {
+  background-color: rgba(255, 82, 82, 0.2);
+  color: #ff7070;
 } 

@@ -7,79 +7,150 @@ order: 2
 
 # Marketplace Guide
 
-The STAB3L marketplace provides a decentralized platform for trading Compute Unit (CU) tokens. It offers three different market types: Spot, Futures, and Options, each serving different trading needs and strategies.
+The STAB3L marketplace provides a decentralized platform for trading sSTB tokens. It offers three different market types: Spot, Futures, and Options, each serving different trading needs and strategies.
 
 {% hint style="info" %}
 All marketplace contracts are deployed on Arbitrum to ensure low gas fees and fast transaction confirmations.
+{% endhint %}
+
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. The marketplace is for trading sSTB tokens, which represent standardized compute units and can be redeemed for actual compute resources.
 {% endhint %}
 
 ## Marketplace Overview
 
 The STAB3L marketplace enables:
 
-- Buying and selling CU tokens in spot markets
-- Trading futures contracts for future delivery of compute resources
-- Trading options contracts for the right to buy or sell CU tokens at a predetermined price
+- Buying and selling sSTB tokens in spot markets
+- Trading futures contracts for future delivery of compute resources via sSTB
+- Trading options contracts for the right to buy or sell sSTB tokens at a predetermined price
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'flowchart',data:{nodes:[{id:'A',text:'STAB3L Marketplace'},{id:'B',text:'Spot Market'},{id:'C',text:'Futures Market'},{id:'D',text:'Options Market'},{id:'E',text:'Immediate delivery of CU tokens'},{id:'F',text:'Future delivery of CU tokens'},{id:'G',text:'Right to buy/sell CU tokens'}],edges:[{from:'A',to:'B'},{from:'A',to:'C'},{from:'A',to:'D'},{from:'B',to:'E'},{from:'C',to:'F'},{from:'D',to:'G'}]}}" alt="Marketplace Structure" />
+<div id="marketplace-structure-chart" style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
+<script>
+  if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+    window.renderChart(
+      'marketplace-structure-chart',
+      'bar',
+      {
+        labels: ["Spot Market", "Futures Market", "Options Market"],
+        datasets: [
+          {
+            label: "Market Types",
+            data: [100, 100, 100],
+            backgroundColor: [
+              "rgba(75, 192, 192, 0.7)",
+              "rgba(54, 162, 235, 0.7)",
+              "rgba(153, 102, 255, 0.7)"
+            ],
+            borderColor: [
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)"
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'STAB3L Marketplace Structure',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            display: false
+          }
+        }
+      }
+    );
+  } else {
+    document.getElementById('marketplace-structure-chart').innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+  }
+</script>
 
 ## Spot Market
 
-The spot market allows for immediate trading of CU tokens between buyers and sellers.
+The spot market allows for immediate trading of sSTB tokens between buyers and sellers.
 
-### How to List CU Tokens for Sale
+### How to List sSTB Tokens for Sale
 
 {% tabs %}
 {% tab title="Web Interface" %}
 1. Connect your wallet to the STAB3L platform
+
 2. Navigate to the "Marketplace" section
+
 3. Select "Spot Market"
+
 4. Click on "Create Listing"
-5. Select the CU tokens you want to sell
-6. Specify the amount and price per token
+
+5. Select the amount of sSTB tokens you want to sell
+
+6. Specify the price per token
+
 7. Confirm the transaction
+
 8. Your listing will appear in the marketplace
 {% endtab %}
 
 {% tab title="API" %}
 ```javascript
 // Example API call to create a listing
-const response = await fetch('https://api.stab3l.io/marketplace/spot/listings', {
+const response = await fetch('https://api.stab3l.com/marketplace/spot/listings', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`
   },
   body: JSON.stringify({
-    tokenId: 123,
+    token_type: 'sSTB',
     amount: 10,
-    pricePerToken: 100 // in payment token units
+    pricePerToken: 0.06 // in payment token units
   })
 });
 ```
 {% endtab %}
 {% endtabs %}
 
-### How to Buy CU Tokens
+### How to Buy sSTB Tokens
 
 {% tabs %}
 {% tab title="Web Interface" %}
 1. Connect your wallet to the STAB3L platform
+
 2. Navigate to the "Marketplace" section
+
 3. Select "Spot Market"
+
 4. Browse available listings
+
 5. Click on "Buy" for the listing you want to purchase
+
 6. Specify the amount you want to buy
+
 7. Confirm the transaction
-8. The CU tokens will be transferred to your wallet
+
+8. The sSTB tokens will be transferred to your wallet
 {% endtab %}
 
 {% tab title="API" %}
 ```javascript
 // Example API call to purchase from a listing
-const response = await fetch('https://api.stab3l.io/marketplace/spot/purchase', {
+const response = await fetch('https://api.stab3l.com/marketplace/spot/purchase', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -104,20 +175,19 @@ const response = await fetch('https://api.stab3l.io/marketplace/spot/purchase', 
 
 ## Futures Market
 
-The futures market allows for trading contracts that represent future delivery of CU tokens.
+The futures market allows for trading contracts that represent future delivery of compute resources via sSTB tokens.
 
 ### How Futures Work in STAB3L
 
 1. **Contract Creation**: A seller creates a futures contract specifying:
-   - CU token type
-   - Amount of CU tokens
+   - Amount of sSTB tokens
    - Delivery date
    - Price per token
 
 2. **Contract Purchase**: A buyer purchases the futures contract, paying a margin (typically 10-20% of the contract value)
 
 3. **Settlement**:
-   - **Physical Settlement**: On the delivery date, the seller delivers the CU tokens and the buyer pays the remaining amount
+   - **Physical Settlement**: On the delivery date, the seller delivers the sSTB tokens and the buyer pays the remaining amount
    - **Cash Settlement**: The difference between the contract price and the market price is settled in cash
 
 {% hint style="warning" %}
@@ -134,27 +204,27 @@ Futures trading involves significant risk. Traders should be familiar with futur
 
 ## Options Market
 
-The options market allows for trading contracts that give the right, but not the obligation, to buy (call) or sell (put) CU tokens at a predetermined price.
+The options market allows for trading contracts that give the right, but not the obligation, to buy (call) or sell (put) sSTB tokens at a predetermined price.
 
 ### Types of Options
 
 {% tabs %}
 {% tab title="Call Options" %}
-Call options give the holder the right to buy CU tokens at the strike price:
+Call options give the holder the right to buy sSTB tokens at the strike price:
 
-- **Buyer**: Pays premium, has right to buy CU tokens
-- **Seller**: Receives premium, has obligation to sell CU tokens if option is exercised
+- **Buyer**: Pays premium, has right to buy sSTB tokens
+- **Seller**: Receives premium, has obligation to sell sSTB tokens if option is exercised
 
-**Example**: A call option with strike price 100 USDC allows the holder to buy CU tokens at 100 USDC, even if the market price is higher.
+**Example**: A call option with strike price 0.06 USDC allows the holder to buy sSTB tokens at 0.06 USDC, even if the market price is higher.
 {% endtab %}
 
 {% tab title="Put Options" %}
-Put options give the holder the right to sell CU tokens at the strike price:
+Put options give the holder the right to sell sSTB tokens at the strike price:
 
-- **Buyer**: Pays premium, has right to sell CU tokens
-- **Seller**: Receives premium, has obligation to buy CU tokens if option is exercised
+- **Buyer**: Pays premium, has right to sell sSTB tokens
+- **Seller**: Receives premium, has obligation to buy sSTB tokens if option is exercised
 
-**Example**: A put option with strike price 100 USDC allows the holder to sell CU tokens at 100 USDC, even if the market price is lower.
+**Example**: A put option with strike price 0.06 USDC allows the holder to sell sSTB tokens at 0.06 USDC, even if the market price is lower.
 {% endtab %}
 {% endtabs %}
 
@@ -205,14 +275,14 @@ Transactions revert if:
 
 ## Fees and Rewards
 
-| Market Type | Trading Fee | Maker Rebate | STB-GOV Rewards |
+| Market Type | Trading Fee | Maker Rebate | rSTB Rewards |
 |-------------|-------------|--------------|-----------------|
 | Spot        | 0.25%       | 0.05%        | 0.10%           |
 | Futures     | 0.05%       | 0.02%        | 0.05%           |
 | Options     | 0.30%       | 0.10%        | 0.15%           |
 
 {% hint style="success" %}
-Trading fees can be reduced by staking STB-GOV tokens. Stake 1,000 STB-GOV to reduce fees by 10%, up to a maximum of 50% reduction for 10,000 STB-GOV.
+Trading fees can be reduced by staking rSTB tokens. Stake 1,000 rSTB to reduce fees by 10%, up to a maximum of 50% reduction for 10,000 rSTB.
 {% endhint %}
 
 ## Advanced Trading Strategies
@@ -222,9 +292,9 @@ The STAB3L marketplace enables several advanced trading strategies:
 ### Basis Trading
 
 Profit from the difference between spot and futures prices:
-1. Buy CU tokens in the spot market
-2. Sell futures contracts for the same CU tokens
-3. Deliver the CU tokens at settlement
+1. Buy sSTB tokens in the spot market
+2. Sell futures contracts for the same sSTB tokens
+3. Deliver the sSTB tokens at settlement
 
 ### Calendar Spreads
 
@@ -234,11 +304,11 @@ Trade the price difference between futures contracts with different delivery dat
 
 ### Covered Calls
 
-Generate income from CU tokens you own:
-1. Own CU tokens
-2. Sell call options against your CU tokens
+Generate income from sSTB tokens you own:
+1. Own sSTB tokens
+2. Sell call options against your sSTB tokens
 3. Collect premium income
 
 ## Conclusion
 
-The STAB3L marketplace provides a comprehensive suite of trading options for CU tokens, enabling efficient price discovery and liquidity for compute resources. Whether you're looking for immediate delivery, future delivery, or hedging strategies, the marketplace offers the tools you need. 
+The STAB3L marketplace provides a comprehensive suite of trading options for sSTB tokens, enabling efficient price discovery and liquidity for compute resources. Whether you're looking for immediate delivery, future delivery, or hedging strategies, the marketplace offers the tools you need. 

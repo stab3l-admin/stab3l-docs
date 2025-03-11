@@ -13,17 +13,21 @@ This document provides a comprehensive overview of the STAB3L platform's technic
 This documentation is intended for developers and technical users who want to understand the inner workings of the STAB3L platform.
 {% endhint %}
 
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
+{% endhint %}
+
 ## Architecture Overview
 
 STAB3L employs a modular, layered architecture designed for security, scalability, and interoperability:
 
-![STAB3L Architecture Overview](https://stab3l.io/images/architecture-overview.png)
+![STAB3L Architecture Overview](https://stab3l.com/images/architecture-overview.png)
 
 ### Key Components
 
-1. **Smart Contracts**: Core blockchain logic for CU tokenization, marketplace, and governance
+1. **Smart Contracts**: Core blockchain logic for compute resource verification, sSTB minting, marketplace, and governance
 2. **Verification System**: ZKP and TEE-based verification of compute resources
-3. **Cross-Chain Bridge**: Secure transfer of tokens between supported blockchains
+3. **Cross-Chain Bridge**: Secure transfer of sSTB tokens between supported blockchains
 4. **API Layer**: RESTful and GraphQL APIs for platform interaction
 5. **Frontend Applications**: Web and mobile interfaces for users and providers
 
@@ -45,29 +49,38 @@ The data layer manages the storage and persistence of platform data:
 
 ## Smart Contract Architecture
 
-The smart contract architecture follows a modular design pattern:
+The smart contract architecture follows a modular design pattern, with clear separation of concerns to enhance security, maintainability, and upgradability:
 
 <pre class="code-block">
 ├── Core
-│   ├── CUToken.sol         # ERC-1155 implementation for CU tokens
-│   ├── MintingAgent.sol    # Handles minting of new CU tokens
-│   └── Redemption.sol      # Manages redemption of CU tokens
+│   ├── ComputeUnitVerifier.sol  # Verification of compute resources
+│   ├── sSTBToken.sol            # ERC-20 implementation for sSTB tokens
+│   ├── MintingAgent.sol         # Handles minting of sSTB tokens
+│   └── Redemption.sol           # Manages redemption of sSTB tokens
+├── Staking
+│   ├── ProviderStaking.sol      # Manages provider staking (min 7 days)
+│   ├── RewardsDistributor.sol   # Distributes rSTB rewards
+│   └── CollateralManager.sol    # Manages collateral (min 120%)
 ├── Marketplace
-│   ├── SpotMarket.sol      # Spot trading of CU tokens
-│   ├── FuturesMarket.sol   # Futures contracts for CU tokens
-│   └── OptionsMarket.sol   # Options contracts for CU tokens
+│   ├── SpotMarket.sol           # Spot trading of sSTB tokens
+│   ├── FuturesMarket.sol        # Futures contracts for sSTB tokens
+│   └── OptionsMarket.sol        # Options contracts for sSTB tokens
 ├── Bridge
-│   ├── CrossChainBridge.sol # Cross-chain token transfer
-│   └── MessageVerifier.sol  # Verification of cross-chain messages
+│   ├── CrossChainBridge.sol     # Cross-chain sSTB token transfer
+│   └── MessageVerifier.sol      # Verification of cross-chain messages
 ├── Governance
-│   ├── GovernanceToken.sol  # STB-GOV token implementation
-│   ├── Voting.sol           # Governance voting mechanism
-│   └── Timelock.sol         # Timelock for governance actions
+│   ├── rSTBToken.sol            # rSTB token implementation
+│   ├── Voting.sol               # Governance voting mechanism
+│   └── Timelock.sol             # Timelock for governance actions
 └── Utils
-    ├── AccessControl.sol    # Role-based access control
-    ├── Pausable.sol         # Circuit breaker functionality
-    └── Oracle.sol           # Price feed and external data
+    ├── AccessControl.sol        # Role-based access control
+    ├── Pausable.sol             # Circuit breaker functionality
+    └── Oracle.sol               # Price feed and external data
 </pre>
+
+{% hint style="info" %}
+All smart contracts are audited by leading security firms and follow the OpenZeppelin security best practices. For more details on security measures, see the [Security](/docs/security) documentation.
+{% endhint %}
 
 ### Contract Interactions
 
@@ -75,66 +88,98 @@ The following diagram illustrates the key interactions between smart contracts:
 
 <div class="mermaid math-ignore">
 graph TD
-    A[User] -->|Buys CU Token| B[SpotMarket]
-    B -->|Transfers Token| C[CUToken]
+    A[User] -->|Buys sSTB Token| B[SpotMarket]
+    B -->|Transfers Token| C[sSTBToken]
     D[Provider] -->|Verifies Resources| E[VerificationSystem]
     E -->|Approves Minting| F[MintingAgent]
-    F -->|Mints Token| C
-    A -->|Redeems CU| G[Redemption]
-    G -->|Burns Token| C
-    G -->|Notifies| D
-    A -->|Bridges Token| H[CrossChainBridge]
-    H -->|Locks/Burns| C
-    H -->|Sends Message| I[MessageVerifier]
-    J[Governance] -->|Proposes Change| K[Voting]
-    K -->|Executes after Delay| L[Timelock]
-    L -->|Updates| B
+    F -->|Mints sSTB| C
+    F -->|Burns CU Tokens| G[CUToken]
+    F -->|Stakes sSTB| H[ProviderStaking]
+    H -->|Distributes Rewards| I[RewardsDistributor]
+    I -->|Sends rSTB| J[rSTBToken]
+    A -->|Redeems sSTB| K[Redemption]
+    K -->|Burns sSTB| C
+    K -->|Notifies| D
+    A -->|Bridges sSTB| L[CrossChainBridge]
+    L -->|Locks/Burns| C
 </div>
 
-### Upgrade Mechanism
+#### Key Contract Interactions Explained
 
-STAB3L smart contracts use the transparent proxy pattern for upgradeability:
+1. **Verification and Minting Flow**:
+   - Provider submits compute resources for verification through `ComputeUnitVerifier.sol`
+   - Verification is performed using ZKP or TEE (see [Verification System](/docs/verification-system) for details)
+   - Upon successful verification, `MintingAgent.sol` mints temporary CU tokens
+   - CU tokens are immediately exchanged 1:1 for sSTB tokens and burned
+   - The mathematical model for this exchange follows: $CU_{tokens} \rightarrow sSTB_{tokens}$ with a 1:1 ratio
 
-1. **Proxy Contracts**: Forward calls to implementation contracts
-2. **Implementation Contracts**: Contain the actual logic
-3. **Upgrade Process**: Governed by multi-sig and timelock mechanisms
+2. **Staking and Rewards Flow**:
+   - Provider stakes sSTB tokens through `ProviderStaking.sol` for a minimum of 7 days
+   - Provider's collateral (minimum 120% of CU value) is locked in `CollateralManager.sol`
+   - `RewardsDistributor.sol` calculates and distributes rSTB rewards based on:
+     $R = S \times T \times M$
+     where $R$ is the reward amount, $S$ is the staked amount, $T$ is the time staked, and $M$ is the reward multiplier
+
+3. **Redemption Flow**:
+   - User redeems sSTB tokens through `Redemption.sol`
+   - sSTB tokens are burned, reducing the total supply
+   - Provider is notified to deliver the compute resources
+   - Upon confirmation, a portion of the provider's collateral is released
+
+4. **Cross-Chain Bridge Flow**:
+   - User initiates a bridge transaction through `CrossChainBridge.sol`
+   - sSTB tokens are locked or burned on the source chain
+   - `MessageVerifier.sol` verifies the cross-chain message
+   - sSTB tokens are minted on the destination chain
+
+For a more detailed explanation of the mathematical models underlying these interactions, see the [System Architecture & Mathematical Model](/docs/whitepaper/system-architecture) section of the whitepaper.
+
+### Peg Stability Mechanism
+
+The stability of the sSTB token is maintained through a combination of arbitrage, derivatives, and governance mechanisms, as defined by the peg stabilization equation:
+
+$$
+P_{sSTB} = P_{CU} + \Delta_{arbitrage} + \Delta_{derivatives} + \Delta_{governance}
+$$
+
+Where:
+- $P_{CU}$ is the market price of 1 CU in USD (nominally $0.06, ±30% volatility)
+- $P_{sSTB}$ is the target price of sSTB, fixed at $0.06 (1 CU)
+- $\Delta_{arbitrage} = k \cdot (P_{sSTB} - P_{CU})$, with $k$ (arbitrage efficiency) dynamically adjustable via governance
+- $\Delta_{derivatives} = m \cdot (P_{sSTB,futures} - P_{sSTB,spot})$, with $m$ (derivative market efficiency) adjustable
+- $\Delta_{governance} = g \cdot (R_{actual} - R_{target})$, with $g$ (governance response factor) adjustable
+
+This mechanism is implemented across multiple contracts:
+- `SpotMarket.sol`, `FuturesMarket.sol`, and `OptionsMarket.sol` facilitate arbitrage and derivatives
+- `Governance.sol` enables parameter adjustments through voting
+- `Oracle.sol` provides price feeds for the calculation
+
+{% hint style="info" %}
+For a complete derivation of this equation and simulation results, see the [System Architecture & Mathematical Model](/docs/whitepaper/system-architecture) section of the whitepaper.
+{% endhint %}
 
 ## Verification System
 
 The verification system ensures the authenticity of compute resources:
 
-### Zero-Knowledge Proof (ZKP) Verification
+### Verification Process
 
-<pre class="code-block">
-├── Prover
-│   ├── BenchmarkRunner.rs   # Runs standardized benchmarks
-│   ├── ProofGenerator.rs    # Generates ZK proofs
-│   └── ResourceMonitor.rs   # Monitors compute resources
-├── Verifier
-│   ├── ProofVerifier.sol    # On-chain verification of proofs
-│   ├── CircuitValidator.rs  # Validates ZK circuits
-│   └── BenchmarkValidator.rs # Validates benchmark results
-└── Circuits
-    ├── CPUCircuit.circom    # Circuit for CPU verification
-    ├── MemoryCircuit.circom # Circuit for memory verification
-    └── StorageCircuit.circom # Circuit for storage verification
-</pre>
+1. **Provider Registration**: Provider registers and selects verification method
+2. **Staking Period Selection**: Provider chooses staking period (minimum 7 days)
+3. **Collateral Deposit**: Provider deposits collateral (minimum 120% of CU value)
+4. **Benchmark Execution**: Provider runs standardized benchmarks
+5. **Proof Generation**: ZKP or TEE generates cryptographic proof
+6. **On-chain Verification**: Smart contracts verify the proof
+7. **CU Value Assignment**: Standardized CU value assigned (1 CU = 10^15 FLOPs, $0.06)
+8. **CU Token Minting**: Temporary CU tokens minted
+9. **Immediate Exchange**: CU tokens immediately exchanged for sSTB
+10. **CU Token Burning**: CU tokens burned upon exchange
+11. **sSTB Staking**: sSTB automatically staked for chosen period
+12. **rSTB Rewards**: Provider earns rSTB rewards throughout staking period
 
-### Trusted Execution Environment (TEE) Verification
-
-<pre class="code-block">
-├── Enclave
-│   ├── EnclaveManager.cpp   # Manages TEE enclave
-│   ├── AttestationService.cpp # Provides attestation
-│   └── BenchmarkRunner.cpp  # Runs benchmarks in TEE
-├── Verifier
-│   ├── AttestationVerifier.sol # On-chain verification
-│   └── QuoteValidator.cpp   # Validates attestation quotes
-└── Integration
-    ├── SGXBridge.cpp        # Bridge to Intel SGX
-    ├── NitroAdapter.cpp     # Adapter for AWS Nitro
-    └── AzureSEVConnector.cpp # Connector for Azure SEV
-</pre>
+{% hint style="info" %}
+The definition and value of 1 CU will be reviewed and potentially adjusted quarterly by the DAO through governance voting to ensure the CU standard remains relevant as compute technology evolves.
+{% endhint %}
 
 ## Cross-Chain Bridge Architecture
 
@@ -162,13 +207,13 @@ The cross-chain bridge enables interoperability between blockchains:
 <div class="mermaid math-ignore">
 sequenceDiagram
     User->>SourceChain: Initiate Bridge Transfer
-    SourceChain->>SourceChain: Lock/Burn Tokens
+    SourceChain->>SourceChain: Lock/Burn sSTB Tokens
     SourceChain->>SourceChain: Emit BridgeEvent
     Relayers->>SourceChain: Monitor for BridgeEvents
     Relayers->>Relayers: Reach Consensus
     Relayers->>TargetChain: Submit Proof
     TargetChain->>TargetChain: Verify Proof
-    TargetChain->>TargetChain: Mint/Release Tokens
+    TargetChain->>TargetChain: Mint/Release sSTB Tokens
     TargetChain->>User: Complete Transfer
 </div>
 
@@ -181,33 +226,33 @@ The API layer provides programmatic access to the platform:
 <pre class="code-block">
 ├── REST API
 │   ├── Controllers
-│   │   ├── CUController.js     # CU token endpoints
-│   │   ├── MarketController.js # Marketplace endpoints
-│   │   └── ProviderController.js # Provider endpoints
+│   │   ├── ComputeController.js   # Compute resource endpoints
+│   │   ├── MarketController.js    # Marketplace endpoints
+│   │   └── ProviderController.js  # Provider endpoints
 │   ├── Services
-│   │   ├── BlockchainService.js # Blockchain interaction
+│   │   ├── BlockchainService.js   # Blockchain interaction
 │   │   ├── VerificationService.js # Verification logic
-│   │   └── UserService.js      # User management
+│   │   └── UserService.js         # User management
 │   └── Middleware
-│       ├── Authentication.js   # API authentication
-│       ├── RateLimiter.js      # Rate limiting
-│       └── ErrorHandler.js     # Error handling
+│       ├── Authentication.js      # API authentication
+│       ├── RateLimiter.js         # Rate limiting
+│       └── ErrorHandler.js        # Error handling
 ├── GraphQL API
 │   ├── Schema
-│   │   ├── CUSchema.graphql    # CU token schema
-│   │   ├── MarketSchema.graphql # Marketplace schema
+│   │   ├── ComputeSchema.graphql  # Compute resource schema
+│   │   ├── MarketSchema.graphql   # Marketplace schema
 │   │   └── ProviderSchema.graphql # Provider schema
 │   ├── Resolvers
-│   │   ├── CUResolvers.js      # CU token resolvers
-│   │   ├── MarketResolvers.js  # Marketplace resolvers
-│   │   └── ProviderResolvers.js # Provider resolvers
+│   │   ├── ComputeResolvers.js    # Compute resource resolvers
+│   │   ├── MarketResolvers.js     # Marketplace resolvers
+│   │   └── ProviderResolvers.js   # Provider resolvers
 │   └── Directives
-│       ├── AuthDirective.js    # Authentication directive
-│       └── CacheDirective.js   # Caching directive
+│       ├── AuthDirective.js       # Authentication directive
+│       └── CacheDirective.js      # Caching directive
 └── WebSockets
-    ├── MarketUpdates.js        # Real-time market updates
-    ├── ProviderEvents.js       # Provider event notifications
-    └── UserNotifications.js    # User notifications
+    ├── MarketUpdates.js           # Real-time market updates
+    ├── ProviderEvents.js          # Provider event notifications
+    └── UserNotifications.js       # User notifications
 </pre>
 
 ### API Gateway
@@ -419,7 +464,7 @@ The STAB3L technical architecture is designed to provide a secure, scalable, and
 
 For more detailed information on specific components, please refer to the respective technical documentation:
 
-- [Smart Contract Technical Specification](https://docs.stab3l.io/technical/smart-contracts)
-- [Verification System Architecture](https://docs.stab3l.io/technical/verification)
-- [Cross-Chain Bridge Design](https://docs.stab3l.io/technical/bridge)
-- [API Documentation](https://docs.stab3l.io/api-reference) 
+- [Smart Contract Technical Specification](https://docs.stab3l.com/technical/smart-contracts)
+- [Verification System Architecture](https://docs.stab3l.com/technical/verification)
+- [Cross-Chain Bridge Design](https://docs.stab3l.com/technical/bridge)
+- [API Documentation](https://docs.stab3l.com/api-reference) 

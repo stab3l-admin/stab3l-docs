@@ -1,19 +1,25 @@
-import '@/styles/globals.css';
-import '@/styles/math.css';
-import type { Metadata } from 'next';
-import { IBM_Plex_Mono } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import Script from 'next/script';
+import { IBM_Plex_Mono, Inter } from "next/font/google";
+import "@/styles/globals.css";
+import "@/styles/math.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import Script from "next/script";
+import { Metadata } from 'next';
+import { ChartInitializer } from "@/components/chart-initializer";
 
 const mono = IBM_Plex_Mono({ 
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  display: 'swap',
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mono",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
-  title: 'TerminalDocs',
-  description: 'A standalone documentation site for your projects',
+  title: "STAB3L Documentation",
+  description: "Documentation for the STAB3L compute-backed stablecoin protocol",
 };
 
 export default function RootLayout({
@@ -184,16 +190,30 @@ export default function RootLayout({
           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
           strategy="afterInteractive"
         />
+        <ChartInitializer />
       </head>
-      <body className={mono.className}>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem={true}
+          enableSystem
           disableTransitionOnChange
         >
           {children}
         </ThemeProvider>
+        
+        <Script id="chart-check" strategy="afterInteractive">
+          {`
+            console.log('Chart.js loaded check:', typeof Chart !== 'undefined' ? 'Available' : 'Not available');
+            console.log('renderChart function check:', typeof renderChart === 'function' ? 'Available' : 'Not available');
+            if (typeof Chart === 'undefined') {
+              console.error('Chart.js is not available!');
+            }
+            if (typeof renderChart !== 'function') {
+              console.error('renderChart function is not available!');
+            }
+          `}
+        </Script>
       </body>
     </html>
   );

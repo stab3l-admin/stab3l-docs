@@ -1,51 +1,124 @@
 ---
 title: Cross-Chain Bridge
-description: Learn how to use the STAB3L cross-chain bridge for transferring CU tokens between blockchains
+description: Learn how to use the STAB3L cross-chain bridge for transferring sSTB tokens between blockchains
 category: User Guides
 order: 3
 ---
 
 # Cross-Chain Bridge
 
-The STAB3L Cross-Chain Bridge enables seamless transfer of Compute Unit (CU) tokens between different blockchain networks, creating a unified marketplace for compute resources across multiple ecosystems.
+The STAB3L Cross-Chain Bridge enables seamless transfer of sSTB tokens between different blockchain networks, creating a unified marketplace for compute resources across multiple ecosystems.
 
 {% hint style="info" %}
 The Cross-Chain Bridge currently supports transfers between Arbitrum (primary network) and Ethereum, Polygon, Optimism, and Solana.
 {% endhint %}
 
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets and cannot be bridged. They are temporary tokens that are burned immediately when exchanged for sSTB. Only sSTB tokens can be transferred across chains.
+{% endhint %}
+
 ## How the Bridge Works
 
-The STAB3L Cross-Chain Bridge uses a lock-and-mint mechanism to transfer CU tokens between chains:
+The STAB3L Cross-Chain Bridge uses a lock-and-mint mechanism to transfer sSTB tokens between chains:
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'sequence',data:{actors:['User','Source Chain','Relayers','Destination Chain'],actorKeys:['user','source','relayers','destination'],signals:[{message:'Lock CU tokens',from:'user',to:'source'},{message:'Emit LockEvent',from:'source',to:'source'},{message:'Monitor events',from:'source',to:'relayers',dashed:true},{message:'Confirm lock (multiple confirmations)',from:'relayers',to:'destination'},{message:'Verify confirmations',from:'destination',to:'destination'},{message:'Mint equivalent CU tokens',from:'destination',to:'user'}]}}" alt="Cross-Chain Bridge Flow" />
+<div id="bridge-flow-chart" style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
+<script>
+  if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+    window.renderChart(
+      'bridge-flow-chart',
+      'bar',
+      {
+        labels: ["User Locks Tokens", "Source Chain Event", "Relayers Monitor", "Relayers Confirm", "Destination Verifies", "Tokens Minted"],
+        datasets: [
+          {
+            label: "Bridge Process Flow",
+            data: [100, 90, 80, 70, 60, 50],
+            backgroundColor: [
+              "rgba(75, 192, 192, 0.7)",
+              "rgba(54, 162, 235, 0.7)",
+              "rgba(153, 102, 255, 0.7)",
+              "rgba(255, 159, 64, 0.7)",
+              "rgba(255, 99, 132, 0.7)",
+              "rgba(201, 203, 207, 0.7)"
+            ],
+            borderColor: [
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 99, 132)",
+              "rgb(201, 203, 207)"
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          title: {
+            display: true,
+            text: 'Cross-Chain Bridge Flow',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': Step ' + (context.dataIndex + 1);
+              }
+            }
+          }
+        }
+      }
+    );
+  } else {
+    document.getElementById('bridge-flow-chart').innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+  }
+</script>
 
-1. **Lock**: User locks CU tokens on the source chain
+1. **Lock**: User locks sSTB tokens on the source chain
+
 2. **Verify**: Multiple relayers verify the lock event
-3. **Mint**: Equivalent CU tokens are minted on the destination chain
+
+3. **Mint**: Equivalent sSTB tokens are minted on the destination chain
 
 ## Using the Bridge
 
-### Bridging CU Tokens to Another Chain
+### Bridging sSTB Tokens to Another Chain
 
 {% tabs %}
 {% tab title="Web Interface" %}
 1. Connect your wallet to the STAB3L platform
+
 2. Navigate to the "Bridge" section
+
 3. Select the source chain (current chain)
+
 4. Select the destination chain
-5. Select the CU tokens you want to bridge
-6. Specify the amount
-7. Review the fee and confirm the transaction
-8. Wait for confirmations (typically 5-20 minutes depending on chains)
-9. Receive your CU tokens on the destination chain
+
+5. Enter the amount of sSTB tokens you want to bridge
+
+6. Review the fee and confirm the transaction
+
+7. Wait for confirmations (typically 5-20 minutes depending on chains)
+
+8. Receive your sSTB tokens on the destination chain
 {% endtab %}
 
 {% tab title="API" %}
 ```javascript
 // Example API call to bridge tokens
-const response = await fetch('https://api.stab3l.io/bridge/lock', {
+const response = await fetch('https://api.stab3l.com/bridge/lock', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -54,9 +127,8 @@ const response = await fetch('https://api.stab3l.io/bridge/lock', {
   body: JSON.stringify({
     sourceChain: 'arbitrum',
     destinationChain: 'polygon',
-    tokenId: 123,
     amount: 10,
-    feeToken: 'STAB3L' // or 'STB-GOV' or 'DEFAULT'
+    feeToken: 'sSTB' // or 'rSTB' or 'DEFAULT'
   })
 });
 ```
@@ -68,8 +140,11 @@ const response = await fetch('https://api.stab3l.io/bridge/lock', {
 {% tabs %}
 {% tab title="Web Interface" %}
 1. Navigate to the "Bridge" section
+
 2. Click on "Transaction History"
+
 3. Find your transaction in the list
+
 4. View the current status:
    - **Pending**: Transaction is being processed
    - **Confirmed**: Transaction has been confirmed on the source chain
@@ -81,7 +156,7 @@ const response = await fetch('https://api.stab3l.io/bridge/lock', {
 {% tab title="API" %}
 ```javascript
 // Example API call to check transaction status
-const response = await fetch(`https://api.stab3l.io/bridge/status/${messageId}`, {
+const response = await fetch(`https://api.stab3l.com/bridge/status/${messageId}`, {
   method: 'GET',
   headers: {
     'Authorization': `Bearer ${token}`
@@ -100,12 +175,15 @@ The STAB3L Cross-Chain Bridge offers multiple fee token options:
 | Fee Token | Description | Benefit |
 |-----------|-------------|---------|
 | DEFAULT | Default fee token (USDC) | Stable value |
-| STAB3L | STAB3L utility token | 10% fee discount |
-| STB-GOV | Governance token | 25% fee discount |
+| sSTB | STAB3L utility token | 10% fee discount |
+| rSTB | Governance token | 25% fee discount |
 
 To select a fee token:
+
 1. Click on "Fee Options" during the bridge process
+
 2. Select your preferred fee token
+
 3. The fee amount will be recalculated automatically
 
 ### Supported Chains
@@ -158,7 +236,7 @@ Always verify the destination address and chain before confirming a bridge trans
 The bridge requires confirmations from multiple relayers before minting tokens on the destination chain:
 
 - Minimum of 5 out of 9 relayers must confirm each transaction
-- Relayers are selected through governance and must stake STB-GOV tokens
+- Relayers are selected through governance and must stake rSTB tokens
 - Malicious relayers can be slashed and removed from the network
 
 ### Circuit Breaker
@@ -183,16 +261,16 @@ Bridge messages have a timeout period to prevent stuck transactions:
 
 The bridge supports batch transfers to reduce gas costs:
 
-1. Select multiple CU tokens to bridge
+1. Select multiple amounts of sSTB to bridge
 2. The bridge will process them in a single transaction
 3. Gas costs are significantly reduced compared to individual transfers
 
 ### Cross-Chain Redemption
 
-Users can redeem CU tokens on any supported chain:
+Users can redeem sSTB tokens for compute resources on any supported chain:
 
-1. Bridge CU tokens to your preferred chain
-2. Redeem them directly on that chain
+1. Bridge sSTB tokens to your preferred chain
+2. Redeem them directly on that chain for compute resources
 3. The redemption process works the same way across all chains
 
 ### Bridge Factory
@@ -242,7 +320,7 @@ If you've sent tokens to the wrong chain or specified an incorrect amount:
 
 Bridge fees vary depending on the source and destination chains:
 
-| Source Chain | Destination Chain | Base Fee (USDC) | STAB3L Fee | STB-GOV Fee |
+| Source Chain | Destination Chain | Base Fee (USDC) | sSTB Fee | rSTB Fee |
 |--------------|-------------------|----------------|------------|-------------|
 | Arbitrum     | Ethereum          | 5.00           | 4.50       | 3.75        |
 | Arbitrum     | Polygon           | 2.00           | 1.80       | 1.50        |
@@ -257,4 +335,4 @@ Bridge fees are used to cover gas costs on the destination chain and to reward r
 
 ## Conclusion
 
-The STAB3L Cross-Chain Bridge enables a unified marketplace for compute resources across multiple blockchain ecosystems. By bridging CU tokens between chains, users can access a wider range of providers and trading opportunities, while providers can reach a larger audience for their compute resources. 
+The STAB3L Cross-Chain Bridge enables a unified marketplace for compute resources across multiple blockchain ecosystems. By bridging sSTB tokens between chains, users can access a wider range of providers and trading opportunities, while providers can reach a larger audience for their compute resources. 

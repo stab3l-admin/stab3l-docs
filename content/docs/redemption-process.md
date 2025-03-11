@@ -1,17 +1,17 @@
 ---
 title: Redemption Process
-description: Detailed explanation of how to redeem CU tokens for compute resources
+description: Detailed explanation of how to redeem sSTB tokens for compute resources
 category: User Guides
 order: 4
 ---
 
 # Redemption Process
 
-This document explains the process of redeeming Compute Unit (CU) tokens for actual compute resources on the STAB3L platform. The redemption process is a critical component that connects the on-chain tokenized representation of compute resources to their off-chain delivery and utilization.
+This document explains the process of redeeming sSTB tokens for actual compute resources on the STAB3L platform. The redemption process is a critical component that connects the on-chain tokenized representation of compute resources to their off-chain delivery and utilization.
 
 ## Overview
 
-Redemption is the process through which users exchange their CU tokens for the actual compute resources they represent. When a user redeems CU tokens, the tokens are burned, and the provider is notified to fulfill the redemption request by providing access to the specified compute resources.
+Redemption is the process through which users exchange their sSTB tokens for the actual compute resources they represent. When a user redeems sSTB tokens, the tokens are burned, and the provider is notified to fulfill the redemption request by providing access to the specified compute resources.
 
 {% hint style="info" %}
 Redemption is the final step in the STAB3L value chain, connecting the on-chain token economy to real-world compute resources.
@@ -21,17 +21,23 @@ Redemption is the final step in the STAB3L value chain, connecting the on-chain 
 
 The redemption process follows these steps:
 
-1. **Redemption Request**: User initiates a redemption request for their CU tokens
-2. **Token Burning**: CU tokens are burned (removed from circulation)
+1. **Redemption Request**: User initiates a redemption request for their sSTB tokens
+
+2. **Token Burning**: sSTB tokens are burned (removed from circulation)
+
 3. **Provider Notification**: Provider is notified of the redemption request
+
 4. **Resource Allocation**: Provider allocates the requested compute resources
+
 5. **Access Provision**: Provider provides access credentials to the user
+
 6. **Verification**: User verifies access to the compute resources
+
 7. **Completion**: Redemption is marked as complete
 
 {% tabs %}
 {% tab title="Web Interface" %}
-![Redemption Process Flow](https://stab3l.io/images/docs/redemption-flow.png)
+![Redemption Process Flow](https://stab3l.com/images/docs/redemption-flow.png)
 {% endtab %}
 
 {% tab title="Smart Contract Flow" %}
@@ -39,13 +45,13 @@ The redemption process follows these steps:
 sequenceDiagram
     participant User
     participant RedemptionContract
-    participant CUToken
+    participant SSTBToken
     participant Provider
     participant ProviderAPI
 
-    User->>RedemptionContract: initiateRedemption(tokenId, amount)
-    RedemptionContract->>CUToken: burn(tokenId, amount, user)
-    CUToken-->>RedemptionContract: tokens burned
+    User->>RedemptionContract: initiateRedemption(amount, providerId)
+    RedemptionContract->>SSTBToken: burn(amount, user)
+    SSTBToken-->>RedemptionContract: tokens burned
     RedemptionContract->>RedemptionContract: createRedemptionRequest(requestId)
     RedemptionContract->>Provider: emitRedemptionRequestEvent(requestId)
     Provider->>ProviderAPI: monitorRedemptionEvents()
@@ -66,8 +72,8 @@ sequenceDiagram
 To initiate a redemption request:
 
 1. Navigate to the "Redeem" section of the STAB3L platform
-2. Select the CU tokens you want to redeem
-3. Specify the amount of tokens to redeem
+2. Select the amount of sSTB tokens you want to redeem
+3. Choose a provider from the available options
 4. Review the redemption details, including:
    - Provider information
    - Compute resource specifications
@@ -77,22 +83,22 @@ To initiate a redemption request:
 
 {% tabs %}
 {% tab title="Web Interface" %}
-![Redemption Request Interface](https://stab3l.io/images/docs/redemption-request.png)
+![Redemption Request Interface](https://stab3l.com/images/docs/redemption-request.png)
 {% endtab %}
 
 {% tab title="API Request" %}
 ```javascript
 // Example API request to initiate redemption
-const initiateRedemption = async (tokenId, amount) => {
-  const response = await fetch('https://api.stab3l.io/v1/redemptions', {
+const initiateRedemption = async (amount, providerId) => {
+  const response = await fetch('https://api.stab3l.com/v1/redemptions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      token_id: tokenId,
-      amount: amount
+      sstb_amount: amount,
+      provider_id: providerId
     })
   });
   
@@ -107,15 +113,14 @@ const initiateRedemption = async (tokenId, amount) => {
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract RedemptionManager is ReentrancyGuard {
-    IERC1155 public cuToken;
+    IERC20 public sstbToken;
     
     struct RedemptionRequest {
         address user;
-        uint256 tokenId;
         uint256 amount;
         uint256 timestamp;
         address provider;
@@ -129,7 +134,6 @@ contract RedemptionManager is ReentrancyGuard {
     event RedemptionInitiated(
         uint256 indexed redemptionId,
         address indexed user,
-        uint256 indexed tokenId,
         uint256 amount,
         address provider
     );
@@ -145,31 +149,21 @@ contract RedemptionManager is ReentrancyGuard {
         address indexed user
     );
     
-    constructor(address _cuToken) {
-        cuToken = IERC1155(_cuToken);
+    constructor(address _sstbToken) {
+        sstbToken = IERC20(_sstbToken);
     }
     
     function initiateRedemption(
-        uint256 tokenId,
-        uint256 amount
+        uint256 amount,
+        address provider
     ) external nonReentrant returns (uint256) {
-        // Get provider address from token ID
-        address provider = getProviderFromTokenId(tokenId);
-        
-        // Burn the tokens
-        cuToken.safeTransferFrom(
-            msg.sender,
-            address(0xdead),
-            tokenId,
-            amount,
-            ""
-        );
+        // Burn the sSTB tokens
+        sstbToken.transferFrom(msg.sender, address(0x... (PLACEHOLDER)), amount);
         
         // Create redemption request
         uint256 redemptionId = nextRedemptionId++;
         redemptionRequests[redemptionId] = RedemptionRequest({
             user: msg.sender,
-            tokenId: tokenId,
             amount: amount,
             timestamp: block.timestamp,
             provider: provider,
@@ -180,7 +174,6 @@ contract RedemptionManager is ReentrancyGuard {
         emit RedemptionInitiated(
             redemptionId,
             msg.sender,
-            tokenId,
             amount,
             provider
         );
@@ -225,13 +218,6 @@ contract RedemptionManager is ReentrancyGuard {
             msg.sender
         );
     }
-    
-    // Helper function to get provider from token ID
-    function getProviderFromTokenId(uint256 tokenId) internal view returns (address) {
-        // Implementation depends on token ID structure
-        // This is a simplified example
-        return address(uint160(tokenId >> 96));
-    }
 }
 ```
 {% endtab %}
@@ -239,10 +225,10 @@ contract RedemptionManager is ReentrancyGuard {
 
 ### 2. Token Burning
 
-When a redemption request is initiated, the CU tokens are burned (removed from circulation). This process:
+When a redemption request is initiated, the sSTB tokens are burned (removed from circulation). This process:
 
 - Ensures that tokens can only be redeemed once
-- Reduces the total supply of CU tokens
+- Reduces the total supply of sSTB tokens
 - Creates a permanent record of the redemption on the blockchain
 
 The token burning is handled automatically by the redemption smart contract.
@@ -263,10 +249,10 @@ Upon receiving a redemption request, the provider:
 
 1. Verifies the redemption details
 2. Allocates the requested compute resources
-3. Configures the resources according to the CU token specifications
+3. Configures the resources according to the specifications
 4. Prepares access credentials for the user
 
-The provider must allocate resources that match or exceed the specifications of the redeemed CU tokens.
+The provider must allocate resources that match or exceed the specifications corresponding to the redeemed sSTB tokens.
 
 ### 5. Access Provision
 
@@ -289,7 +275,7 @@ Access details typically include:
 {
   "redemption_id": "12345",
   "access_type": "ssh",
-  "hostname": "compute-node-42.provider.stab3l.io",
+  "hostname": "compute-node-42.provider.stab3l.com",
   "port": 22,
   "username": "stab3l-user-12345",
   "ssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC...",
@@ -300,7 +286,7 @@ Access details typically include:
     "storage_gb": 500,
     "bandwidth_mbps": 1000
   },
-  "documentation_url": "https://docs.provider.stab3l.io/getting-started"
+  "documentation_url": "https://docs.provider.stab3l.com/getting-started"
 }
 ```
 {% endtab %}
@@ -311,7 +297,7 @@ Access details typically include:
 After receiving access details, the user:
 
 1. Connects to the provided compute resources
-2. Verifies that the resources match the specifications of the redeemed CU tokens
+2. Verifies that the resources match the specifications of the redeemed sSTB tokens
 3. Confirms the redemption if the resources are satisfactory
 
 If the resources do not match the specifications, the user can initiate a dispute.
@@ -326,9 +312,9 @@ Once the user confirms the redemption:
 
 ## Redemption Timeframes
 
-Providers must fulfill redemption requests within specific timeframes based on the CU token type:
+Providers must fulfill redemption requests within specific timeframes based on the quality tier:
 
-| CU Token Type | Maximum Fulfillment Time |
+| Quality Tier | Maximum Fulfillment Time |
 |---------------|--------------------------|
 | Standard      | 24 hours                 |
 | Premium       | 6 hours                  |
@@ -361,9 +347,9 @@ Disputes should be initiated within 72 hours of the redemption request or access
 
 To ensure that providers fulfill redemption requests, they must maintain collateral:
 
-- Providers deposit collateral when minting CU tokens
-- Collateral is typically 120% of the value of the CU tokens
-- Collateral is locked until the corresponding CU tokens are redeemed and confirmed
+- Providers deposit collateral when offering compute resources
+- Collateral is typically 120% of the value of the compute resources
+- Collateral is locked until the corresponding redemptions are confirmed
 - If a provider fails to fulfill redemption requests, their collateral may be used to compensate users
 
 This collateral system creates strong economic incentives for providers to fulfill their obligations.
@@ -387,16 +373,16 @@ STAB3L provides a comprehensive API for managing redemptions programmatically:
 {% tab title="Initiate Redemption" %}
 ```javascript
 // POST /v1/redemptions
-const initiateRedemption = async (tokenId, amount) => {
-  const response = await fetch('https://api.stab3l.io/v1/redemptions', {
+const initiateRedemption = async (amount, providerId) => {
+  const response = await fetch('https://api.stab3l.com/v1/redemptions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      token_id: tokenId,
-      amount: amount
+      sstb_amount: amount,
+      provider_id: providerId
     })
   });
   
@@ -409,7 +395,7 @@ const initiateRedemption = async (tokenId, amount) => {
 ```javascript
 // GET /v1/redemptions/{redemptionId}
 const getRedemptionStatus = async (redemptionId) => {
-  const response = await fetch(`https://api.stab3l.io/v1/redemptions/${redemptionId}`, {
+  const response = await fetch(`https://api.stab3l.com/v1/redemptions/${redemptionId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${apiKey}`
@@ -425,7 +411,7 @@ const getRedemptionStatus = async (redemptionId) => {
 ```javascript
 // POST /v1/redemptions/{redemptionId}/confirm
 const confirmRedemption = async (redemptionId) => {
-  const response = await fetch(`https://api.stab3l.io/v1/redemptions/${redemptionId}/confirm`, {
+  const response = await fetch(`https://api.stab3l.com/v1/redemptions/${redemptionId}/confirm`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -442,7 +428,7 @@ const confirmRedemption = async (redemptionId) => {
 ```javascript
 // POST /v1/redemptions/{redemptionId}/dispute
 const reportIssue = async (redemptionId, issueDetails) => {
-  const response = await fetch(`https://api.stab3l.io/v1/redemptions/${redemptionId}/dispute`, {
+  const response = await fetch(`https://api.stab3l.com/v1/redemptions/${redemptionId}/dispute`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -465,25 +451,33 @@ const reportIssue = async (redemptionId, issueDetails) => {
 
 ### For Users
 
-- **Verify Provider Reputation**: Check the provider's reputation score before redeeming CU tokens
+- **Verify Provider Reputation**: Check the provider's reputation score before redeeming sSTB tokens
+
 - **Read Specifications Carefully**: Understand the exact specifications of the compute resources you're redeeming
+
 - **Test Promptly**: Test the provided resources as soon as you receive access
+
 - **Document Everything**: Keep records of all communications and access details
+
 - **Report Issues Quickly**: If there are any issues, report them within the 72-hour window
 
 ### For Providers
 
 - **Monitor Redemption Requests**: Set up automated monitoring for redemption requests
+
 - **Fulfill Promptly**: Fulfill redemption requests as quickly as possible
+
 - **Provide Clear Instructions**: Give users clear and detailed access instructions
+
 - **Maintain Resource Availability**: Ensure you have sufficient resources to fulfill all potential redemptions
+
 - **Communicate Proactively**: If there are any delays or issues, communicate with users proactively
 
 ## Redemption Lifecycle Management
 
 ### Resource Expiration
 
-CU tokens may have an expiration date, after which they can no longer be redeemed. Users should be aware of these expiration dates and redeem their tokens before they expire.
+Compute resources may have an expiration date, after which they can no longer be accessed. Users should be aware of these expiration dates and plan accordingly.
 
 ### Resource Renewal
 
@@ -492,7 +486,7 @@ Some providers offer renewal options for redeemed compute resources. To renew:
 1. Navigate to the "Redemptions" section
 2. Select the redemption you want to renew
 3. Click "Renew" and follow the instructions
-4. Purchase additional CU tokens if necessary
+4. Redeem additional sSTB tokens if necessary
 
 ### Resource Termination
 
@@ -505,7 +499,7 @@ When a user no longer needs the compute resources:
 
 ## Conclusion
 
-The redemption process is the critical link between the on-chain tokenized representation of compute resources and their off-chain delivery and utilization. By following the steps outlined in this document, users can successfully redeem their CU tokens for actual compute resources, and providers can fulfill their obligations efficiently.
+The redemption process is the critical link between the on-chain tokenized representation of compute resources and their off-chain delivery and utilization. By following the steps outlined in this document, users can successfully redeem their sSTB tokens for actual compute resources, and providers can fulfill their obligations efficiently.
 
 {% hint style="success" %}
 The STAB3L redemption system is designed to be secure, efficient, and fair for both users and providers, creating a trustless marketplace for compute resources.

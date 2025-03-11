@@ -10,7 +10,11 @@ order: 2
 The STAB3L ecosystem features a dual-token system designed to separate utility and governance functions, creating a balanced and sustainable economic model.
 
 {% hint style="info" %}
-The STAB3L token system was updated to include two distinct tokens: sSTB (utility token) and rSTB (governance token).
+The STAB3L token system includes two distinct tokens: sSTB (utility token) and rSTB (governance token).
+{% endhint %}
+
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
 {% endhint %}
 
 ## Token Overview
@@ -25,10 +29,10 @@ STAB3L uses two primary tokens:
     <p><strong>Contract:</strong> <code>STAB3LToken.sol</code></p>
   </div>
   <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-    <h3 class="text-lg font-semibold">STB Governance Token (rSTB)</h3>
+    <h3 class="text-lg font-semibold">rSTB Governance Token (rSTB)</h3>
     <p>The governance and rewards token</p>
     <p><strong>Total Supply:</strong> 1 billion tokens</p>
-    <p><strong>Contract:</strong> <code>STBGOVToken.sol</code></p>
+    <p><strong>Contract:</strong> <code>rSTBToken.sol</code></p>
   </div>
 </div>
 
@@ -45,9 +49,66 @@ The sSTB token is the main utility token of the ecosystem, used for:
 
 The sSTB token distribution is designed to ensure wide distribution and long-term sustainability:
 
-<div class="pie-chart">
-  <img src="https://quickchart.io/chart?c=%7Btype%3A%27pie%27%2Cdata%3A%7Blabels%3A%5B%27Community+%26+Ecosystem%27%2C%27Treasury%27%2C%27Team+%26+Advisors%27%2C%27Investors%27%2C%27Liquidity+Mining%27%5D%2Cdatasets%3A%5B%7Bdata%3A%5B40%2C25%2C15%2C15%2C5%5D%2CbackgroundColor%3A%5B%27%23FF6384%27%2C%27%2336A2EB%27%2C%27%23FFCE56%27%2C%27%234BC0C0%27%2C%27%239966FF%27%5D%7D%5D%7D%7D" alt="sSTB Token Distribution" />
+<div id="sstb-distribution-chart" style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
+<script>
+  if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+    window.renderChart(
+      'sstb-distribution-chart',
+      'pie',
+      {
+        labels: ["Community & Ecosystem", "Treasury", "Team & Advisors", "Investors", "Liquidity Mining"],
+        datasets: [
+          {
+            data: [40, 25, 15, 15, 5],
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(153, 102, 255, 0.7)',
+              'rgba(255, 159, 64, 0.7)',
+              'rgba(255, 99, 132, 0.7)'
+            ],
+            borderColor: [
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 99, 132)'
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'sSTB Token Distribution',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.label + ': ' + context.raw + '%';
+              }
+            }
+          }
+        }
+      }
+    );
+  } else {
+    document.getElementById('sstb-distribution-chart').innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+  }
+</script>
 
 | Allocation | Percentage | Amount | Vesting |
 |------------|------------|--------|---------|
@@ -67,7 +128,7 @@ Users can pay fees with sSTB tokens and receive a discount:
 
 - **Marketplace Fees**: 10% discount when paying with sSTB
 - **Bridge Fees**: 10% discount when paying with sSTB
-- **Minting Fees**: 10% discount when paying with sSTB
+- **Redemption Fees**: 10% discount when paying with sSTB
 
 #### Staking
 
@@ -85,7 +146,7 @@ Users can provide liquidity for sSTB pairs and earn rewards:
 - **rSTB Rewards**: Earn rSTB tokens for providing liquidity
 - **Boosted APY**: Higher APY for longer commitment periods
 
-## STB Governance Token (rSTB)
+## rSTB Governance Token (rSTB)
 
 The rSTB token is the governance and rewards token of the ecosystem, used for:
 
@@ -97,9 +158,66 @@ The rSTB token is the governance and rewards token of the ecosystem, used for:
 
 The rSTB token distribution is designed to ensure decentralized governance:
 
-<div class="pie-chart">
-  <img src="https://quickchart.io/chart?c=%7Btype%3A%27pie%27%2Cdata%3A%7Blabels%3A%5B%27Community%27%2C%27Team%27%2C%27Treasury%27%2C%27Investors%27%2C%27Advisors%27%5D%2Cdatasets%3A%5B%7Bdata%3A%5B40%2C20%2C20%2C15%2C5%5D%2CbackgroundColor%3A%5B%27%23FF6384%27%2C%27%2336A2EB%27%2C%27%23FFCE56%27%2C%27%234BC0C0%27%2C%27%239966FF%27%5D%7D%5D%7D%7D" alt="rSTB Token Distribution" />
+<div id="rstb-distribution-chart" style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
+<script>
+  if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+    window.renderChart(
+      'rstb-distribution-chart',
+      'pie',
+      {
+        labels: ["Community", "Team", "Treasury", "Investors", "Advisors"],
+        datasets: [
+          {
+            data: [40, 20, 20, 15, 5],
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(153, 102, 255, 0.7)',
+              'rgba(255, 159, 64, 0.7)',
+              'rgba(255, 99, 132, 0.7)'
+            ],
+            borderColor: [
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 99, 132)'
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'rSTB Token Distribution',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.label + ': ' + context.raw + '%';
+              }
+            }
+          }
+        }
+      }
+    );
+  } else {
+    document.getElementById('rstb-distribution-chart').innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+  }
+</script>
 
 | Allocation | Percentage | Amount | Vesting |
 |------------|------------|--------|---------|
@@ -133,7 +251,7 @@ Users can stake rSTB tokens for additional benefits:
 
 Users earn rSTB tokens as rewards for various activities:
 
-- **CU Staking**: Stake CU tokens to earn rSTB rewards
+- **Compute Provider Staking**: Compute providers earn rSTB rewards for staking their compute resources
 - **Liquidity Provision**: Provide liquidity to earn rSTB rewards
 - **Trading**: Earn rSTB rewards based on trading volume
 - **Provider Rewards**: Compute providers earn rSTB for reliable service
@@ -220,18 +338,28 @@ Stake rSTB tokens to earn benefits:
 | Premium | 10,000 rSTB | 35% | 2x | 6 months |
 | Elite | 100,000 rSTB | 50% | 3x | 12 months |
 
-### CU Token Staking
+### Compute Provider Staking
 
-Stake CU tokens to earn rSTB rewards:
+Compute providers stake their compute resources to earn rSTB rewards:
 
-| CU Value | Base APY | Boosted APY* | Lock Period |
-|----------|----------|--------------|-------------|
-| 1-100 | 5% | 7.5% | 1 month |
-| 101-1,000 | 7% | 10.5% | 3 months |
-| 1,001-10,000 | 10% | 15% | 6 months |
-| 10,001+ | 12% | 18% | 12 months |
+| Compute Value | Base APY | Boosted APY* | Minimum Lock Period |
+|---------------|----------|--------------|---------------------|
+| 1-100 CU | 5% | 7.5% | 7 days |
+| 101-1,000 CU | 7% | 10.5% | 7 days |
+| 1,001-10,000 CU | 10% | 15% | 7 days |
+| 10,001+ CU | 12% | 18% | 7 days |
 
 *Boosted APY available when also staking rSTB tokens
+
+{% hint style="success" %}
+The longer the staking period beyond the minimum 7 days, the higher the rSTB rewards. This incentivizes long-term commitment from providers, enhancing the stability of the ecosystem.
+{% endhint %}
+
+### Collateralization Requirements
+
+All compute providers must maintain a minimum collateralization ratio of 120% of the CU value. This ensures that there is sufficient collateral to back the sSTB tokens in case of provider default or other issues.
+
+For optimal security and to avoid potential liquidation, a recommended collateralization ratio of 150% or higher is advised.
 
 ## Liquidity Mining
 
@@ -243,7 +371,6 @@ Provide liquidity to earn rewards:
 | rSTB/USDC | 25% | 37.5% | Ongoing |
 | sSTB/ETH | 22% | 33% | Ongoing |
 | rSTB/ETH | 27% | 40.5% | Ongoing |
-| CU/USDC | 15% | 22.5% | Ongoing |
 
 *Boosted APY available when also staking rSTB tokens
 

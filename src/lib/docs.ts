@@ -32,6 +32,7 @@ export interface SearchResult extends DocMeta {
 // Path to the docs directory
 const DOCS_DIRECTORY = path.join(process.cwd(), 'content/docs');
 const WHITEPAPER_DIRECTORY = path.join(DOCS_DIRECTORY, 'whitepaper');
+const LITEPAPER_DIRECTORY = path.join(DOCS_DIRECTORY, 'litepaper');
 
 /**
  * Get all documentation files
@@ -106,6 +107,39 @@ export async function getAllDocs(): Promise<DocMeta[]> {
     docs = [...docs, ...whitepaperDocs];
   }
 
+  // Check if the litepaper directory exists
+  if (fs.existsSync(LITEPAPER_DIRECTORY)) {
+    // Get all markdown files from the litepaper directory
+    const litepaperFileNames = fs.readdirSync(LITEPAPER_DIRECTORY)
+      .filter(fileName => /\.md$/.test(fileName));
+
+    // Process litepaper directory files
+    const litepaperDocs = litepaperFileNames.map(fileName => {
+      // Remove the .md extension to get the slug
+      const slug = fileName.replace(/\.md$/, '');
+      const filePath = path.join(LITEPAPER_DIRECTORY, fileName);
+      
+      // Read the markdown file
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      
+      // Parse the frontmatter
+      const { data } = matter(fileContents);
+      
+      // Return the document metadata with litepaper path
+      return {
+        title: data.title || slug,
+        description: data.description || '',
+        category: data.category || 'Litepaper',
+        order: data.order || 999,
+        slug: `litepaper/${slug}`,
+        path: `/docs/litepaper/${slug}`,
+      };
+    });
+
+    // Add litepaper docs to the main docs array
+    docs = [...docs, ...litepaperDocs];
+  }
+
   // Sort by order
   return docs.sort((a, b) => {
     // First sort by category
@@ -152,7 +186,36 @@ export async function getDocBySlug(slug: string): Promise<DocContent | null> {
         path: `/docs/${slug}`,
         content,
       };
-    } else {
+    } 
+    // Check if this is a litepaper slug (contains 'litepaper/')
+    else if (slug.startsWith('litepaper/')) {
+      // Extract the actual filename without the litepaper/ prefix
+      const filename = slug.replace('litepaper/', '');
+      const filePath = path.join(LITEPAPER_DIRECTORY, `${filename}.md`);
+      
+      // Check if the file exists
+      if (!fs.existsSync(filePath)) {
+        return null;
+      }
+      
+      // Read the markdown file
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      
+      // Parse the frontmatter and content
+      const { data, content } = matter(fileContents);
+      
+      // Return the document content
+      return {
+        title: data.title || filename,
+        description: data.description || '',
+        category: data.category || 'Litepaper',
+        order: data.order || 999,
+        slug,
+        path: `/docs/${slug}`,
+        content,
+      };
+    }
+    else {
       // Regular docs handling (non-whitepaper)
       const filePath = path.join(DOCS_DIRECTORY, `${slug}.md`);
       
@@ -196,7 +259,7 @@ export async function getDocsByCategory(category: string): Promise<DocMeta[]> {
 
 /**
  * Get all categories
- * @returns Array of category names with "Whitepaper" first if present
+ * @returns Array of category names with "Whitepaper" and "Litepaper" first if present
  */
 export async function getAllCategories(): Promise<string[]> {
   const categoriesSet = new Set<string>();
@@ -210,12 +273,23 @@ export async function getAllCategories(): Promise<string[]> {
   
   const categories = Array.from(categoriesSet);
   
-  // Move "Whitepaper" to the front if it exists
-  const whitepaperIndex = categories.indexOf("Whitepaper");
-  if (whitepaperIndex !== -1) {
-    categories.splice(whitepaperIndex, 1);
-    categories.unshift("Whitepaper");
-  }
+  // Move "Whitepaper" and "Litepaper" to the front if they exist
+  const priorityCategories = ["Litepaper", "Whitepaper"];
+  
+  // Remove priority categories from their current positions
+  priorityCategories.forEach(category => {
+    const index = categories.indexOf(category);
+    if (index !== -1) {
+      categories.splice(index, 1);
+    }
+  });
+  
+  // Add priority categories to the beginning in reverse order (so Litepaper comes first)
+  priorityCategories.forEach(category => {
+    if (categoriesSet.has(category)) {
+      categories.unshift(category);
+    }
+  });
   
   return categories;
 }

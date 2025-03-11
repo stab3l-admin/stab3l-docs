@@ -32,15 +32,51 @@ This litepaper provides an investor-focused overview of the STAB3L compute-backe
 
 ## Executive Summary
 
-STAB3L introduces the world's first compute-backed stablecoin protocol designed to stabilize the volatile pricing of computational resources. By pegging our stablecoin (sSTB) to standardized Compute Units (CUs) and implementing a robust governance token (rSTB), STAB3L creates a stable, efficient ecosystem for compute resources that addresses critical challenges in the $500 billion global compute market.
+STAB3L introduces the world's first compute-backed stablecoin protocol designed to stabilize the volatile pricing of computational resources. By pegging our stablecoin (sSTB) to standardized Compute Units (CUs) and implementing a robust governance token (rSTB), STAB3L creates a stable, efficient ecosystem for compute resources that addresses critical challenges in the $500B global compute market.
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'radar',data:{labels:['Price Stability','Compute Standardization','Market Efficiency','Cross-Chain Capability','Trust Minimization'],datasets:[{label:'Current Market',data:[20,30,25,10,15],backgroundColor:'rgba(255,99,132,0.2)',borderColor:'rgb(255,99,132)'},{label:'STAB3L Solution',data:[90,95,85,90,95],backgroundColor:'rgba(54,162,235,0.2)',borderColor:'rgb(54,162,235)'}]}}" alt="STAB3L Market Improvement Metrics" />
+<div id="market-improvement-chart" 
+  data-chart-type="radar"
+  data-chart-labels='["Price Stability", "Compute Standardization", "Market Efficiency", "Cross-Chain Capability", "Trust Minimization"]'
+  data-chart-datasets='[
+    {
+      "label": "Current Market",
+      "data": [20, 30, 25, 10, 15],
+      "backgroundColor": "rgba(255, 99, 132, 0.2)",
+      "borderColor": "rgb(255, 99, 132)",
+      "borderWidth": 1
+    },
+    {
+      "label": "STAB3L Solution",
+      "data": [90, 95, 85, 90, 95],
+      "backgroundColor": "rgba(54, 162, 235, 0.2)",
+      "borderColor": "rgb(54, 162, 235)",
+      "borderWidth": 1
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "STAB3L Market Improvement Metrics",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 Our protocol solves critical challenges in the current compute resource market, including price volatility, lack of standardization, verification difficulties, and trust issues. STAB3L's approach combines advanced zero-knowledge proofs (ZKPs), trusted execution environments (TEEs), and a dual-token economic model to create a paradigm shift in how compute resources are priced, allocated, and utilized.
 
-With a total addressable market projected to reach $1 trillion by 2030 and an experienced team from leading technology and blockchain companies, STAB3L is positioned to become the foundation for the future of stable, decentralized compute infrastructure.
+With a total addressable market projected to reach $1T by 2030 and an experienced team from leading technology and blockchain companies, STAB3L is positioned to become the foundation for the future of stable, decentralized compute infrastructure.
 
 ## Problem Statement
 
@@ -58,8 +94,40 @@ The compute resource market faces several critical challenges that STAB3L addres
 
 These challenges create significant friction in the market, limiting growth and innovation in the broader blockchain and AI ecosystems.
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'doughnut',data:{labels:['Price Volatility','Standardization Issues','Verification Problems','Trust Issues'],datasets:[{data:[40,25,20,15],backgroundColor:['rgb(255,99,132)','rgb(54,162,235)','rgb(255,205,86)','rgb(75,192,192)']}]},options:{plugins:{title:{display:true,text:'Market Friction Distribution'},doughnutlabel:{labels:[{text:'100%',font:{size:20}},{text:'Total Market Friction'}]}}}}" alt="Market Friction Distribution" />
+<div id="market-friction-chart" 
+  data-chart-type="doughnut"
+  data-chart-labels='["Price Volatility", "Standardization Issues", "Verification Problems", "Trust Issues"]'
+  data-chart-datasets='[
+    {
+      "data": [40, 25, 20, 15],
+      "backgroundColor": [
+        "rgb(255, 99, 132)",
+        "rgb(54, 162, 235)",
+        "rgb(255, 205, 86)",
+        "rgb(75, 192, 192)"
+      ],
+      "borderWidth": 1
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Market Friction Distribution",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 ## The STAB3L Solution
@@ -78,13 +146,46 @@ $$
 
 Where:
 - $\alpha, \beta, \gamma, \delta$ are weighting coefficients
-- FLOPS = Floating Point Operations Per Second
+- FLOPS = Floating Point Operations Per Second (1 CU = 10^15 FLOPs)
 - MEM = Memory bandwidth and capacity
 - STORAGE = Storage capacity and I/O performance
 - NETWORK = Network throughput and latency
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'flowchart',data:{nodes:[{id:'A',text:'Raw Compute Resources'},{id:'B',text:'Benchmarking'},{id:'C',text:'Verification (ZKP/TEE)'},{id:'D',text:'Standardization Algorithm'},{id:'E',text:'CU Value Assignment'},{id:'F',text:'Temporary CU Token Creation'},{id:'G',text:'90-Day Lock Period'},{id:'H',text:'Exchange for sSTB'},{id:'I',text:'CU Token Burning'}],edges:[{from:'A',to:'B'},{from:'B',to:'C'},{from:'C',to:'D'},{from:'D',to:'E'},{from:'E',to:'F'},{from:'F',to:'G'},{from:'G',to:'H'},{from:'H',to:'I'}]}}" alt="Compute Unit Standardization Flow" />
+{% hint style="info" %}
+The value of 1 CU is $0.06 at launch. This definition will be reviewed and potentially adjusted quarterly by the DAO through governance voting to ensure the CU standard remains relevant as compute technology evolves.
+{% endhint %}
+
+<div id="standardization-process-chart" 
+  data-chart-type="bar"
+  data-chart-labels='["Raw Compute", "Benchmarking", "Verification", "Standardization", "CU Assignment", "Token Creation", "Lock Period", "Exchange for sSTB", "CU Burning"]'
+  data-chart-datasets='[
+    {
+      "label": "Process Flow",
+      "data": [100, 90, 80, 70, 60, 50, 40, 30, 20],
+      "backgroundColor": "rgba(54, 162, 235, 0.7)",
+      "borderColor": "rgb(54, 162, 235)",
+      "borderWidth": 1
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Compute Unit Standardization Process",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 Verification is ensured through either Zero-Knowledge Proofs (ZKPs) or Trusted Execution Environments (TEEs), providing cryptographic guarantees of compute resource capabilities without revealing sensitive hardware details.
@@ -114,23 +215,94 @@ STAB3L implements a dual-token system that separates utility and governance func
 
 The core of STAB3L is the compute-backed stablecoin mechanism:
 
-1. **Compute Provider Staking**: Providers stake their compute resources, which are verified and standardized into CUs.
+1. **Compute Provider Staking**: Providers stake their compute resources for a period of their choosing (minimum 7 days), which are verified and standardized into CUs.
 2. **Temporary CU Token Creation**: Verified compute resources are represented as temporary CU tokens.
-3. **90-Day Lock Period**: CU tokens are locked for 90 days to ensure stability.
-4. **Exchange for sSTB**: After the lock period, CU tokens are exchanged 1:1 for sSTB.
-5. **CU Token Burning**: CU tokens are burned upon exchange, ensuring they are not tradable and maintaining the peg.
+3. **Immediate Exchange and Burning**: CU tokens are immediately exchanged for sSTB and burned in the process.
+4. **Automatic sSTB Staking**: The newly minted sSTB tokens are automatically staked for the period chosen by the provider.
+5. **rSTB Rewards**: Providers earn rSTB rewards throughout the staking period, with longer staking periods earning higher rewards.
 6. **sSTB Redemption**: Users can redeem sSTB for actual compute resources at the stable price of $0.06 per CU.
 
 {% hint style="warning" %}
-**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
 {% endhint %}
+
+### Provider Staking
+
+Compute providers stake their resources with the following parameters:
+
+- **Minimum Staking Period**: 7 days
+- **Collateralization Requirement**: Minimum 120% of CU value
+- **Reward Structure**: Longer staking periods earn progressively higher rSTB rewards
+- **Staking Process**: Compute resources are verified, CU tokens are issued and immediately burned, sSTB is minted and automatically staked
 
 ## Technical Architecture
 
 STAB3L employs a modular, layered architecture designed for security, scalability, and interoperability:
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'sankey',data:{datasets:[{data:[{from:'Data Layer',to:'Business Logic Layer',flow:1},{from:'Business Logic Layer',to:'API Layer',flow:1},{from:'API Layer',to:'Presentation Layer',flow:1},{from:'On-chain Storage',to:'Data Layer',flow:0.6},{from:'IPFS Storage',to:'Data Layer',flow:0.4},{from:'Smart Contracts',to:'Business Logic Layer',flow:0.5},{from:'Off-chain Logic',to:'Business Logic Layer',flow:0.5},{from:'REST/gRPC APIs',to:'API Layer',flow:0.7},{from:'Kubernetes',to:'API Layer',flow:0.3},{from:'React Frontend',to:'Presentation Layer',flow:0.6},{from:'Web3 Integration',to:'Presentation Layer',flow:0.4}]}]}}" alt="STAB3L Architecture Flow" />
+<div id="architecture-layers-chart" 
+  data-chart-type="bar"
+  data-chart-labels='["Data Layer", "Business Logic Layer", "API Layer", "Presentation Layer"]'
+  data-chart-datasets='[
+    {
+      "label": "On-chain Storage",
+      "data": [60, 0, 0, 0],
+      "backgroundColor": "rgba(255, 99, 132, 0.7)"
+    },
+    {
+      "label": "IPFS Storage",
+      "data": [40, 0, 0, 0],
+      "backgroundColor": "rgba(255, 159, 64, 0.7)"
+    },
+    {
+      "label": "Smart Contracts",
+      "data": [0, 50, 0, 0],
+      "backgroundColor": "rgba(255, 205, 86, 0.7)"
+    },
+    {
+      "label": "Off-chain Logic",
+      "data": [0, 50, 0, 0],
+      "backgroundColor": "rgba(75, 192, 192, 0.7)"
+    },
+    {
+      "label": "REST/gRPC APIs",
+      "data": [0, 0, 70, 0],
+      "backgroundColor": "rgba(54, 162, 235, 0.7)"
+    },
+    {
+      "label": "Kubernetes",
+      "data": [0, 0, 30, 0],
+      "backgroundColor": "rgba(153, 102, 255, 0.7)"
+    },
+    {
+      "label": "React Frontend",
+      "data": [0, 0, 0, 60],
+      "backgroundColor": "rgba(201, 203, 207, 0.7)"
+    },
+    {
+      "label": "Web3 Integration",
+      "data": [0, 0, 0, 40],
+      "backgroundColor": "rgba(255, 99, 132, 0.4)"
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "STAB3L Architecture Layers",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 {% accordion title="Architecture Layer Details" %}
@@ -158,8 +330,41 @@ STAB3L's dual-token system creates a balanced economic model with clear value ac
 
 ### Token Distribution
 
-<div class="pie-chart">
-  <img src="https://quickchart.io/chart?c=%7Btype%3A%27pie%27%2Cdata%3A%7Blabels%3A%5B%27Community+%26+Ecosystem%27%2C%27Treasury%27%2C%27Team+%26+Advisors%27%2C%27Investors%27%2C%27Liquidity+Mining%27%5D%2Cdatasets%3A%5B%7Bdata%3A%5B40%2C25%2C15%2C15%2C5%5D%2CbackgroundColor%3A%5B%27%23FF6384%27%2C%27%2336A2EB%27%2C%27%23FFCE56%27%2C%27%234BC0C0%27%2C%27%239966FF%27%5D%7D%5D%7D%7D" alt="sSTB Token Distribution" />
+<div id="token-distribution-chart" 
+  data-chart-type="pie"
+  data-chart-labels='["Community & Ecosystem", "Treasury", "Team & Advisors", "Investors", "Liquidity Mining"]'
+  data-chart-datasets='[
+    {
+      "data": [40, 25, 15, 15, 5],
+      "backgroundColor": [
+        "#FF6384",
+        "#36A2EB",
+        "#FFCE56",
+        "#4BC0C0",
+        "#9966FF"
+      ],
+      "borderWidth": 1
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "sSTB Token Distribution",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 {% tabs %}
@@ -200,8 +405,40 @@ Both tokens include deflationary mechanisms and value accrual:
 
 Multiple staking programs drive token utility with the following expected yields:
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['sSTB Staking','rSTB Staking','Compute Provider Staking','Liquidity Mining'],datasets:[{label:'Base APY',data:[20,25,10,30],backgroundColor:'rgba(54,162,235,0.5)'},{label:'Boosted APY',data:[50,45,18,40.5],backgroundColor:'rgba(255,99,132,0.5)'}]},options:{plugins:{title:{display:true,text:'Staking Program Yields'}}}}" alt="Staking Program Yields" />
+<div id="staking-yields-chart" 
+  data-chart-type="bar"
+  data-chart-labels='["sSTB Staking", "rSTB Staking", "Compute Provider Staking", "Liquidity Mining"]'
+  data-chart-datasets='[
+    {
+      "label": "Base APY",
+      "data": [20, 25, 10, 30],
+      "backgroundColor": "rgba(54, 162, 235, 0.5)"
+    },
+    {
+      "label": "Boosted APY",
+      "data": [50, 45, 18, 40.5],
+      "backgroundColor": "rgba(255, 99, 132, 0.5)"
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Staking Program Yields",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 ## Go-to-Market Strategy
@@ -218,8 +455,44 @@ STAB3L's GTM strategy focuses on growth across key segments with a multi-phase a
 5. **Gaming & Metaverse**: Partner with blockchain games and metaverse projects
 {% endaccordion %}
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'radar',data:{labels:['AI & ML','Blockchain Infrastructure','Scientific Computing','Financial Institutions','Gaming & Metaverse'],datasets:[{label:'Market Size ($B)',data:[200,150,100,300,250],backgroundColor:'rgba(54,162,235,0.2)',borderColor:'rgb(54,162,235)'},{label:'STAB3L Penetration Year 1',data:[5,15,8,3,10],backgroundColor:'rgba(255,99,132,0.2)',borderColor:'rgb(255,99,132)'}]}}" alt="Target Market Analysis" />
+<div id="target-market-chart" 
+  data-chart-type="radar"
+  data-chart-labels='["AI & ML", "Blockchain Infrastructure", "Scientific Computing", "Financial Institutions", "Gaming & Metaverse"]'
+  data-chart-datasets='[
+    {
+      "label": "Market Size ($B)",
+      "data": [200, 150, 100, 300, 250],
+      "backgroundColor": "rgba(54, 162, 235, 0.2)",
+      "borderColor": "rgb(54, 162, 235)",
+      "borderWidth": 1
+    },
+    {
+      "label": "STAB3L Penetration Year 1",
+      "data": [5, 15, 8, 3, 10],
+      "backgroundColor": "rgba(255, 99, 132, 0.2)",
+      "borderColor": "rgb(255, 99, 132)",
+      "borderWidth": 1
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Target Market Analysis",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 ### User Acquisition Strategy
@@ -229,21 +502,88 @@ Our acquisition funnel is designed to onboard both compute providers and users:
 {% tabs %}
 {% tab title="Compute Providers" %}
 - **Direct Partnerships**: Onboard 20+ compute providers through direct partnerships
+
 - **Incentive Programs**: Offer enhanced rSTB rewards for early providers (15% APR)
+
 - **Integration Support**: Provide technical support for integration with existing infrastructure
 {% endtab %}
 
 {% tab title="Users" %}
 - **Early Adopter Bonus**: 10% discount on compute costs for first 50,000 users
+
 - **Referral Program**: Users earn 5 rSTB per referred user who stakes >10,000 sSTB
+
 - **Educational Initiatives**: "Learn-to-Earn" program rewarding users with rSTB
 {% endtab %}
 {% endtabs %}
 
 ### Growth Projections
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['Year 0','Year 1','Year 2','Year 3','Year 4','Year 5'],datasets:[{label:'Users (thousands)',data:[0,100,400,1000,2500,5000],borderColor:'rgb(255,99,132)',backgroundColor:'rgba(255,99,132,0.1)',yAxisID:'y'},{label:'TVL ($M)',data:[0,10,80,250,600,1000],borderColor:'rgb(54,162,235)',backgroundColor:'rgba(54,162,235,0.1)',yAxisID:'y1'}]},options:{scales:{y:{type:'linear',display:true,position:'left',title:{display:true,text:'Users (thousands)'}},y1:{type:'linear',display:true,position:'right',title:{display:true,text:'TVL ($M)'}}}}}" alt="Growth Projections" />
+<div id="growth-projections-chart" 
+  data-chart-type="line"
+  data-chart-labels='["Year 0", "Year 1", "Year 2", "Year 3", "Year 4", "Year 5"]'
+  data-chart-datasets='[
+    {
+      "label": "Users (thousands)",
+      "data": [0, 100, 400, 1000, 2500, 5000],
+      "borderColor": "rgb(255, 99, 132)",
+      "backgroundColor": "rgba(255, 99, 132, 0.1)",
+      "yAxisID": "y",
+      "tension": 0.3,
+      "borderWidth": 2
+    },
+    {
+      "label": "TVL ($M)",
+      "data": [0, 10, 80, 250, 600, 1000],
+      "borderColor": "rgb(54, 162, 235)",
+      "backgroundColor": "rgba(54, 162, 235, 0.1)",
+      "yAxisID": "y1",
+      "tension": 0.3,
+      "borderWidth": 2
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Growth Projections",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "y": {
+        "type": "linear",
+        "display": true,
+        "position": "left",
+        "title": {
+          "display": true,
+          "text": "Users (thousands)"
+        }
+      },
+      "y1": {
+        "type": "linear",
+        "display": true,
+        "position": "right",
+        "title": {
+          "display": true,
+          "text": "TVL ($M)"
+        },
+        "grid": {
+          "drawOnChartArea": false
+        }
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 ## Competitive Landscape
@@ -253,14 +593,74 @@ STAB3L operates in a market with several adjacent competitors, but our approach 
 {% accordion title="Competitor Analysis" %}
 | Competitor Type | Examples | STAB3L Advantages |
 |-----------------|----------|-------------------|
-| Cloud Providers | AWS, Azure, GCP | Stable pricing, decentralized, transparent |
-| Blockchain Compute | Akash, Golem | Standardized units, verified performance, stablecoin mechanism |
-| Stablecoins | USDC, DAI | Real-world utility backing (compute), not fiat-backed |
+| Traditional Cloud | AWS, Azure, GCP | Centralized, proprietary units, variable pricing |
+| Blockchain Compute | Akash, Golem, Render Network | Standardized units, verified performance, stablecoin mechanism |
+| Stablecoins | USDC, DAI | Fiat/crypto backing, no compute utility |
 | AI Marketplaces | RunPod, Vast.ai | Cryptographic verification, trustless execution, stable pricing |
 {% endaccordion %}
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'bubble',data:{datasets:[{label:'Cloud Providers',data:[{x:4,y:2,r:20}],backgroundColor:'rgba(255,99,132,0.5)'},{label:'Blockchain Compute',data:[{x:3,y:3,r:15}],backgroundColor:'rgba(54,162,235,0.5)'},{label:'Stablecoins',data:[{x:1,y:5,r:12}],backgroundColor:'rgba(255,205,86,0.5)'},{label:'AI Marketplaces',data:[{x:5,y:4,r:10}],backgroundColor:'rgba(75,192,192,0.5)'},{label:'STAB3L',data:[{x:4.5,y:4.5,r:25}],backgroundColor:'rgba(153,102,255,0.5)'}]},options:{scales:{x:{title:{display:true,text:'Decentralization'}},y:{title:{display:true,text:'Price Stability'}}},plugins:{title:{display:true,text:'Competitive Positioning'}}}}" alt="Competitive Positioning" />
+<div id="competitive-positioning-chart" 
+  data-chart-type="bubble"
+  data-chart-datasets='[
+    {
+      "label": "Traditional Cloud",
+      "data": [{ "x": 4, "y": 2, "r": 20 }],
+      "backgroundColor": "rgba(255, 99, 132, 0.5)"
+    },
+    {
+      "label": "Blockchain Compute",
+      "data": [{ "x": 3, "y": 3, "r": 15 }],
+      "backgroundColor": "rgba(54, 162, 235, 0.5)"
+    },
+    {
+      "label": "Stablecoins",
+      "data": [{ "x": 1, "y": 5, "r": 12 }],
+      "backgroundColor": "rgba(255, 205, 86, 0.5)"
+    },
+    {
+      "label": "AI Marketplaces",
+      "data": [{ "x": 5, "y": 4, "r": 10 }],
+      "backgroundColor": "rgba(75, 192, 192, 0.5)"
+    },
+    {
+      "label": "STAB3L",
+      "data": [{ "x": 4.5, "y": 4.5, "r": 25 }],
+      "backgroundColor": "rgba(153, 102, 255, 0.5)"
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Competitive Positioning",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "x": {
+        "title": {
+          "display": true,
+          "text": "Decentralization"
+        }
+      },
+      "y": {
+        "title": {
+          "display": true,
+          "text": "Price Stability"
+        }
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
 Our key competitive advantages include:
@@ -277,19 +677,19 @@ STAB3L is built by experts in blockchain, distributed systems, and cloud computi
 {% tab title="Leadership Team" %}
 <div class="team-grid">
   <div class="team-member">
-    <h3>Konstantine Alexander</h3>
-    <p class="title">Co-Founder & CEO</p>
-    <p>Former VP of Engineering at Coinbase</p>
-    <p>Serial entrepreneur with multiple successful exits</p>
-    <p>MBA from Harvard Business School, BS in Computer Science from Stanford</p>
+    <h3>Mitchell McLennan</h3>
+    <p class="title">Co-Founder</p>
+    <p>Strategic advisor and business architect with extensive experience in emerging technologies and complex markets.</p>
+    <p>Currently Managing Partner at The Ministry of Business and Present.</p>
+    <p>Brings a unique, trans-contextual perspective to innovation with expertise in blockchain, AI, and strategic growth initiatives.</p>
   </div>
 
   <div class="team-member">
-    <h3>Mitchell McLennan</h3>
-    <p class="title">Co-Founder & CTO</p>
-    <p>Blockchain architect and distributed systems expert</p>
-    <p>Former engineering lead at Consensys and Ethereum Foundation</p>
-    <p>MS in Computer Science from MIT, focus on cryptography and distributed systems</p>
+    <h3>Konstantine Alexander</h3>
+    <p class="title">Co-Founder</p>
+    <p>Serial entrepreneur with multiple successful ventures in technology and clean energy.</p>
+    <p>Currently Vice President of Global Business Development at a stealth clean energy startup and Partner at ALIANGÉ.</p>
+    <p>Previously served as Strategic Advisor for various blockchain and technology companies including LUKSO, FTR, and THE DEMATERIALISED.</p>
   </div>
 </div>
 {% endtab %}
@@ -297,27 +697,21 @@ STAB3L is built by experts in blockchain, distributed systems, and cloud computi
 {% tab title="Key Advisors" %}
 <div class="advisor-grid">
   <div class="advisor">
-    <h3>Darius Kirksey</h3>
+    <h3>Sebastian Spitzer</h3>
     <p class="title">Strategic Advisor</p>
-    <p>Managing Director at Lightspeed Venture Partners</p>
-    <p>Former VP of Corporate Development at Cisco Systems</p>
-    <p>MBA from Wharton School of Business</p>
-  </div>
-
-  <div class="advisor">
-    <h3>Peter McNulty</h3>
-    <p class="title">Technical Advisor</p>
-    <p>Chief Architect at Amazon Web Services (AWS)</p>
-    <p>Expert in scalable systems design and cloud-native architectures</p>
-    <p>PhD in Computer Science from Carnegie Mellon University</p>
+    <p>Partnerships expert with extensive experience in blockchain, deep-tech, and venture capital.</p>
+    <p>Currently leading Partnerships & Alliances at BforeAI, a Gartner Cool Vendor in Cybersecurity.</p>
+    <p>Previously built and exited a B2B drop-shipping startup with $2M ARR and raised $5M for a gaming startup.</p>
   </div>
 </div>
 {% endtab %}
 
 {% tab title="Strategic Partners" %}
+STAB3L plans to establish strategic partnerships with leading organizations in blockchain, cloud computing, and technology.
+
 - **Blockchain Networks**: Arbitrum, Polygon, Chainlink, The Graph
+
 - **Cloud Infrastructure**: AWS, Microsoft Azure, Google Cloud Platform
-- **Investment Partners**: Lightspeed Venture Partners, Andreessen Horowitz, Paradigm, Coinbase Ventures
 {% endtab %}
 {% endtabs %}
 
@@ -325,40 +719,102 @@ STAB3L is built by experts in blockchain, distributed systems, and cloud computi
 
 STAB3L's development roadmap is divided into six phases:
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'gantt',data:{categories:[{name:'Foundation',start:'2022-01-01',end:'2022-09-30'},{name:'Core Protocol',start:'2022-10-01',end:'2023-06-30'},{name:'Ecosystem Expansion',start:'2023-07-01',end:'2024-03-31'},{name:'Cross-Chain Integration',start:'2024-04-01',end:'2024-12-31'},{name:'Enterprise Solutions',start:'2025-01-01',end:'2025-09-30'},{name:'Global Scaling',start:'2025-10-01',end:'2026-12-31'}]}}" alt="STAB3L Roadmap Timeline" />
+<div id="roadmap-timeline-chart" 
+  data-chart-type="bar"
+  data-chart-labels='["Foundation", "Core Protocol", "Ecosystem Expansion", "Cross-Chain Integration", "Enterprise Solutions", "Global Scaling"]'
+  data-chart-datasets='[
+    {
+      "label": "Timeline",
+      "data": [9, 9, 9, 9, 9, 15],
+      "backgroundColor": [
+        "rgba(255, 99, 132, 0.7)",
+        "rgba(54, 162, 235, 0.7)",
+        "rgba(255, 205, 86, 0.7)",
+        "rgba(75, 192, 192, 0.7)",
+        "rgba(153, 102, 255, 0.7)",
+        "rgba(255, 159, 64, 0.7)"
+      ],
+      "borderWidth": 1
+    }
+  ]'
+  data-chart-options='{
+    "indexAxis": "y",
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "STAB3L Roadmap Timeline",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "x": {
+        "title": {
+          "display": true,
+          "text": "Duration (months)"
+        }
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
-{% accordion title="Phase 1: Foundation (Completed - Q1-Q3 2022)" %}
-- ✅ Whitepaper publication
+{% accordion title="Phase 1: Foundation (Completed - Q4 2024-Q1 2025)" %}
+- ✅ Whitepaper/Litepaper publication
+
 - ✅ Research on compute resource standardization
+
 - ✅ Development of standardization algorithm
+
 - ✅ Proof of concept for ZKP verification
+
 - ✅ Initial smart contract architecture design
-- ✅ Seed funding round
 {% endaccordion %}
 
-{% accordion title="Phase 2: Core Protocol (Completed - Q4 2022-Q2 2023)" %}
+{% accordion title="Phase 2: Core Protocol (Completed - Q1-Q2 2025)" %}
 - ✅ Development of core smart contracts
+
 - ✅ Implementation of sSTB token standard (ERC-20)
+
 - ✅ Implementation of rSTB token standard (ERC-20)
+
 - ✅ Development of verification system (ZKP and TEE)
+
 - ✅ Creation of staking and redemption mechanisms
-- ✅ Mainnet launch on Arbitrum
+
+- 🔄 Seed funding round
+
+- 🔄 Testnet launch on Arbitrum
 {% endaccordion %}
 
-{% accordion title="Phase 3: Ecosystem Expansion (In Progress - Q3 2023-Q1 2024)" %}
-- ✅ Launch of provider onboarding program
-- ✅ Implementation of governance system
-- ✅ Development of liquidity incentives
-- ✅ Integration with major DeFi protocols
+{% accordion title="Phase 3: Ecosystem Expansion (In Progress - Q2-Q3 2025)" %}
+- 🔄 Mainnet launch on Arbitrum
+
+- 🔄 Launch of provider onboarding program
+
+- 🔄 Implementation of governance system
+
+- 🔄 Development of liquidity incentives
+
+- 🔄 Integration with major DeFi protocols
+
 - 🔄 Enhanced analytics and reporting tools
+
 - 🔄 Developer SDK and API
+
+- 🔄 Cross-chain bridge development
 {% endaccordion %}
 
 {% accordion title="Future Phases (Planned)" %}
 ### Phase 4: Cross-Chain Integration (Q2-Q4 2024)
-- 📅 Cross-chain bridge development
 - 📅 Integration with Ethereum mainnet
 - 📅 Integration with Polygon
 - 📅 Integration with Optimism
@@ -379,45 +835,107 @@ STAB3L's development roadmap is divided into six phases:
 
 ## Investment Opportunity
 
-STAB3L represents a compelling investment opportunity at the intersection of blockchain, cloud computing, and AI.
+STAB3L represents a compelling investment opportunity at the intersection of blockchain, cloud computing, and AI, pioneering the decentralized compute economy with our compute-backed stablecoin.
 
 ### Market Opportunity
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['2023','2024','2025','2026','2027','2028','2029','2030'],datasets:[{label:'Cloud Computing Market ($B)',data:[300,350,400,480,570,670,790,950],backgroundColor:'rgba(54,162,235,0.5)'},{label:'AI Computing Market ($B)',data:[120,160,220,300,410,560,770,1050],backgroundColor:'rgba(255,99,132,0.5)'}]},options:{plugins:{title:{display:true,text:'Market Growth Projections'}}}}" alt="Market Growth Projections" />
-</div>
+STAB3L operates at the intersection of two rapidly growing markets:
+
+1. **Compute Resources**: The decentralized compute sector, represented by platforms like Golem, Akash, and Render Network, is expected to reach $100 billion by 2028. Additionally, the stablecoin market is currently valued at $211.2 billion and is projected to grow to $400 billion, providing a strong foundation for STAB3L's dual-token model.
+
+The cloud compute market is currently valued at $483 billion (2022) and is projected to reach $1.6 trillion by 2030, growing at a CAGR of 17.9%.
+
+STAB3L targets $1 billion TVL by 2025 with 500 providers and 10 million CUs staked, leveraging growth in both the stablecoin and DeFi sectors (currently at $200 billion TVL).
 
 {% tabs %}
 {% tab title="Total Addressable Market" %}
-- **Total Addressable Market**: $1 trillion+ by 2030
-- **Market Growth Rate**: 17-37% CAGR depending on segment
-- **STAB3L Target Market Share**: 5% by Year 5
+- **Cloud Computing Market**: $483 billion (2022), growing to $1.6 trillion by 2030
+
+- **Decentralized Compute Market**: Expected to reach $100 billion by 2028
+
+- **Stablecoin Market**: $211.2 billion, projected to grow to $400 billion
+
+- **DeFi Market**: $200 billion TVL, providing infrastructure for STAB3L's financial products
 {% endtab %}
 
 {% tab title="Investment Highlights" %}
-1. **First-Mover Advantage**: World's first compute-backed stablecoin protocol
-2. **Strong Token Economics**: Dual-token model with multiple value accrual mechanisms
-3. **Network Effects**: Each new provider and user increases protocol value
-4. **Cross-Chain Strategy**: Positioned to capture value across multiple blockchain ecosystems
-5. **Experienced Team**: Leadership from top blockchain and technology companies
+- **First-Mover Advantage**: World's first compute-backed stablecoin protocol
+
+- **Strong Token Economics**: Dual-token model with multiple value accrual mechanisms
+
+- **Network Effects**: Each new provider and user increases protocol value
+
+- **Cross-Chain Strategy**: Positioned to capture value across multiple blockchain ecosystems via Wormhole
+
+- **Experienced Team**: Leadership with expertise in blockchain, business architecture, and strategic partnerships
 {% endtab %}
 
 {% tab title="Token Value Drivers" %}
-1. **Protocol Revenue**: Transaction fees, verification fees, redemption fees
-2. **Deflationary Mechanisms**: Token burning, staking, reduced circulating supply
-3. **Utility Expansion**: Growing use cases for both sSTB and rSTB tokens
-4. **Governance Value**: Decision-making power over a critical infrastructure protocol
+- **Protocol Revenue**: Transaction fees, verification fees, redemption fees
+
+- **Deflationary Mechanisms**: Token burning, staking, reduced circulating supply
+
+- **Utility Expansion**: Growing use cases for both sSTB and rSTB tokens
+
+- **Governance Value**: Decision-making power over a critical infrastructure protocol via quadratic voting
 {% endtab %}
 {% endtabs %}
 
 ### Current Funding Round
 
-<div class="pie-chart">
-  <img src="https://quickchart.io/chart?c=%7Btype%3A%27pie%27%2Cdata%3A%7Blabels%3A%5B%27Development+%26+Security%27%2C%27Go-to-Market+%26+User+Acquisition%27%2C%27Liquidity+Provision%27%2C%27Legal+%26+Compliance%27%2C%27Operations%27%5D%2Cdatasets%3A%5B%7Bdata%3A%5B40%2C25%2C15%2C10%2C10%5D%2CbackgroundColor%3A%5B%27%23FF6384%27%2C%27%2336A2EB%27%2C%27%23FFCE56%27%2C%27%234BC0C0%27%2C%27%239966FF%27%5D%7D%5D%7D%7D" alt="Use of Funds" />
+<div id="use-of-funds-chart" 
+  data-chart-type="pie"
+  data-chart-labels='["Development & Security", "Go-to-Market & User Acquisition", "Liquidity Provision", "Legal & Compliance", "Operations"]'
+  data-chart-datasets='[
+    {
+      "data": [40, 25, 15, 10, 10],
+      "backgroundColor": [
+        "#FF6384",
+        "#36A2EB",
+        "#FFCE56",
+        "#4BC0C0",
+        "#9966FF"
+      ],
+      "borderWidth": 1
+    }
+  ]'
+  data-chart-options='{
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Use of Funds",
+        "font": {
+          "size": 16,
+          "weight": "bold"
+        }
+      },
+      "legend": {
+        "position": "top"
+      }
+    }
+  }'
+  style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
 
-- **Target Raise**: $20 million
-- **Token Allocation**: 15% of total supply (strategic discount available)
+We're currently raising $1 million in pre-seed funding via 20 million rSTB warrants at $0.05 per token, representing 2% of the total supply. This pre-seed round offers early investors a unique opportunity to secure governance rights and staking emissions in the STAB3L ecosystem.
+
+#### Traction (Projected Q1 2025 Launch)
+
+- **Pre-Seed Round**: $1 million via 20M rSTB warrants at $0.05/token (2% of supply)
+- **ICO Target**: $20 million hard cap via FjordFoundry
+- **Testnet Goals**: 1 million CUs staked, unlocking a 25.8 million rSTB airdrop (30% of first milestone)
+- **Partnerships**: In progress with Golem, Akash, and Render Network for CU benchmarking
+
+#### Investment Benefits
+
+- **rSTB Warrants**: Secure governance tokens at $0.05/token
+- **Staking Emissions**: Earn approximately 5% APR through staking
+- **Governance Rights**: Participate in protocol decisions through quadratic voting
+- **Market Exposure**: Gain early exposure to a $100B+ market opportunity
+
 - **Use of Funds**:
   - 40% Development and Security
   - 25% Go-to-Market and User Acquisition
@@ -431,17 +949,17 @@ STAB3L represents a paradigm shift in how compute resources are priced, allocate
 
 Our dual-token system (sSTB and rSTB) creates a balanced economic model that separates utility and governance functions, with clear value accrual mechanisms for both tokens. The compute-backed stablecoin mechanism, where CU tokens are burned when exchanged for sSTB, ensures that each sSTB is backed by real compute resources and maintains its peg to 1 CU ($0.06).
 
-With a strong team, comprehensive roadmap, and growing market demand, STAB3L is positioned to become the foundation for the future of stable, decentralized compute infrastructure.
+With a dedicated team, comprehensive roadmap, and growing market demand, STAB3L is positioned to become the foundation for the future of stable, decentralized compute infrastructure.
 
 ---
 
 {% hint style="success" %}
-For investment inquiries, please contact invest@stab3l.io
+For investment inquiries, please contact invest@stab3l.com
 {% endhint %}
 
 **Contact Information:**
-- Website: [stab3l.io](https://stab3l.io)
-- Email: info@stab3l.io
-- Twitter: [@stab3l_io](https://twitter.com/stab3l_io)
+- Website: [stab3l.com](https://stab3l.com)
+- Email: info@stab3l.com
+- Twitter: [@stab3l](https://x.com/stab3l)
 - LinkedIn: [linkedin.com/company/stab3l](https://linkedin.com/company/stab3l)
 - Discord: [discord.gg/stab3l](https://discord.gg/stab3l) 

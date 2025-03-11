@@ -2,19 +2,20 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Search, X } from "lucide-react";
+import { Search, X, Menu } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { DocMeta } from "@/lib/docs";
 import { SearchResult, searchDocs } from "@/lib/client-search";
 
 interface HeaderProps {
   docs: DocMeta[];
+  toggleMobileSidebar?: () => void;
 }
 
 /**
  * Header component with search functionality and theme toggle
  */
-export function Header({ docs }: HeaderProps) {
+export function Header({ docs, toggleMobileSidebar }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -133,11 +134,23 @@ export function Header({ docs }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-10 border-b border-black dark:border-white bg-white dark:bg-black text-black dark:text-white">
+    <header className="sticky top-0 z-20 border-b border-black dark:border-white bg-white dark:bg-black text-black dark:text-white">
       <div className="flex items-center justify-between h-12 px-4">
-        {/* Left: Logo */}
+        {/* Left: Mobile Menu Button + Logo */}
         <div className="flex items-center">
-          <Link href="/" className="text-sm font-bold mr-4 text-black dark:text-white">
+          {/* Mobile Menu Button */}
+          {toggleMobileSidebar && (
+            <button
+              onClick={toggleMobileSidebar}
+              className="md:hidden flex items-center justify-center mr-3 border border-black dark:border-white bg-white dark:bg-black text-black dark:text-white p-1 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+              aria-label="Toggle mobile menu"
+            >
+              <Menu size={18} />
+            </button>
+          )}
+          
+          {/* Logo */}
+          <Link href="/" className="text-sm font-bold text-black dark:text-white">
             TerminalDocs
           </Link>
         </div>

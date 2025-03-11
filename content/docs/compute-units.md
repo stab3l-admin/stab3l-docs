@@ -7,10 +7,14 @@ order: 1
 
 # Understanding Compute Units
 
-Compute Units (CUs) are the fundamental building blocks of the STAB3L ecosystem. They represent standardized, verified, and tokenized compute resources that can be traded, transferred, and redeemed across different chains.
+Compute Units (CUs) are the fundamental building blocks of the STAB3L ecosystem. They represent standardized and verified compute resources that are used to back the sSTB stablecoin.
+
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
+{% endhint %}
 
 {% hint style="info" %}
-Compute Units are implemented as ERC-1155 tokens, allowing for efficient batch transfers and multiple token types within a single contract.
+For a more detailed technical explanation of Compute Units, see the [System Architecture & Mathematical Model](/docs/whitepaper/system-architecture) section of the whitepaper, specifically section 4.1 on Compute Unit Definition.
 {% endhint %}
 
 ## What is a Compute Unit?
@@ -23,11 +27,15 @@ A Compute Unit (CU) is a standardized measure of computational power that includ
 - Network bandwidth
 - Duration of availability
 
-Each CU token represents a specific amount of standardized compute resources from a particular provider, with a defined value and, optionally, an expiration date.
+Each CU token represents a specific amount of standardized compute resources from a particular provider. In the STAB3L ecosystem, 1 CU is defined as 10^15 FLOPs (floating-point operations per second) and is valued at $0.06 at launch.
+
+{% hint style="info" %}
+The definition and value of 1 CU will be reviewed and potentially adjusted quarterly by the DAO through governance voting to ensure the CU standard remains relevant as compute technology evolves. For more information on governance, see the [Governance](/docs/governance) documentation.
+{% endhint %}
 
 ## Standardization Process
 
-The standardization process ensures that CUs from different providers are comparable and interchangeable:
+The standardization process ensures that CUs from different providers are comparable and consistently valued:
 
 <div class="mermaid math-ignore">
 flowchart TD
@@ -35,7 +43,10 @@ flowchart TD
     B --> C[Verification via ZKP or TEE]
     C --> D[Standardization algorithm]
     D --> E[CU value assignment]
-    E --> F[CU token minting]
+    E --> F[Temporary CU token creation]
+    F --> G[Immediate exchange for sSTB]
+    G --> H[CU token burning]
+    H --> I[Provider stakes collateral]
 </div>
 
 ### Benchmarking
@@ -47,6 +58,8 @@ Providers run standardized benchmarks on their compute resources, which measure:
 - Memory bandwidth and latency
 - Storage read/write speeds
 - Network throughput and latency
+
+For detailed information on the benchmarking process, see the [Verification System](/docs/verification-system) documentation.
 
 ### Verification
 
@@ -65,6 +78,8 @@ ZKPs allow providers to prove they have run the benchmarks correctly without rev
 - Privacy-preserving
 - Cryptographically secure
 - No trusted third party required
+
+For more details on ZKP verification, see the [Verification System](/docs/verification-system#zero-knowledge-proofs) documentation.
 {% endtab %}
 
 {% tab title="Trusted Execution Environments (TEEs)" %}
@@ -79,6 +94,8 @@ TEEs provide a secure environment for running benchmarks:
 - Hardware-level security
 - Tamper-resistant execution
 - Remote attestation capabilities
+
+For more details on TEE verification, see the [Verification System](/docs/verification-system#trusted-execution-environments) documentation.
 {% endtab %}
 {% endtabs %}
 
@@ -90,78 +107,80 @@ The verified benchmark results are processed by the standardization algorithm, w
 2. Applies weights to different performance aspects based on their importance
 3. Calculates a standardized CU value
 
+For a detailed mathematical explanation of the standardization algorithm, see the [System Architecture](/docs/whitepaper/system-architecture#42-price-dynamics) section of the whitepaper.
+
 ## CU Token Structure
 
-Each CU token contains the following information:
+Each temporary CU token contains the following information:
 
 | Field | Description |
 |-------|-------------|
 | Token ID | Unique identifier for the CU token |
 | CU Hash | Hash of the CU data, including benchmark results |
 | CU Value | Standardized value of the compute resources |
-| Provider ID | Identifier of the provider who minted the token |
+| Provider ID | Identifier of the provider who created the token |
+| Verification Timestamp | Timestamp when the compute resources were verified |
 | Expiration Timestamp | Optional timestamp when the CU token expires |
 
-## Minting Process
+## Compute-Backed Stablecoin Mechanism
 
-The minting process creates new CU tokens based on verified compute resources:
+The core of STAB3L is the compute-backed stablecoin mechanism:
 
-1. Provider submits compute resources for verification
-2. Once verified, provider deposits collateral (typically 120% of CU value)
-3. MintingAgent contract mints CU tokens
-4. Provider receives CU tokens and can sell them on the marketplace
+1. **Compute Provider Verification**: Providers verify their compute resources, which are standardized into CUs.
+2. **Staking Period Selection**: Providers choose a staking period (minimum 7 days), with longer periods earning higher rewards.
+3. **Temporary CU Token Creation**: Verified compute resources are represented as temporary CU tokens.
+4. **Immediate Exchange for sSTB**: CU tokens are immediately exchanged 1:1 for sSTB.
+5. **CU Token Burning**: CU tokens are burned upon exchange, ensuring they are not tradable and maintaining the peg.
+6. **Automatic sSTB Staking**: The newly minted sSTB tokens are automatically staked for the chosen period.
+7. **Provider Collateral Staking**: Providers stake collateral (minimum 120% of CU value) for the duration they commit their compute resources.
+8. **rSTB Rewards**: Providers earn rSTB rewards throughout the staking period.
+9. **sSTB Utilization**: Users can freely trade sSTB or redeem it for actual compute resources at the stable price of $0.06 per CU.
 
-{% hint style="warning" %}
-Providers must maintain sufficient collateral to back their minted CU tokens. If the collateral falls below the required ratio, the provider may face liquidation.
+For more information on the tokenomics of sSTB and rSTB, see the [Tokenomics](/docs/tokenomics) documentation.
+
+{% hint style="info" %}
+While CU tokens themselves are not tradable and are burned immediately, the sSTB tokens that they back can be freely traded, transferred, and used across the STAB3L ecosystem.
+{% endhint %}
+
+## Provider Staking Period
+
+When providers offer their compute resources:
+
+1. They choose a staking period (minimum 7 days)
+2. Their collateral is locked for this period (minimum 120% of CU value)
+3. They commit to providing the compute resources for the entire period
+4. Longer staking periods earn higher rewards in rSTB tokens
+5. Early unstaking incurs penalties on the collateral
+
+For a detailed guide on becoming a provider, see the [Provider Guide](/docs/provider-guide) documentation.
+
+{% hint style="success" %}
+The longer the staking period, the higher the rSTB rewards. This incentivizes long-term commitment from providers, enhancing the stability of the ecosystem.
 {% endhint %}
 
 ## Redemption Process
 
-Users can redeem CU tokens to access the underlying compute resources:
+Users can redeem sSTB tokens to access the underlying compute resources:
 
-1. User selects CU tokens to redeem
-2. RedemptionAgent contract burns the CU tokens
+1. User selects the amount of sSTB to redeem
+2. RedemptionAgent contract burns the sSTB tokens
 3. Provider is notified of the redemption
 4. Provider delivers the compute resources to the user
 5. Once confirmed, a portion of the collateral is released to the provider
 
-## Cross-Chain Compatibility
-
-CU tokens can be transferred across different chains using the CrossChainBridge:
-
-1. User locks CU tokens on the source chain
-2. CrossChainBridge emits an event
-3. Relayers confirm the event on the destination chain
-4. Equivalent CU tokens are minted on the destination chain
-
-This enables a truly interoperable compute resources marketplace across multiple blockchain ecosystems.
-
-## Advanced Features
-
-### Expiration and Renewal
-
-CU tokens can have an expiration date, after which they can no longer be redeemed. Providers can offer renewal options for expired tokens.
-
-### Fractional CUs
-
-The ERC-1155 standard allows for fractional ownership of CU tokens, enabling users to purchase and redeem partial compute resources.
-
-### Batch Operations
-
-Users can perform batch operations on multiple CU tokens, such as:
-- Minting multiple CU tokens in a single transaction
-- Redeeming multiple CU tokens at once
-- Transferring multiple CU tokens to different recipients
+For a detailed explanation of the redemption process, see the [Redemption Process](/docs/redemption-process) documentation.
 
 ## Security Considerations
 
-STAB3L implements several security measures to protect CU tokens:
+STAB3L implements several security measures to protect the CU verification and sSTB minting process:
 
 - Multi-signature requirements for critical operations
 - Circuit breakers to pause operations in case of emergencies
 - Collateralization requirements to ensure token backing
 - Verification validity periods to ensure up-to-date information
 
+For more information on security measures, see the [Security](/docs/security) documentation.
+
 {% hint style="success" %}
-The standardization and verification of compute resources through CU tokens enables a transparent, efficient, and secure marketplace for compute power.
+The standardization and verification of compute resources through the CU system enables a transparent, efficient, and secure marketplace for compute power, all while maintaining the stability of the sSTB token.
 {% endhint %} 

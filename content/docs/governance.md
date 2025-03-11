@@ -9,6 +9,14 @@ order: 3
 
 STAB3L is governed by its community through a decentralized governance system powered by the rSTB token. This guide explains how to participate in governance decisions and help shape the future of the platform.
 
+{% hint style="info" %}
+The rSTB token is the governance token of the STAB3L ecosystem, separate from the sSTB utility token.
+{% endhint %}
+
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
+{% endhint %}
+
 ## Overview
 
 Governance decisions are made through on-chain voting using the rSTB token. Holding rSTB tokens grants you voting power proportional to your holdings.
@@ -21,9 +29,72 @@ The governance system allows token holders to propose and vote on changes to:
 - Partner integrations
 - Other platform changes
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'flowchart',data:{nodes:[{id:'A',text:'rSTB Token Holders'},{id:'B',text:'Create Proposals'},{id:'C',text:'Vote on Proposals'},{id:'D',text:'Delegate Voting Power'},{id:'E',text:'Discussion Period'},{id:'F',text:'Voting Period'},{id:'G', text:'Implementation'}],edges:[{from:'A',to:'B'},{from:'A',to:'C'},{from:'A',to:'D'},{from:'B',to:'E'},{from:'E',to:'F'},{from:'C',to:'F'},{from:'F',to:'G'}]}}" alt="Governance Flow" />
+<div id="governance-flow-chart" style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
+<script>
+  if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+    window.renderChart(
+      'governance-flow-chart',
+      'bar',
+      {
+        labels: ["Token Holders", "Create Proposals", "Vote on Proposals", "Delegate Voting", "Discussion Period", "Voting Period", "Implementation"],
+        datasets: [
+          {
+            label: "Governance Flow",
+            data: [100, 30, 70, 40, 30, 70, 50],
+            backgroundColor: [
+              "rgba(75, 192, 192, 0.7)",
+              "rgba(54, 162, 235, 0.7)",
+              "rgba(153, 102, 255, 0.7)",
+              "rgba(255, 159, 64, 0.7)",
+              "rgba(255, 99, 132, 0.7)",
+              "rgba(201, 203, 207, 0.7)",
+              "rgba(75, 192, 192, 0.7)"
+            ],
+            borderColor: [
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 99, 132)",
+              "rgb(201, 203, 207)",
+              "rgb(75, 192, 192)"
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          title: {
+            display: true,
+            text: 'Governance Process Flow',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': Step ' + (context.dataIndex + 1);
+              }
+            }
+          }
+        }
+      }
+    );
+  } else {
+    document.getElementById('governance-flow-chart').innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+  }
+</script>
 
 ## rSTB Token
 
@@ -37,13 +108,14 @@ The rSTB token is the governance token of the STAB3L ecosystem:
 
 There are several ways to acquire rSTB tokens:
 
-Earn rSTB tokens by staking CU tokens:
+Earn rSTB tokens by providing compute resources:
 
-1. Go to the [Staking page](https://stab3l.io/staking)
+1. Go to the [Provider page](https://stab3l.com/provider)
 2. Connect your wallet
-3. Select the CU tokens you want to stake
-4. Choose a staking duration
-5. Earn rSTB tokens as rewards based on your stake
+3. Register as a compute provider
+4. Verify your compute resources
+5. Stake your compute resources
+6. Earn rSTB tokens as rewards based on your contribution
 
 Purchase rSTB tokens on supported exchanges:
 
@@ -55,8 +127,11 @@ Purchase rSTB tokens on supported exchanges:
 Earn rSTB tokens by participating in the ecosystem:
 
 - Providing liquidity in the marketplace
+
 - Participating in community activities
+
 - Contributing to the platform development
+
 - Referring new users
 
 ## Governance Process
@@ -68,13 +143,17 @@ The governance process has several stages:
 To create a governance proposal:
 
 1. Hold at least 1,000 rSTB tokens
-2. Go to the [Governance page](https://stab3l.io/governance)
+
+2. Go to the [Governance page](https://stab3l.com/governance)
+
 3. Click "Create Proposal"
+
 4. Fill out the proposal details:
    - Title
    - Description
    - Changes to be implemented
    - Technical implementation details (if applicable)
+
 5. Submit your proposal
 
 ### 2. Discussion Period
@@ -82,7 +161,9 @@ To create a governance proposal:
 After a proposal is submitted, it enters a 3-day discussion period. During this time:
 
 - Community members can discuss the proposal
+
 - The proposer can provide additional information
+
 - Feedback can be incorporated into the proposal
 
 ### 3. Voting Period
@@ -90,14 +171,19 @@ After a proposal is submitted, it enters a 3-day discussion period. During this 
 Following the discussion period, the proposal enters a 5-day voting period. During this time:
 
 - rSTB token holders can vote "For", "Against", or "Abstain"
+
 - Your voting power is determined by your rSTB balance at the time the proposal was created.
+
 - You can split your votes if you have delegated voting power
 
 To vote on a proposal:
 
-1. Go to the [Governance page](https://stab3l.io/governance)
+1. Go to the [Governance page](https://stab3l.com/governance)
+
 2. Click on the active proposal
+
 3. Choose your vote: "For", "Against", or "Abstain"
+
 4. Confirm the transaction
 
 ### 4. Implementation
@@ -171,7 +257,7 @@ You can delegate your voting power to another address without transferring your 
 
 To delegate your voting power:
 
-1. Go to the [Governance page](https://stab3l.io/governance)
+1. Go to the [Governance page](https://stab3l.com/governance)
 2. Click "Delegate"
 3. Enter the address you want to delegate to
 4. Confirm the transaction
@@ -187,9 +273,55 @@ The governance dashboard provides analytics on governance activity:
 - **Top Delegates**: Most popular delegation addresses
 - **Historical Votes**: Record of past governance decisions
 
-<div class="mermaid-wrapper">
-  <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:[{label:'Voting Participation (%)',data:[28,32,36,42,45,51],backgroundColor:'rgba(54,162,235,0.5)'}]},options:{plugins:{title:{display:true,text:'Governance Participation'}}}}" alt="Governance Participation" />
+<div id="governance-participation-chart" style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+  <p style="font-style: italic; color: #666;">Chart loading...</p>
 </div>
+<script>
+  if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+    window.renderChart(
+      'governance-participation-chart',
+      'bar',
+      {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Voting Participation (%)',
+            data: [28, 32, 36, 42, 45, 51],
+            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 1
+          }
+        ]
+      },
+      {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Governance Participation',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.raw + '%';
+              }
+            }
+          }
+        }
+      }
+    );
+  } else {
+    document.getElementById('governance-participation-chart').innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+  }
+</script>
 
 ## Security Measures
 
@@ -204,7 +336,7 @@ The governance system includes several security measures:
 
 Join the governance discussion on our community channels:
 
-- [Governance Forum](https://forum.stab3l.io)
+- [Governance Forum](https://forum.stab3l.com)
 - [Discord #governance channel](https://discord.gg/stab3l)
 - [Telegram Governance Group](https://t.me/stab3l_governance)
 
@@ -212,4 +344,4 @@ Join the governance discussion on our community channels:
 
 Governance is a key aspect of the STAB3L platform's decentralization and development. By holding rSTB tokens and actively participating in governance, you can help shape the future of decentralized compute resources.
 
-For more information on governance, check the [Governance FAQ](https://stab3l.io/faq#governance) or join our community channels. 
+For more information on governance, check the [Governance FAQ](https://stab3l.com/faq#governance) or join our community channels. 

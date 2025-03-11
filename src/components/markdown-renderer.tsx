@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
@@ -11,17 +11,33 @@ import { Hint } from "@/components/ui/hint";
 import { Card } from "@/components/ui/card";
 import { Expandable } from "@/components/ui/expandable";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChartComponent } from "@/components/ui/chart";
+import { parseChartData } from "@/lib/chart-parser";
+import dynamic from "next/dynamic";
+import Script from "next/script";
+
+// Import the chart-renderer component
+const ChartRenderer = dynamic(() => import("@/components/chart-renderer").then(mod => mod.ChartRenderer), {
+  ssr: false,
+  loading: () => <div className="chart-placeholder">Loading chart...</div>
+});
 
 // Add mermaid if it's available in the browser
 let mermaid: any;
 if (typeof window !== 'undefined') {
   import('mermaid').then((m) => {
     mermaid = m.default;
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: 'neutral',
-      securityLevel: 'loose',
-    });
+    try {
+      mermaid.initialize({
+        startOnLoad: false, // We'll manually initialize it
+        theme: 'neutral',
+        securityLevel: 'loose',
+      });
+    } catch (error) {
+      console.error('Error initializing mermaid:', error);
+    }
+  }).catch(error => {
+    console.error('Error loading mermaid:', error);
   });
 }
 
@@ -39,73 +55,315 @@ interface MarkdownRendererProps {
  *   Example: $P_{CU} = \$0.06$ will render the first $ as math, but the second $ as currency
  */
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
-  // Process custom content blocks before rendering markdown
-  const processedContent = processCustomBlocks(content);
+  const [processedContent, setProcessedContent] = useState<string>(content);
+  const [charts, setCharts] = useState<{ id: string; type: string; data: any }[]>([]);
+  const [scriptContents, setScriptContents] = useState<string[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Initialize mermaid diagrams and tabs after render
+  // Process the content to handle custom blocks and extract scripts
   useEffect(() => {
-    if (mermaid) {
-      mermaid.contentLoaded();
-    }
+    // Extract script contents before processing
+    const extractedScripts: string[] = [];
+    const contentWithoutScripts = content.replace(/<script>([\s\S]*?)<\/script>/g, (match, scriptContent) => {
+      extractedScripts.push(scriptContent);
+      return `<div class="script-placeholder" data-script-index="${extractedScripts.length - 1}"></div>`;
+    });
+    
+    setScriptContents(extractedScripts);
+    setProcessedContent(processCustomBlocks(contentWithoutScripts));
+  }, [content]);
 
-    // Trigger MathJax typesetting for new content
-    if (typeof window !== 'undefined' && (window as any).MathJax && contentRef.current) {
-      try {
-        // Target only the current container for typesetting
-        // This is more efficient than reprocessing the entire document
-        (window as any).MathJax.typeset([contentRef.current]);
-      } catch (e) {
-        console.error('Error typesetting MathJax:', e);
-      }
-    }
-
-    // Initialize tabs after render
-    if (contentRef.current) {
-      const tabsContainers = contentRef.current.querySelectorAll('.tabs');
-      
-      tabsContainers.forEach((container, containerIndex) => {
-        // Remove any existing tab headers to prevent duplication
-        const existingHeaders = container.querySelectorAll('.tabs-header');
-        existingHeaders.forEach(header => header.remove());
-        
-        // Create new tab header
-        const tabsHeader = document.createElement('div');
-        tabsHeader.className = 'tabs-header';
-        
-        // Get all tabs in this container
-        const tabs = container.querySelectorAll('.tab');
-        
-        // Create tab buttons
-        tabs.forEach((tab, index) => {
-          const title = tab.getAttribute('data-title') || `Tab ${index + 1}`;
-          const button = document.createElement('button');
-          button.className = `tab-button ${index === 0 ? 'active' : ''}`;
-          button.textContent = title;
-          button.onclick = () => {
-            // Deactivate all tabs and buttons in this container
-            tabs.forEach(t => t.classList.remove('active'));
-            tabsHeader.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-            
-            // Activate this tab and button
-            tabs[index].classList.add('active');
-            button.classList.add('active');
-          };
-          
-          tabsHeader.appendChild(button);
-        });
-        
-        // Insert tab header at the beginning of the container
-        container.insertBefore(tabsHeader, container.firstChild);
-        
-        // Activate first tab
-        if (tabs.length > 0) {
-          tabs.forEach(t => t.classList.remove('active'));
-          tabs[0].classList.add('active');
+  // Execute scripts after render
+  useEffect(() => {
+    if (!contentRef.current) return;
+    
+    const executeScripts = () => {
+      // Process regular script placeholders
+      const scriptPlaceholders = contentRef.current?.querySelectorAll('.script-placeholder:not([data-chart-id])');
+      scriptPlaceholders?.forEach((placeholder) => {
+        const scriptIndex = placeholder.getAttribute('data-script-index');
+        if (scriptIndex !== null) {
+          const index = parseInt(scriptIndex, 10);
+          if (!isNaN(index) && index >= 0 && index < scriptContents.length) {
+            try {
+              // Create a new function from the script content and execute it
+              const scriptFunction = new Function(scriptContents[index]);
+              scriptFunction();
+            } catch (error) {
+              console.error('Error executing script:', error);
+            }
+          }
         }
       });
+      
+      // Process chart placeholders
+      const chartPlaceholders = contentRef.current?.querySelectorAll('.script-placeholder[data-chart-id]');
+      chartPlaceholders?.forEach((placeholder) => {
+        const chartId = placeholder.getAttribute('data-chart-id');
+        const chartType = placeholder.getAttribute('data-chart-type') || 'bar';
+        const chartTitle = placeholder.getAttribute('data-chart-title') || '';
+        const chartContentEncoded = placeholder.getAttribute('data-chart-content');
+        
+        if (chartId && chartContentEncoded) {
+          try {
+            const chartContent = decodeURIComponent(chartContentEncoded);
+            
+            // Execute chart rendering on the client side only
+            if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+              window.renderChart(
+                chartId,
+                chartType,
+                {
+                  labels: JSON.parse(getLabelsFromContent(chartContent)),
+                  datasets: JSON.parse(getDatasetsFromContent(chartContent, chartType))
+                },
+                {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    title: {
+                      display: !!chartTitle,
+                      text: chartTitle,
+                      font: {
+                        size: 16,
+                        weight: 'bold'
+                      }
+                    },
+                    legend: {
+                      position: 'top'
+                    }
+                  }
+                }
+              );
+            } else {
+              const chartElement = document.getElementById(chartId);
+              if (chartElement) {
+                chartElement.innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+              }
+            }
+          } catch (error) {
+            console.error('Error rendering chart:', error);
+            const chartElement = document.getElementById(chartId);
+            if (chartElement) {
+              chartElement.innerHTML = `<div style="text-align:center;padding:20px;">Error rendering chart: ${error instanceof Error ? error.message : 'Unknown error'}</div>`;
+            }
+          }
+        }
+      });
+    };
+    
+    // Small delay to ensure DOM is ready
+    const timeout = setTimeout(executeScripts, 100);
+    return () => clearTimeout(timeout);
+  }, [scriptContents, processedContent]);
+
+  // Initialize mermaid, tabs, and MathJax after render
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    // Initialize mermaid if it's available
+    const initMermaid = async () => {
+      try {
+        if (typeof window !== 'undefined' && contentRef.current) {
+          const mermaidElements = contentRef.current.querySelectorAll('.mermaid');
+          if (mermaidElements.length > 0) {
+            console.log(`Found ${mermaidElements.length} mermaid diagrams`);
+            const { default: mermaid } = await import('mermaid');
+            mermaid.initialize({ startOnLoad: false });
+            
+            try {
+              await mermaid.run({
+                nodes: Array.from(mermaidElements) as HTMLElement[]
+              });
+            } catch (error: unknown) {
+              console.error('Error rendering mermaid diagrams:', error);
+            }
+          }
+        }
+      } catch (error: unknown) {
+        console.error('Error loading mermaid:', error);
+      }
+    };
+
+    // Initialize MathJax if it's available
+    const initMathJax = () => {
+      if (typeof window !== 'undefined' && (window as any).MathJax && contentRef.current) {
+        try {
+          (window as any).MathJax.typeset([contentRef.current]);
+        } catch (error) {
+          console.error('Error typesetting MathJax:', error);
+        }
+      }
+    };
+
+    // Initialize tabs
+    const initTabs = () => {
+      if (!contentRef.current) return;
+      
+      // Find all tab containers
+      const tabsContainers = contentRef.current.querySelectorAll('.tabs');
+      
+      tabsContainers.forEach((container) => {
+        const tabButtons = container.querySelectorAll('.tab-button');
+        const tabContents = container.querySelectorAll('.tab');
+        
+        tabButtons.forEach((button, index) => {
+          button.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            if (tabContents[index]) {
+              tabContents[index].classList.add('active');
+            }
+          });
+        });
+        
+        // Activate first tab by default if not already done
+        if (tabButtons.length > 0 && !tabButtons[0].classList.contains('active')) {
+          tabButtons[0].classList.add('active');
+          if (tabContents.length > 0) {
+            tabContents[0].classList.add('active');
+          }
+        }
+      });
+    };
+
+    // Initialize charts with data attributes
+    const initCharts = () => {
+      if (!contentRef.current) return;
+      
+      // Find all chart containers with data attributes
+      const chartElements = contentRef.current.querySelectorAll('[data-chart-type]');
+      
+      chartElements.forEach((element) => {
+        const chartId = element.id;
+        const chartType = element.getAttribute('data-chart-type');
+        const labelsAttr = element.getAttribute('data-chart-labels');
+        const datasetsAttr = element.getAttribute('data-chart-datasets');
+        const optionsAttr = element.getAttribute('data-chart-options');
+        
+        if (chartId && chartType && labelsAttr && datasetsAttr) {
+          try {
+            // Parse the JSON data from attributes
+            const labels = JSON.parse(labelsAttr);
+            const datasets = JSON.parse(datasetsAttr);
+            const options = optionsAttr ? JSON.parse(optionsAttr) : {};
+            
+            // Render the chart using the global function
+            if (typeof window !== 'undefined' && typeof window.renderChart === 'function') {
+              window.renderChart(
+                chartId,
+                chartType,
+                { labels, datasets },
+                options
+              );
+            } else {
+              console.error('renderChart function not available');
+              element.innerHTML = '<div style="text-align:center;padding:20px;">Chart could not be loaded: renderChart function not available</div>';
+            }
+          } catch (error) {
+            console.error('Error rendering chart:', error);
+            element.innerHTML = `<div style="text-align:center;padding:20px;">Error rendering chart: ${error instanceof Error ? error.message : 'Unknown error'}</div>`;
+          }
+        }
+      });
+    };
+
+    // Run all initializations
+    const timeout = setTimeout(() => {
+      initMermaid();
+      initMathJax();
+      initTabs();
+      initCharts(); // Add chart initialization
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [processedContent]);
+
+  useEffect(() => {
+    if (content) {
+      // Extract chart data from placeholders
+      const chartPlaceholders: { id: string; type: string; data: string }[] = [];
+      const placeholderRegex = /<div class="chart-placeholder" data-id="([^"]+)" data-type="([^"]+)" data-chart="([^"]+)">.*?<\/div>/g;
+      
+      let match;
+      while ((match = placeholderRegex.exec(content)) !== null) {
+        try {
+          const id = match[1];
+          const type = match[2];
+          const chartDataStr = match[3].replace(/&quot;/g, '"');
+          
+          chartPlaceholders.push({
+            id,
+            type,
+            data: chartDataStr
+          });
+        } catch (error) {
+          console.error('Error extracting chart data:', error);
+        }
+      }
+      
+      // Parse chart data
+      const parsedCharts = chartPlaceholders.map(placeholder => {
+        try {
+          let chartData;
+          try {
+            // Try to parse as JSON
+            const decodedData = decodeURIComponent(placeholder.data);
+            console.log('Decoded chart data:', decodedData);
+            const parsedData = JSON.parse(decodedData);
+            
+            // If this is our new format with content field
+            if (parsedData.content) {
+              chartData = parseChartData(placeholder.type, parsedData.content);
+              if (parsedData.title) {
+                chartData.title = parsedData.title;
+              }
+            } else {
+              // Fallback to direct parsing
+              chartData = parsedData;
+            }
+            
+            console.log('Parsed chart data:', chartData);
+          } catch (e) {
+            console.error('Error parsing chart JSON:', e);
+            // If parsing fails, try to use parseChartData directly
+            chartData = parseChartData(placeholder.type, placeholder.data);
+          }
+          
+          return {
+            id: placeholder.id,
+            type: placeholder.type,
+            data: chartData
+          };
+        } catch (error) {
+          console.error(`Error parsing chart data for ${placeholder.id}:`, error);
+          // Return a fallback error chart
+          return {
+            id: placeholder.id,
+            type: 'bar',
+            data: {
+              title: 'Error Parsing Chart Data',
+              labels: ['Error'],
+              datasets: [{
+                label: 'Error',
+                data: [1],
+                backgroundColor: 'rgba(255, 99, 132, 0.5)'
+              }]
+            }
+          };
+        }
+      });
+      
+      console.log('Final charts array:', parsedCharts);
+      setCharts(parsedCharts);
     }
-  }, [processedContent, content]);
+  }, [content]);
 
   return (
     <div className="docs-content font-mono" ref={contentRef}>
@@ -235,6 +493,18 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       >
         {processedContent}
       </ReactMarkdown>
+
+      {/* Render charts */}
+      {charts.map((chart) => (
+        <div key={chart.id} id={chart.id} className="chart-container">
+          <ChartComponent 
+            type={chart.type} 
+            data={chart.data} 
+            width={800}
+            height={400}
+          />
+        </div>
+      ))}
     </div>
   );
 }
@@ -244,98 +514,278 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
  * This function identifies and replaces special syntax with HTML that can be rendered by rehype-raw
  */
 function processCustomBlocks(content: string): string {
-  // IMPORTANT: No longer processing equations - letting MathJax handle them directly
+  if (!content) return '';
   
-  // Add explicit support for currency in math expressions using a special escape sequence
-  // Replace \$ (escaped dollar sign) with a span to prevent MathJax processing
-  content = content.replace(/\\\$/g, '<span class="dollar-sign math-ignore">$</span>');
+  // Process escaped dollar signs to prevent MathJax processing
+  content = content.replace(/\\\$/g, '<span class="escaped-dollar">$</span>');
   
-  // Hard-coded special case for "$P_{CU} = $0.06"
-  content = content.replace(/(\$P_\{CU\} = )\$(\d+\.\d+)/g, 
-    '$1<span class="dollar-sign math-ignore">$</span>$2');
+  // Handle specific cases for currency formatting in math expressions
+  content = content.replace(/\$([0-9,.]+)\s*(?:million|billion|trillion)?(?:\s*\([A-Z]+\))?/g, (match, amount) => {
+    // Don't replace if it's inside a code block
+    const prevContent = content.substring(0, content.indexOf(match));
+    const codeBlockCount = (prevContent.match(/```/g) || []).length;
+    if (codeBlockCount % 2 !== 0) return match;
     
-  // General pattern for currency in math expressions: "= $X.XX"
-  content = content.replace(/(\$[^$\n]+?)(= *)\$(\d+[\d,\.]*)/g, (match, mathPart, equals, number) => {
-    return `${mathPart}${equals}<span class="dollar-sign math-ignore">$</span>${number}`;
+    return `<span class="dollar-sign math-ignore">$</span>${amount}`;
   });
   
-  // Process standalone dollar signs that are clearly for currency
-  content = content.replace(/(\s|^)\$(\d+[\d,\.]*)/g, '$1<span class="dollar-sign math-ignore">$</span>$2');
-  content = content.replace(/(\s|^)\$([A-Z]{2,})/g, '$1<span class="dollar-sign math-ignore">$</span>$2');
+  // Process template variables
+  content = content.replace(/\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}/g, '<span class="template-var-$1">{{$1}}</span>');
   
-  // Don't process $ signs in code blocks
-  let inCodeBlock = false;
-  const lines = content.split('\n');
-  for (let i = 0; i < lines.length; i++) {
-    if (lines[i].trim().startsWith('```')) {
-      inCodeBlock = !inCodeBlock;
+  // Process bold text with double asterisks
+  content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  
+  // Process chart blocks - direct approach
+  content = content.replace(/```chart\n([\s\S]*?)```/g, (match, chartContent) => {
+    try {
+      // Extract chart type and title
+      const typeMatch = chartContent.match(/type:\s*([a-zA-Z]+)/);
+      const titleMatch = chartContent.match(/title:\s*([^\n]+)/);
+      
+      const chartType = typeMatch ? typeMatch[1].trim() : 'bar';
+      const chartTitle = titleMatch ? titleMatch[1].trim() : '';
+      
+      // Create a unique ID for this chart
+      const chartId = `chart-${Math.random().toString(36).substring(2, 9)}`;
+      
+      // Create a div for the chart
+      return `
+        <div id="${chartId}" class="chart-container" style="height: 400px; width: 100%; margin: 20px 0; border: 1px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+          <p style="font-style: italic; color: #666;">Chart loading...</p>
+        </div>
+        <div class="script-placeholder" data-chart-id="${chartId}" data-chart-type="${chartType}" data-chart-title="${chartTitle}" data-chart-content="${encodeURIComponent(chartContent)}"></div>
+      `;
+    } catch (error: any) {
+      console.error('Error processing chart:', error);
+      return `<div class="chart-error">Error processing chart: ${error.message || 'Unknown error'}</div>`;
+    }
+  });
+  
+  // Process accordion blocks
+  content = content.replace(/{%\s*accordion\s+title="([^"]+)"\s*%}([\s\S]*?){%\s*endaccordion\s*%}/g, (match, title, accordionContent) => {
+    // Process links within accordion content
+    const processedContent = accordionContent.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    
+    return `<details class="accordion-item">
+      <summary class="accordion-title">${title}</summary>
+      <div class="accordion-content">${processedContent}</div>
+    </details>`;
+  });
+  
+  // Process tabs
+  content = content.replace(/{%\s*tabs\s*%}([\s\S]*?){%\s*endtabs\s*%}/g, (match, tabsContent) => {
+    const tabMatchesIterator = tabsContent.matchAll(/{%\s*tab\s+title="([^"]+)"\s*%}([\s\S]*?){%\s*endtab\s*%}/g);
+    const tabMatches = Array.from(tabMatchesIterator);
+    
+    if (tabMatches.length === 0) return match; // Return original if no tabs found
+    
+    let tabsHtml = '<div class="tabs">';
+    let tabsHeaderHtml = '<div class="tabs-header">';
+    let tabsContentHtml = '<div class="tabs-content">';
+    
+    for (let index = 0; index < tabMatches.length; index++) {
+      const tabMatch = tabMatches[index] as RegExpMatchArray;
+      const tabTitle = String(tabMatch[1] || '');
+      let tabContent = String(tabMatch[2] || '');
+      
+      // Process markdown content inside the tab
+      // First, handle tables properly
+      tabContent = processTablesInContent(tabContent);
+      
+      // Process links and other markdown within tab content
+      const processedContent = tabContent.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      
+      const isActive = index === 0 ? ' active' : '';
+      tabsHeaderHtml += `<button class="tab-button${isActive}" data-index="${index}">${tabTitle}</button>`;
+      tabsContentHtml += `<div class="tab${isActive}" data-index="${index}">${processedContent}</div>`;
     }
     
-    if (inCodeBlock) {
-      // Mark the entire code block to be ignored by MathJax
-      lines[i] = lines[i].replace(/(.*)/, '<span class="math-ignore">$1</span>');
-    }
-  }
-  content = lines.join('\n');
-  
-  // Replace template variables with actual values
-  const templateValues = {
-    requiredConfirmations: '5',
-    maxRelayers: '9',
-    // Add more template variables as needed
-  };
-  
-  // Replace template variables
-  Object.entries(templateValues).forEach(([key, value]) => {
-    content = content.replace(new RegExp(`{{\\s*${key}\\s*}}`, 'g'), value);
+    tabsHeaderHtml += '</div>'; // Close tabs-header
+    tabsContentHtml += '</div>'; // Close tabs-content
+    tabsHtml += tabsHeaderHtml + tabsContentHtml + '</div>'; // Combine all and close tabs
+    
+    return tabsHtml;
   });
-
-  // Fix standalone table rows that should be part of a table
-  // This pattern looks for lines that look like table rows but aren't connected to a table
-  content = content.replace(
-    /\n\|\s+([^|]+)\s+\|\s+([^|]+)\s+\|\s+([^|]+)\s+\|\s*\n(?!\|)/g,
-    (match: string, col1: string, col2: string, col3: string) => {
-      return `\n| ${col1} | ${col2} | ${col3} |\n`;
-    }
-  );
-
-  // Special fix for the STBGOVToken row and similar cases
-  content = content.replace(
-    /\n\|\s+STBGOVToken\s+\|\s+([^|]+)\s+\|\s+([^|]+)\s+\|\s*\n/g,
-    (match: string, address: string, description: string) => {
-      // Make sure this row is included in the table above it
-      return `\n| STBGOVToken | ${address} | ${description} |\n`;
-    }
-  );
   
   // Process hint blocks
-  content = content.replace(
-    /{% hint style="(info|warning|danger|success)" %}\s*([\s\S]*?)\s*{% endhint %}/g,
-    (_, style, text) => {
-      // Process links within hint blocks
-      const processedText = text.replace(
-        /\[([^\]]+)\]\(([^)]+)\)/g,
-        '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline">$1</a>'
-      );
-      return `<div class="hint hint-${style}">${processedText}</div>`;
-    }
-  );
-  
-  // Process tabs (simplified version)
-  content = content.replace(
-    /{% tabs %}\s*([\s\S]*?)\s*{% endtabs %}/g,
-    (_, tabsContent) => {
-      return `<div class="tabs">${tabsContent}</div>`;
-    }
-  );
-
-  // Process tab items
-  content = content.replace(
-    /{% tab title="(.*?)" %}\s*([\s\S]*?)\s*{% endtab %}/g,
-    (_, title, tabContent) => {
-      return `<div class="tab" data-title="${title}">${tabContent}</div>`;
-    }
-  );
+  content = content.replace(/{%\s*hint\s+style="(info|warning|danger|success)"\s*%}\s*([\s\S]*?)\s*{%\s*endhint\s*%}/g, (match, style, text) => {
+    // Process links within hint content
+    const processedText = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    
+    return `<div class="hint hint-${style}">${processedText}</div>`;
+  });
   
   return content;
+}
+
+function getLabelsFromContent(content: string): string {
+  try {
+    // Extract labels section
+    const labelsMatch = content.match(/labels:\s*([\s\S]*?)(?:datasets:|options:|$)/);
+    if (!labelsMatch) return '[]';
+    
+    const labelsContent = labelsMatch[1].trim();
+    
+    // Check if labels are in array format
+    if (labelsContent.startsWith('[') && labelsContent.endsWith(']')) {
+      return labelsContent; // Return as is if it's already in JSON array format
+    }
+    
+    // Extract from list format (- item)
+    const labels = labelsContent
+      .split('\n')
+      .filter(line => line.trim().startsWith('-'))
+      .map(line => line.trim().substring(1).trim());
+    
+    return JSON.stringify(labels);
+  } catch (error) {
+    console.error('Error extracting labels:', error);
+    return '[]';
+  }
+}
+
+function getDatasetsFromContent(content: string, chartType: string): string {
+  try {
+    // Default colors
+    const defaultColors = [
+      'rgba(255, 99, 132, 0.5)',   // Red
+      'rgba(54, 162, 235, 0.5)',   // Blue
+      'rgba(255, 206, 86, 0.5)',   // Yellow
+      'rgba(75, 192, 192, 0.5)',   // Green
+      'rgba(153, 102, 255, 0.5)',  // Purple
+      'rgba(255, 159, 64, 0.5)',   // Orange
+    ];
+    
+    const borderColors = defaultColors.map(color => color.replace('0.5', '1'));
+    
+    // Extract datasets section
+    const datasetsMatch = content.match(/datasets:\s*([\s\S]*?)(?:options:|$)/);
+    if (!datasetsMatch) return '[]';
+    
+    const datasetsContent = datasetsMatch[1];
+    
+    // Split datasets by the dash at the beginning of a line
+    const datasetBlocks = datasetsContent.split(/(?:^|\n)\s*-\s*/).filter(block => block.trim());
+    
+    const datasets = datasetBlocks.map((block: string, index: number) => {
+      // Extract label
+      const labelMatch = block.match(/label:\s*([^\n]+)/);
+      const label = labelMatch ? labelMatch[1].trim() : `Dataset ${index + 1}`;
+      
+      // Extract data
+      let data: any[] = []; // Change to any[] to handle both number[] and object[]
+      const dataMatch = block.match(/data:\s*(\[[^\]]+\])/);
+      
+      if (dataMatch) {
+        try {
+          data = JSON.parse(dataMatch[1]);
+        } catch (e) {
+          console.error('Error parsing data JSON:', e);
+        }
+      } else {
+        // Try to extract data from list format
+        const dataLines = block.match(/data:\s*([\s\S]*?)(?:\n\s*\w+:|$)/);
+        if (dataLines) {
+          data = dataLines[1]
+            .split('\n')
+            .filter(line => line.trim().startsWith('-'))
+            .map(line => {
+              const value = line.trim().substring(1).trim();
+              // Try to parse as number, otherwise keep as string
+              const parsed = parseFloat(value);
+              return isNaN(parsed) ? value : parsed;
+            });
+        }
+      }
+      
+      // Extract backgroundColor
+      const bgColorMatch = block.match(/backgroundColor:\s*([^\n]+)/);
+      const backgroundColor = bgColorMatch 
+        ? bgColorMatch[1].trim() 
+        : defaultColors[index % defaultColors.length];
+      
+      // Extract borderColor
+      const borderColorMatch = block.match(/borderColor:\s*([^\n]+)/);
+      const borderColor = borderColorMatch 
+        ? borderColorMatch[1].trim() 
+        : borderColors[index % borderColors.length];
+      
+      return {
+        label,
+        data,
+        backgroundColor,
+        borderColor,
+        borderWidth: 1
+      };
+    });
+    
+    // For pie/doughnut charts, handle special case
+    if ((chartType === 'pie' || chartType === 'doughnut') && datasets.length === 1) {
+      const dataset = datasets[0];
+      // Generate colors for each data point if not already specified
+      if (!dataset.backgroundColor || !Array.isArray(dataset.backgroundColor)) {
+        dataset.backgroundColor = dataset.data.map((_: any, i: number) => 
+          defaultColors[i % defaultColors.length]
+        ) as any; // Use type assertion to avoid the type error
+      }
+    }
+    
+    // For bubble charts, handle special case
+    if (chartType === 'bubble') {
+      datasets.forEach(dataset => {
+        // Convert data to bubble format if needed
+        if (Array.isArray(dataset.data) && typeof dataset.data[0] !== 'object') {
+          dataset.data = dataset.data.map((value: number, i: number) => ({
+            x: i + 1,
+            y: value,
+            r: 10
+          }));
+        }
+      });
+    }
+    
+    return JSON.stringify(datasets);
+  } catch (error) {
+    console.error('Error extracting datasets:', error);
+    return '[]';
+  }
+}
+
+// Add a new function to process tables in content
+function processTablesInContent(content: string): string {
+  // Process markdown tables
+  // Look for table patterns: | header1 | header2 | ... followed by | --- | --- | ...
+  const tableRegex = /(\|[^\n]+\|\n\|[\s-]+\|[^\n]*\n((\|[^\n]+\|\n)+))/g;
+  
+  return content.replace(tableRegex, (tableMatch) => {
+    // Split the table into rows
+    const rows = tableMatch.split('\n').filter(row => row.trim() !== '');
+    
+    if (rows.length < 2) return tableMatch; // Not a valid table
+    
+    // Start building the HTML table
+    let tableHtml = '<table class="w-full border-collapse my-4">\n';
+    
+    // Process header row
+    const headerCells = rows[0].split('|').filter(cell => cell.trim() !== '');
+    tableHtml += '<thead>\n<tr>\n';
+    headerCells.forEach(cell => {
+      tableHtml += `<th class="p-2 font-medium border border-gray-300 dark:border-gray-700" style="background-color: rgba(var(--box-bg-light), 0.5)">${cell.trim()}</th>\n`;
+    });
+    tableHtml += '</tr>\n</thead>\n';
+    
+    // Process body rows (skip the header and separator rows)
+    tableHtml += '<tbody>\n';
+    for (let i = 2; i < rows.length; i++) {
+      const cells = rows[i].split('|').filter(cell => cell.trim() !== '');
+      tableHtml += '<tr>\n';
+      cells.forEach(cell => {
+        tableHtml += `<td class="p-2 border border-gray-300 dark:border-gray-700">${cell.trim()}</td>\n`;
+      });
+      tableHtml += '</tr>\n';
+    }
+    tableHtml += '</tbody>\n</table>';
+    
+    return tableHtml;
+  });
 } 

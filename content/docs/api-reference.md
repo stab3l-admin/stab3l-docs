@@ -10,7 +10,7 @@ order: 1
 The STAB3L API provides programmatic access to the STAB3L platform, allowing developers to integrate compute unit standardization, verification, and marketplace functionality into their applications.
 
 {% hint style="info" %}
-The API is available at `https://api.stab3l.io`. All requests must use HTTPS.
+The API is available at `https://api.stab3l.com`. All requests must use HTTPS.
 {% endhint %}
 
 ## Authentication
@@ -19,7 +19,7 @@ The STAB3L API uses JWT (JSON Web Tokens) for authentication:
 
 ### Obtaining an API Key
 
-1. Register or log in to the [STAB3L Developer Portal](https://developers.stab3l.io)
+1. Register or log in to the [STAB3L Developer Portal](https://developers.stab3l.com)
 2. Navigate to the "API Keys" section
 3. Create a new API key
 4. Store your API key securely
@@ -37,7 +37,7 @@ Authorization: Bearer YOUR_API_KEY
 Example:
 ```bash
 curl -X GET \
-  https://api.stab3l.io/api/v1/cu/list \
+  https://api.stab3l.com/api/v1/cu/list \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
 ```
 {% endtab %}
@@ -52,12 +52,40 @@ Include your API key as a query parameter:
 Example:
 ```bash
 curl -X GET \
-  'https://api.stab3l.io/api/v1/cu/list?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  'https://api.stab3l.com/api/v1/cu/list?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
 ```
 
 {% hint style="warning" %}
 This method is less secure and should only be used for testing.
 {% endhint %}
+{% endtab %}
+
+{% tab title="SDK Authentication" %}
+When using the STAB3L SDK, initialize it with your API key:
+
+```javascript
+// JavaScript SDK
+const stab3l = require('stab3l-sdk');
+
+// Initialize with API key
+const client = new stab3l.Client({
+  apiKey: 'YOUR_API_KEY'
+});
+
+// Make authenticated requests
+const cuList = await client.cu.list();
+```
+
+```python
+# Python SDK
+import stab3l
+
+# Initialize with API key
+client = stab3l.Client(api_key='YOUR_API_KEY')
+
+# Make authenticated requests
+cu_list = client.cu.list()
+```
 {% endtab %}
 {% endtabs %}
 
@@ -81,13 +109,17 @@ X-RateLimit-Reset: 1620000000
 
 ### Compute Units
 
-#### List CU Tokens
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
+{% endhint %}
+
+#### List Verified Compute Units
 
 ```
 GET /api/v1/cu/list
 ```
 
-Returns a list of CU tokens based on the specified filters.
+Returns a list of verified compute units based on the specified filters.
 
 **Parameters:**
 
@@ -105,13 +137,13 @@ Returns a list of CU tokens based on the specified filters.
 {
   "success": true,
   "data": {
-    "tokens": [
+    "compute_units": [
       {
-        "token_id": 123,
-        "cu_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+        "cu_id": 123,
+        "cu_hash": "0x... (PLACEHOLDER)",
         "cu_value": 100,
         "provider_id": "provider-123",
-        "expiration_timestamp": 1672531200,
+        "verification_timestamp": 1640995200,
         "metadata": {
           "cpu_cores": 8,
           "ram_gb": 32,
@@ -127,19 +159,19 @@ Returns a list of CU tokens based on the specified filters.
 }
 ```
 
-#### Get CU Token Details
+#### Get Compute Unit Details
 
 ```
-GET /api/v1/cu/:token_id
+GET /api/v1/cu/:cu_id
 ```
 
-Returns detailed information about a specific CU token.
+Returns detailed information about a specific verified compute unit.
 
 **Parameters:**
 
 | Name | Type | Description |
 |------|------|-------------|
-| `token_id` | number | The ID of the CU token |
+| `cu_id` | number | The ID of the compute unit |
 
 **Response:**
 
@@ -147,13 +179,12 @@ Returns detailed information about a specific CU token.
 {
   "success": true,
   "data": {
-    "token_id": 123,
-    "cu_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    "cu_id": 123,
+    "cu_hash": "0x... (PLACEHOLDER)",
     "cu_value": 100,
     "provider_id": "provider-123",
-    "expiration_timestamp": 1672531200,
-    "creation_timestamp": 1640995200,
-    "owner": "0x1234567890abcdef1234567890abcdef12345678",
+    "verification_timestamp": 1640995200,
+    "owner": "0x... (PLACEHOLDER)",
     "metadata": {
       "cpu_cores": 8,
       "ram_gb": 32,
@@ -274,13 +305,13 @@ Returns detailed information about a specific provider.
 
 ### Marketplace
 
-#### List Marketplace Listings
+#### List sSTB Marketplace Listings
 
 ```
 GET /api/v1/marketplace/listings
 ```
 
-Returns a list of active marketplace listings.
+Returns a list of active marketplace listings for sSTB tokens.
 
 **Parameters:**
 
@@ -303,15 +334,13 @@ Returns a list of active marketplace listings.
       {
         "listing_id": 456,
         "market_type": "spot",
-        "token_id": 123,
-        "seller": "0x1234567890abcdef1234567890abcdef12345678",
+        "token_type": "sSTB",
+        "seller": "0x... (PLACEHOLDER)",
         "amount": 10,
-        "price_per_token": 100,
-        "total_price": 1000,
+        "price_per_token": 0.06,
+        "total_price": 0.6,
         "listed_at": 1640995200,
-        "expiration": 1672531200,
-        "provider_id": "provider-123",
-        "cu_value": 100
+        "expiration": 1672531200
       }
     ],
     "total": 200,
@@ -342,34 +371,12 @@ Returns detailed information about a specific marketplace listing.
   "success": true,
   "data": {
     "listing_id": 456,
-    "market_type": "spot",
-    "token_id": 123,
-    "seller": "0x1234567890abcdef1234567890abcdef12345678",
+    "token_type": "sSTB",
     "amount": 10,
-    "price_per_token": 100,
-    "total_price": 1000,
-    "listed_at": 1640995200,
-    "expiration": 1672531200,
-    "provider_id": "provider-123",
-    "cu_value": 100,
-    "token_details": {
-      "cu_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
-      "expiration_timestamp": 1672531200,
-      "metadata": {
-        "cpu_cores": 8,
-        "ram_gb": 32,
-        "storage_gb": 500,
-        "network_mbps": 1000
-      }
-    },
-    "provider_details": {
-      "name": "Example Provider",
-      "reputation_score": 95,
-      "location": {
-        "country": "United States",
-        "region": "US-East"
-      }
-    }
+    "price_per_token": 0.06,
+    "seller": "0x... (PLACEHOLDER)",
+    "created_at": 1640995200,
+    "status": "active"
   }
 }
 ```
@@ -396,7 +403,7 @@ Returns a list of chains supported by the bridge.
         "name": "Arbitrum",
         "native_chain_id": 42161,
         "is_evm_compatible": true,
-        "bridge_address": "0x1234567890abcdef1234567890abcdef12345678",
+        "bridge_address": "0x... (PLACEHOLDER)",
         "status": "active"
       },
       {
@@ -404,7 +411,7 @@ Returns a list of chains supported by the bridge.
         "name": "Ethereum",
         "native_chain_id": 1,
         "is_evm_compatible": true,
-        "bridge_address": "0x1234567890abcdef1234567890abcdef12345678",
+        "bridge_address": "0x... (PLACEHOLDER)",
         "status": "active"
       }
     ]
@@ -477,20 +484,18 @@ Returns the status of a bridge transaction.
 {
   "success": true,
   "data": {
-    "message_id": 789,
+    "message_id": "msg-123",
     "source_chain": "arbitrum",
-    "destination_chain": "ethereum",
-    "sender": "0x1234567890abcdef1234567890abcdef12345678",
-    "recipient": "0x1234567890abcdef1234567890abcdef12345678",
-    "token_id": 123,
+    "destination_chain": "polygon",
+    "token": "sSTB",
     "amount": 10,
+    "sender": "0x... (PLACEHOLDER)",
+    "recipient": "0x... (PLACEHOLDER)",
     "status": "completed",
     "created_at": 1640995200,
-    "updated_at": 1640998800,
-    "confirmations": 5,
-    "required_confirmations": 5,
-    "source_transaction": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
-    "destination_transaction": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+    "completed_at": 1640995500,
+    "source_transaction": "0x... (PLACEHOLDER)",
+    "destination_transaction": "0x... (PLACEHOLDER)"
   }
 }
 ```
@@ -517,7 +522,7 @@ Submits compute resources for verification.
     "storage_score": 9200,
     "network_score": 8900
   },
-  "proof": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+  "proof": "0x... (PLACEHOLDER)",
   "metadata": {
     "cpu_cores": 8,
     "ram_gb": 32,
@@ -533,10 +538,10 @@ Submits compute resources for verification.
 {
   "success": true,
   "data": {
-    "verification_id": "verification-123",
-    "status": "pending",
-    "submitted_at": 1640995200,
-    "estimated_completion_time": 1640998800
+    "verification_id": "ver-123",
+    "status": "verified",
+    "created_at": 1640995200,
+    "verified_at": 1640995500
   }
 }
 ```
@@ -561,18 +566,54 @@ Checks the status of a verification request.
 {
   "success": true,
   "data": {
-    "verification_id": "verification-123",
+    "verification_id": "ver-123",
     "provider_id": "provider-123",
-    "status": "completed",
-    "submitted_at": 1640995200,
-    "completed_at": 1640998800,
-    "result": {
-      "is_verified": true,
-      "cu_value": 100,
-      "cu_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
-      "verification_method": "zkp",
-      "verifier": "0x1234567890abcdef1234567890abcdef12345678"
-    }
+    "verification_method": "zkp",
+    "proof": "0x... (PLACEHOLDER)",
+    "status": "verified",
+    "created_at": 1640995200,
+    "verified_at": 1640995500
+  }
+}
+```
+
+### Redemptions
+
+#### Initiate Redemption
+
+```
+POST /api/v1/redemptions
+```
+
+Initiates a redemption of sSTB tokens for compute resources.
+
+**Request Body:**
+
+```json
+{
+  "sstb_amount": 100,
+  "provider_id": "provider-123",
+  "specifications": {
+    "cpu_cores": 8,
+    "ram_gb": 32,
+    "storage_gb": 500,
+    "network_mbps": 1000
+  }
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "redemption_id": "redemption-123",
+    "status": "pending",
+    "sstb_amount": 100,
+    "provider_id": "provider-123",
+    "initiated_at": 1640995200,
+    "estimated_fulfillment_time": 1640998800
   }
 }
 ```
@@ -592,8 +633,9 @@ The STAB3L API supports webhooks for real-time notifications:
 
 | Event | Description |
 |-------|-------------|
-| `cu.minted` | A new CU token has been minted |
-| `cu.redeemed` | A CU token has been redeemed |
+| `cu.verified` | A new compute unit has been verified |
+| `sstb.minted` | New sSTB tokens have been minted |
+| `sstb.redeemed` | sSTB tokens have been redeemed for compute resources |
 | `listing.created` | A new marketplace listing has been created |
 | `listing.purchased` | A marketplace listing has been purchased |
 | `verification.completed` | A verification request has been completed |
@@ -604,14 +646,13 @@ The STAB3L API supports webhooks for real-time notifications:
 
 ```json
 {
-  "event": "cu.minted",
+  "event": "sstb.minted",
   "timestamp": 1640995200,
   "data": {
-    "token_id": 123,
-    "cu_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
-    "cu_value": 100,
     "provider_id": "provider-123",
-    "owner": "0x1234567890abcdef1234567890abcdef12345678"
+    "cu_value": 100,
+    "sstb_amount": 100,
+    "owner": "0x... (PLACEHOLDER)"
   }
 }
 ```
@@ -704,4 +745,4 @@ Following these best practices will help you build robust applications with the 
 
 ## Conclusion
 
-The STAB3L API provides comprehensive access to the platform's functionality, enabling developers to build applications that leverage compute unit standardization, verification, and marketplace features. For additional support, visit the [Developer Forum](https://forum.stab3l.io/developers) or contact [developer support](mailto:developers@stab3l.io). 
+The STAB3L API provides comprehensive access to the platform's functionality, enabling developers to build applications that leverage compute unit standardization, verification, and marketplace features. For additional support, visit the [Developer Forum](https://forum.stab3l.com/developers) or contact [developer support](mailto:developers@stab3l.com). 

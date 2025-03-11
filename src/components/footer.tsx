@@ -1,11 +1,12 @@
 /**
  * Footer component for the documentation site
  * Supports both dark and light modes
+ * Fixed at the bottom of the page
  */
 export function Footer() {
   return (
-    <footer className="py-4 border-t border-black dark:border-white">
-      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center text-xs">
+    <footer className="bg-white dark:bg-black w-full z-10">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center text-xs">
         <div>
           <p>&copy; {new Date().getFullYear()} TerminalDocs</p>
         </div>

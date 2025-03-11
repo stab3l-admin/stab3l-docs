@@ -10,7 +10,11 @@ order: 5
 Security is a core principle of the STAB3L platform. This guide outlines the security measures implemented in the platform and provides best practices for users, providers, and developers.
 
 {% hint style="info" %}
-STAB3L undergoes regular security audits by independent third-party firms. Audit reports are available in the [Security section](https://stab3l.io/security) of our website.
+STAB3L undergoes regular security audits by independent third-party firms. Audit reports are available in the [Security section](https://stab3l.com/security) of our website.
+{% endhint %}
+
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
 {% endhint %}
 
 ## Platform Security Architecture
@@ -27,7 +31,9 @@ The STAB3L smart contracts form the foundation of the platform's security:
 
 3. **Circuit Breakers**: Automatic pause mechanisms are triggered if suspicious activity is detected, such as:
    - Unusual trading volume (>50% increase in 1 hour)
+   
    - Large bridge transfers (>$1M equivalent)
+   
    - Rapid price fluctuations (>20% in 1 hour)
 
 4. **Access Control**: Granular role-based access control using OpenZeppelin's AccessControl library.
@@ -149,15 +155,22 @@ The cross-chain bridge implements multiple security measures:
 
 3. **Smart Contract Development**:
    - Follow established patterns
+   
    - Use audited libraries (OpenZeppelin)
+   
    - Comprehensive testing
+   
    - Gas optimization without security compromises
+   
    - Formal verification when possible
 
 4. **Dependency Management**:
    - Regular dependency updates
+   
    - Vulnerability scanning
+   
    - Dependency pinning
+   
    - Software composition analysis
 
 ## Security Incident Response
@@ -166,7 +179,7 @@ STAB3L has a comprehensive security incident response plan:
 
 ### Reporting Security Issues
 
-If you discover a security vulnerability, please report it through our [Security Bug Bounty Program](https://hackerone.com/stab3l) or email [security@stab3l.io](mailto:security@stab3l.io).
+If you discover a security vulnerability, please report it through our [bug bounty program](https://hackerone.com/stab3l) or email [security@stab3l.com](mailto:security@stab3l.com).
 
 {% hint style="warning" %}
 Please do not disclose security vulnerabilities publicly until they have been addressed by the STAB3L team.
@@ -180,7 +193,9 @@ Please do not disclose security vulnerabilities publicly until they have been ad
 
 3. **Containment**: Immediate actions to contain the incident, which may include:
    - Pausing affected contracts
+   
    - Restricting access to affected systems
+   
    - Isolating compromised components
 
 4. **Eradication**: Removing the cause of the incident and addressing vulnerabilities.
@@ -199,17 +214,17 @@ STAB3L undergoes regular security audits by leading blockchain security firms:
   <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
     <h3 class="text-lg font-semibold">Smart Contract Audits</h3>
     <p>Comprehensive audits of all smart contracts</p>
-    <a href="https://stab3l.io/audits/smart-contracts" class="text-blue-500 hover:underline">View Reports</a>
+    <a href="https://stab3l.com/audits/smart-contracts" class="text-blue-500 hover:underline">View Reports</a>
   </div>
   <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
     <h3 class="text-lg font-semibold">Bridge Security Audits</h3>
     <p>Specialized audits of cross-chain bridge components</p>
-    <a href="https://stab3l.io/audits/bridge" class="text-blue-500 hover:underline">View Reports</a>
+    <a href="https://stab3l.com/audits/bridge" class="text-blue-500 hover:underline">View Reports</a>
   </div>
   <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
     <h3 class="text-lg font-semibold">Verification System Audits</h3>
     <p>Audits of ZKP and TEE verification systems</p>
-    <a href="https://stab3l.io/audits/verification" class="text-blue-500 hover:underline">View Reports</a>
+    <a href="https://stab3l.com/audits/verification" class="text-blue-500 hover:underline">View Reports</a>
   </div>
 </div>
 
@@ -235,6 +250,8 @@ STAB3L secures funds through multiple mechanisms:
 4. Regular security audits
 5. Circuit breakers for emergency situations
 6. Insurance fund for unexpected events
+
+Note that sSTB tokens, not CU tokens, are the tradable assets in the STAB3L ecosystem. CU tokens are temporary and are burned immediately when exchanged for sSTB.
 {% endaccordion-item %}
 
 {% accordion-item title="What happens if a security incident occurs?" %}
@@ -266,6 +283,8 @@ The cross-chain bridge implements multiple security measures:
 4. Multiple independent relayers
 5. Real-time monitoring and alerts
 6. Regular security audits
+
+Note that the bridge is designed to transfer sSTB tokens between chains, not CU tokens, as CU tokens are not tradable assets.
 {% endaccordion-item %}
 {% endaccordion %}
 
@@ -273,14 +292,14 @@ The cross-chain bridge implements multiple security measures:
 
 ### Documentation
 
-- [Smart Contract Security Specification](https://docs.stab3l.io/technical/smart-contract-security)
-- [Bridge Security Architecture](https://docs.stab3l.io/technical/bridge-security)
-- [Verification Security Model](https://docs.stab3l.io/technical/verification-security)
+- [Smart Contract Security Specification](https://docs.stab3l.com/technical/smart-contract-security)
+- [Bridge Security Architecture](https://docs.stab3l.com/technical/bridge-security)
+- [Verification Security Model](https://docs.stab3l.com/technical/verification-security)
 
 ### Tools
 
 - [STAB3L Security Scanner](https://github.com/stab3l/security-scanner) - Open-source tool for scanning STAB3L smart contracts
-- [Provider Security Checklist](https://docs.stab3l.io/providers/security-checklist) - Comprehensive security checklist for providers
+- [Provider Security Checklist](https://docs.stab3l.com/providers/security-checklist) - Comprehensive security checklist for providers
 
 ### External Resources
 
@@ -292,4 +311,4 @@ The cross-chain bridge implements multiple security measures:
 
 Security is a shared responsibility between the STAB3L platform, providers, developers, and users. By following the best practices outlined in this guide and staying informed about security updates, you can help maintain the security and integrity of the STAB3L ecosystem.
 
-For security-related questions or concerns, please contact [security@stab3l.io](mailto:security@stab3l.io). 
+For security-related questions or concerns, please contact [security@stab3l.com](mailto:security@stab3l.com). 

@@ -33,34 +33,34 @@ STAB3L smart contracts are deployed on multiple chains. Here are the main contra
 {% tab title="Arbitrum (Primary)" %}
 | Contract | Address | Description |
 |----------|---------|-------------|
-| CUToken | 0x7C3a1B0a1872Ba340E9D4aBF2E83433fEA528f53 | ERC-1155 token for Compute Units |
-| MintingAgent | 0x9D8f2dB20A9EeD0Af56D91F3c2E2A52A6F362Eb4 | Handles minting of CU tokens |
-| RedemptionManager | 0x3F8C1Eb85a3C2D2a1Ee3dA5c6F4e424B2F87d39B | Manages redemption of CU tokens |
-| SpotMarket | 0x2E8d04b4A72e79A5645571c4E0370D8c8D908626 | Spot market for CU tokens |
-| FuturesMarket | 0x1B7a1E99b5F1E12D7D95E802B142C4c8e3BEcDB5 | Futures market for CU tokens |
-| OptionsMarket | 0x6D8aE6C4dB928C8A8e9c6E392F0F3E2F71F26EA2 | Options market for CU tokens |
-| CrossChainBridge | 0xF4e77E5Da47AC3125140c470c71cBca77B5c638c | Bridge for cross-chain transfers |
-| Governance | 0x8B2e8C31EFB6f9f4Dd826F2FD4d7B22f8A44E81F | Governance contract for STAB3L |
-| STB3LToken | 0x4A7D4Be868e0b811BEAf7820B1EF1EB5223624C4 | ERC-20 utility token |
-| STBGOVToken | 0x5C2E4d2F2268A6c7f49C4B8C88A6C380622c6e9F | ERC-20 governance token |
+| CUToken | 0x... (PLACEHOLDER) | ERC-1155 token for temporary Compute Units (burned upon exchange for sSTB) |
+| MintingAgent | 0x... (PLACEHOLDER) | Handles verification and minting process |
+| RedemptionManager | 0x... (PLACEHOLDER) | Manages redemption of sSTB tokens for compute resources |
+| SpotMarket | 0x... (PLACEHOLDER) | Spot market for sSTB tokens |
+| FuturesMarket | 0x... (PLACEHOLDER) | Futures market for sSTB tokens |
+| OptionsMarket | 0x... (PLACEHOLDER) | Options market for sSTB tokens |
+| CrossChainBridge | 0x... (PLACEHOLDER) | Bridge for cross-chain transfers of sSTB |
+| Governance | 0x... (PLACEHOLDER) | Governance contract for STAB3L |
+| sSTBToken | 0x... (PLACEHOLDER) | ERC-20 utility token (sSTB) |
+| rSTBToken | 0x... (PLACEHOLDER) | ERC-20 governance token (rSTB) |
 {% endtab %}
 
 {% tab title="Ethereum" %}
 | Contract | Address | Description |
 |----------|---------|-------------|
-| CUToken | 0x3D2f8ae0344d38cBE2D57638b2798F8A62Ac1D73 | ERC-1155 token for Compute Units |
-| CrossChainBridge | 0xB7A5bd0345EF1Cc5E66bf61BdeC17D2461fBd968 | Bridge for cross-chain transfers |
-| STB3LToken | 0x1F98431c8aD98523631AE4a59f267346ea31F984 | ERC-20 utility token |
-| STBGOVToken | 0x2E8d04b4A72e79A5645571c4E0370D8c8D908626 | ERC-20 governance token |
+| CUToken | 0x... (PLACEHOLDER) | ERC-1155 token for Compute Units |
+| CrossChainBridge | 0x... (PLACEHOLDER) | Bridge for cross-chain transfers |
+| sSTBToken | 0x... (PLACEHOLDER) | ERC-20 utility token |
+| rSTBToken | 0x... (PLACEHOLDER) | ERC-20 governance token |
 {% endtab %}
 
 {% tab title="Polygon" %}
 | Contract | Address | Description |
 |----------|---------|-------------|
-| CUToken | 0x6B175474E89094C44Da98b954EedeAC495271d0F | ERC-1155 token for Compute Units |
-| CrossChainBridge | 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D | Bridge for cross-chain transfers |
-| STB3LToken | 0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2 | ERC-20 utility token |
-| STBGOVToken | 0x6B3595068778DD592e39A122f4f5a5cF09C90fE2 | ERC-20 governance token |
+| CUToken | 0x... (PLACEHOLDER) | ERC-1155 token for Compute Units |
+| CrossChainBridge | 0x... (PLACEHOLDER) | Bridge for cross-chain transfers |
+| sSTBToken | 0x... (PLACEHOLDER) | ERC-20 utility token |
+| rSTBToken | 0x... (PLACEHOLDER) | ERC-20 governance token |
 {% endtab %}
 {% endtabs %}
 
@@ -87,7 +87,7 @@ const { ethers } = require('ethers');
 const CUTokenABI = require('@stab3l/contracts/abis/CUToken.json');
 
 async function getCUTokenBalance(provider, tokenId, address) {
-  const cuTokenAddress = '0x7C3a1B0a1872Ba340E9D4aBF2E83433fEA528f53'; // Arbitrum
+  const cuTokenAddress = '0x... (PLACEHOLDER)'; // Arbitrum
   const cuToken = new ethers.Contract(cuTokenAddress, CUTokenABI, provider);
   
   const balance = await cuToken.balanceOf(address, tokenId);
@@ -95,7 +95,7 @@ async function getCUTokenBalance(provider, tokenId, address) {
 }
 
 async function transferCUTokens(signer, tokenId, to, amount) {
-  const cuTokenAddress = '0x7C3a1B0a1872Ba340E9D4aBF2E83433fEA528f53'; // Arbitrum
+  const cuTokenAddress = '0x... (PLACEHOLDER)'; // Arbitrum
   const cuToken = new ethers.Contract(cuTokenAddress, CUTokenABI, signer);
   
   const tx = await cuToken.safeTransferFrom(
@@ -110,25 +110,56 @@ async function transferCUTokens(signer, tokenId, to, amount) {
 }
 ```
 
-### Example: Redeeming CU Tokens
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources. Users trade and redeem sSTB tokens, not CU tokens.
+{% endhint %}
 
-Here's an example of how to redeem CU tokens:
+### Example: Provider Verification and sSTB Minting Process
+
+Here's an example of how the verification and minting process works for providers:
+
+```javascript
+const { ethers } = require('ethers');
+const MintingAgentABI = require('@stab3l/contracts/abis/MintingAgent.json');
+
+async function verifyAndMintSSTB(signer, computeProof, collateralAmount, stakingPeriod) {
+  const mintingAgentAddress = '0x... (PLACEHOLDER)'; // Arbitrum
+  const mintingAgent = new ethers.Contract(mintingAgentAddress, MintingAgentABI, signer);
+  
+  // First, approve collateral token transfer
+  const collateralTokenAddress = '0x... (PLACEHOLDER)'; // USDC
+  const collateralToken = new ethers.Contract(collateralTokenAddress, ERC20ABI, signer);
+  await collateralToken.approve(mintingAgentAddress, collateralAmount);
+  
+  // Submit verification and mint sSTB in one transaction
+  // This process internally creates temporary CU tokens that are immediately burned
+  const tx = await mintingAgent.verifyAndMintSSTB(computeProof, collateralAmount, stakingPeriod);
+  const receipt = await tx.wait();
+  
+  // The temporary CU tokens are burned and sSTB tokens are minted to your address
+  return receipt;
+}
+```
+
+### Example: Redeeming sSTB for Compute Resources
+
+Here's an example of how to redeem sSTB tokens for compute resources:
 
 ```javascript
 const { ethers } = require('ethers');
 const RedemptionManagerABI = require('@stab3l/contracts/abis/RedemptionManager.json');
 
-async function redeemCUTokens(signer, tokenId, amount) {
-  const redemptionManagerAddress = '0x3F8C1Eb85a3C2D2a1Ee3dA5c6F4e424B2F87d39B'; // Arbitrum
+async function redeemSSTBForCompute(signer, amount, providerId) {
+  const redemptionManagerAddress = '0x... (PLACEHOLDER)'; // Arbitrum
   const redemptionManager = new ethers.Contract(redemptionManagerAddress, RedemptionManagerABI, signer);
   
-  // First, approve the redemption manager to spend your CU tokens
-  const cuTokenAddress = '0x7C3a1B0a1872Ba340E9D4aBF2E83433fEA528f53';
-  const cuToken = new ethers.Contract(cuTokenAddress, CUTokenABI, signer);
-  await cuToken.setApprovalForAll(redemptionManagerAddress, true);
+  // First, approve the redemption manager to spend your sSTB tokens
+  const sstbTokenAddress = '0x... (PLACEHOLDER)';
+  const sstbToken = new ethers.Contract(sstbTokenAddress, ERC20ABI, signer);
+  await sstbToken.approve(redemptionManagerAddress, amount);
   
   // Then initiate the redemption
-  const tx = await redemptionManager.initiateRedemption(tokenId, amount);
+  const tx = await redemptionManager.initiateRedemption(amount, providerId);
   const receipt = await tx.wait();
   
   // Extract the redemption ID from the event
@@ -146,7 +177,7 @@ STAB3L provides a comprehensive REST API for interacting with the platform witho
 ### Base URL
 
 ```
-https://api.stab3l.io/v1
+https://api.stab3l.com/v1
 ```
 
 ### Authentication
@@ -174,12 +205,12 @@ Authorization: Bearer YOUR_API_KEY
 
 Here are some of the key endpoints:
 
-#### Compute Units
+#### Compute Resources
 
 ```
-GET /compute-units
-GET /compute-units/{tokenId}
-GET /compute-units/provider/{providerId}
+GET /compute-resources
+GET /compute-resources/{resourceId}
+GET /compute-resources/provider/{providerId}
 ```
 
 #### Providers
@@ -187,16 +218,14 @@ GET /compute-units/provider/{providerId}
 ```
 GET /providers
 GET /providers/{providerId}
-GET /providers/{providerId}/compute-units
+GET /providers/{providerId}/compute-resources
 ```
 
-#### Marketplace
+#### sSTB Tokens
 
 ```
-GET /marketplace/listings
-POST /marketplace/listings
-GET /marketplace/orders
-POST /marketplace/orders
+GET /sstb/balance
+POST /sstb/transfer
 ```
 
 #### Redemptions
@@ -207,11 +236,11 @@ GET /redemptions/{redemptionId}
 POST /redemptions/{redemptionId}/confirm
 ```
 
-### Example: Listing Available CU Tokens
+### Example: Listing Available Compute Resources
 
 ```javascript
-async function listAvailableCUTokens() {
-  const response = await fetch('https://api.stab3l.io/v1/marketplace/listings', {
+async function listAvailableComputeResources() {
+  const response = await fetch('https://api.stab3l.com/v1/compute-resources', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${apiKey}`
@@ -222,21 +251,19 @@ async function listAvailableCUTokens() {
 }
 ```
 
-### Example: Creating a Buy Order
+### Example: Initiating a Redemption
 
 ```javascript
-async function createBuyOrder(tokenId, amount, price) {
-  const response = await fetch('https://api.stab3l.io/v1/marketplace/orders', {
+async function initiateRedemption(amount, providerId) {
+  const response = await fetch('https://api.stab3l.com/v1/redemptions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      token_id: tokenId,
-      amount: amount,
-      price: price,
-      order_type: 'buy'
+      sstb_amount: amount,
+      provider_id: providerId
     })
   });
   
@@ -251,7 +278,7 @@ For more complex queries and data retrieval, STAB3L offers a GraphQL API.
 ### Endpoint
 
 ```
-https://api.stab3l.io/graphql
+https://api.stab3l.com/graphql
 ```
 
 ### Authentication
@@ -264,26 +291,27 @@ Authorization: Bearer YOUR_API_KEY
 
 ### Example Queries
 
-#### Get Provider Details with CU Tokens
+#### Get Provider Details with Compute Resources
 
 ```graphql
-query GetProviderWithCUTokens($providerId: ID!) {
+query GetProviderWithComputeResources($providerId: ID!) {
   provider(id: $providerId) {
     id
     name
     reputation
-    totalCUTokens
-    cuTokens {
+    totalComputeValue
+    computeResources {
       id
-      tokenId
-      totalSupply
-      availableSupply
+      resourceId
       specifications {
         cpuCores
         memoryGB
         storageGB
         bandwidthMbps
       }
+      verificationMethod
+      stakingPeriod
+      collateralization
       price
       expirationDate
     }
@@ -299,7 +327,7 @@ query GetMarketplaceActivity($limit: Int!) {
     id
     timestamp
     activityType
-    tokenId
+    tokenType
     amount
     price
     buyer {
@@ -324,14 +352,14 @@ async function getProviderDetails(providerId) {
         id
         name
         reputation
-        totalCUTokens
+        totalComputeValue
         verificationMethod
         joinedAt
       }
     }
   `;
   
-  const response = await fetch('https://api.stab3l.io/graphql', {
+  const response = await fetch('https://api.stab3l.com/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -370,8 +398,8 @@ const stab3l = new STAB3L({
   provider: window.ethereum // or any ethers.js compatible provider
 });
 
-// Get CU token balance
-const balance = await stab3l.cuTokens.getBalance(tokenId, address);
+// Get sSTB token balance
+const balance = await stab3l.sstbTokens.getBalance(tokenId, address);
 
 // List marketplace listings
 const listings = await stab3l.marketplace.getListings();
@@ -379,7 +407,7 @@ const listings = await stab3l.marketplace.getListings();
 // Create a buy order
 const order = await stab3l.marketplace.createBuyOrder(tokenId, amount, price);
 
-// Redeem CU tokens
+// Redeem sSTB tokens
 const redemptionId = await stab3l.redemptions.initiateRedemption(tokenId, amount);
 ```
 
@@ -399,8 +427,8 @@ stab3l = STAB3L(
     provider_url='https://arb1.arbitrum.io/rpc'  # or any Web3 provider URL
 )
 
-# Get CU token balance
-balance = stab3l.cu_tokens.get_balance(token_id, address)
+# Get sSTB token balance
+balance = stab3l.sstb_tokens.get_balance(token_id, address)
 
 # List marketplace listings
 listings = stab3l.marketplace.get_listings()
@@ -408,7 +436,7 @@ listings = stab3l.marketplace.get_listings()
 # Create a buy order
 order = stab3l.marketplace.create_buy_order(token_id, amount, price)
 
-# Redeem CU tokens
+# Redeem sSTB tokens
 redemption_id = stab3l.redemptions.initiate_redemption(token_id, amount)
 ```
 
@@ -432,8 +460,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "https://arb1.arbitrum.io/rpc"  // or any Web3 provider URL
     )?;
     
-    // Get CU token balance
-    let balance = stab3l.cu_tokens().get_balance(token_id, &address).await?;
+    // Get sSTB token balance
+    let balance = stab3l.sstb_tokens().get_balance(token_id, &address).await?;
     
     // List marketplace listings
     let listings = stab3l.marketplace().get_listings().await?;
@@ -441,7 +469,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create a buy order
     let order = stab3l.marketplace().create_buy_order(token_id, amount, price).await?;
     
-    // Redeem CU tokens
+    // Redeem sSTB tokens
     let redemption_id = stab3l.redemptions().initiate_redemption(token_id, amount).await?;
     
     Ok(())
@@ -465,9 +493,9 @@ STAB3L provides webhooks for real-time notifications about events on the platfor
 
 | Event | Description |
 |-------|-------------|
-| `cu_token.minted` | New CU tokens are minted |
-| `cu_token.transferred` | CU tokens are transferred |
-| `cu_token.redeemed` | CU tokens are redeemed |
+| `sstb.minted` | New sSTB tokens are minted |
+| `sstb.transferred` | sSTB tokens are transferred |
+| `sstb.redeemed` | sSTB tokens are redeemed for compute resources |
 | `marketplace.listing_created` | New marketplace listing is created |
 | `marketplace.order_created` | New marketplace order is created |
 | `marketplace.trade_executed` | Trade is executed on the marketplace |
@@ -479,18 +507,12 @@ STAB3L provides webhooks for real-time notifications about events on the platfor
 
 ```json
 {
-  "event": "cu_token.minted",
+  "event": "sstb.minted",
   "timestamp": "2023-07-15T12:34:56Z",
   "data": {
-    "tokenId": "123456",
-    "provider": "0x1234567890abcdef1234567890abcdef12345678",
-    "amount": "100",
-    "specifications": {
-      "cpuCores": 8,
-      "memoryGB": 32,
-      "storageGB": 500,
-      "bandwidthMbps": 1000
-    },
+    "provider_id": "0x1234567890abcdef1234567890abcdef12345678",
+    "sstb_amount": 100,
+    "owner": "0x1234567890abcdef1234567890abcdef12345678",
     "transactionHash": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
   }
 }
@@ -534,8 +556,8 @@ app.post('/webhook', (req, res) => {
 
 You can build your own marketplace for compute resources using STAB3L:
 
-1. Use the SDK or API to list available CU tokens
-2. Implement a user interface for browsing and filtering CU tokens
+1. Use the SDK or API to list available sSTB tokens
+2. Implement a user interface for browsing and filtering sSTB tokens
 3. Integrate with the marketplace contracts for buying and selling
 4. Use webhooks to receive real-time updates about marketplace activity
 
@@ -552,9 +574,9 @@ Build a dashboard for compute providers:
 
 Create a system that automatically acquires and manages compute resources:
 
-1. Monitor resource needs and available CU tokens
-2. Automatically purchase CU tokens when needed
-3. Redeem CU tokens and manage the provisioned resources
+1. Monitor resource needs and available sSTB tokens
+2. Automatically purchase sSTB tokens when needed
+3. Redeem sSTB tokens and manage the provisioned resources
 4. Scale resources up or down based on demand
 
 ## Best Practices
@@ -606,15 +628,15 @@ Create a system that automatically acquires and manages compute resources:
 
 If you encounter issues, you can:
 
-- Check the [STAB3L Developer Documentation](https://docs.stab3l.io/developer)
+- Check the [STAB3L Developer Documentation](https://docs.stab3l.com/developer)
 - Join the [STAB3L Developer Discord](https://discord.gg/stab3l-dev)
 - Open an issue on [GitHub](https://github.com/stab3l)
-- Contact [developer support](mailto:dev-support@stab3l.io)
+- Contact [developer support](mailto:dev-support@stab3l.com)
 
 ## Conclusion
 
 This guide provides a comprehensive overview of the integration options available for developers who want to build on top of STAB3L. By leveraging our smart contracts, APIs, SDKs, and webhooks, you can create powerful applications that utilize the STAB3L platform for standardized, verified, and tradable compute resources.
 
 {% hint style="success" %}
-We're excited to see what you build with STAB3L! If you create something interesting, let us know at [developers@stab3l.io](mailto:developers@stab3l.io).
+We're excited to see what you build with STAB3L! If you create something interesting, let us know at [developers@stab3l.com](mailto:developers@stab3l.com).
 {% endhint %} 

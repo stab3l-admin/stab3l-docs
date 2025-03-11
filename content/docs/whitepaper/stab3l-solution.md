@@ -1,39 +1,39 @@
 ---
 title: The STAB3L Solution
-description: How STAB3L mitigates compute market volatility through a dual-token system
+description: Core mechanism of the STAB3L solution
 category: Whitepaper
 order: 3
 ---
 
 # 3. The STAB3L Solution
 
-STAB3L mitigates the 30% volatility in compute pricing identified in Section 2 by introducing a compute-backed stablecoin, sSTB, pegged to 1 Compute Unit (CU, defined as 10^15 FLOPs, benchmarked against high-performance instances like AWS p4d.24xlarge, nominally USD 0.06/CU at launch). The protocol leverages a dual-token system—sSTB for stability and rSTB for rewards and governance—combined with market mechanisms, dynamic governance, and risk management to ensure predictable compute costs and robust ecosystem growth. This section details the solution's components, mathematical underpinnings, and operational mechanics.
+This section details the core mechanism of the STAB3L solution, including the dual-token system, market mechanisms for peg stability, and operational mechanics. It provides a comprehensive overview of how STAB3L addresses the challenges outlined in Section 2.
 
-{% hint style="success" %}
-STAB3L's dual-token system creates a self-reinforcing ecosystem where stability incentivizes adoption, and adoption enhances stability through deeper liquidity and broader governance.
-{% endhint %}
+## 3.1 Overview
 
-## 3.1 Core Mechanism: sSTB Peg to 1 CU
+STAB3L introduces a dual-token system:
 
-STAB3L stabilizes compute costs by pegging 1 sSTB to 1 CU, ensuring users pay a predictable price (e.g., USD 0.06/CU) regardless of market fluctuations. The peg is maintained through:
+1. **sSTB**: A stablecoin pegged to 1 Compute Unit (CU), valued at USD 0.06 at launch, serving as a stable medium of exchange for compute resources.
+2. **rSTB**: A reward and governance token that appreciates with network growth, incentivizing participation and enabling decentralized governance.
 
-- **Staking by Compute Providers**: Providers stake their CUs, minting temporary CU tokens, which are locked for 90 days and then exchanged 1:1 for sSTB. CU tokens are burned upon exchange to enforce scarcity and reinforce the peg.
-- **Redemption by Users**: Users redeem sSTB for CUs at the stabilized price, reducing sSTB supply if $P_{sSTB} < \text{USD 0.06}$ and increasing supply if $P_{sSTB} > \text{USD 0.06}$, driving $P_{sSTB}$ back to the target.
-- **Access Restrictions**: Only sSTB holders access stabilized pricing (\text{USD 0.06}/CU); non-holders pay volatile $P_{CU}$ (e.g., \text{USD 0.04}–\text{USD 0.08}), incentivizing sSTB adoption via fiat on-ramps, cross-chain bridges, and user-friendly interfaces.
+This system mitigates compute market volatility by creating a stable, liquid market for compute resources, benefiting both providers and users.
 
-## 3.2 Dual-Token Dynamics
+## 3.2 Token Mechanics
 
-The ecosystem balances stability and growth through sSTB and rSTB:
+#### 3.2.1 sSTB: Compute-Backed Stablecoin
 
-### 3.2.1 sSTB: Compute-Backed Stablecoin
+- **Role**: sSTB serves as a stable medium of exchange for compute resources, pegged to 1 CU (USD 0.06 at launch). Its stability is maintained through:
+  - Compute backing (1 sSTB = 1 CU), ensuring real-world value.
+  - Arbitrage mechanisms exploiting price discrepancies.
+  - Derivatives markets providing price discovery and hedging.
+  - Governance adjustments optimizing stability parameters.
 
-- **Peg Target**: $P_{sSTB} = \text{USD 0.06}$ (1 CU), maintained via arbitrage, derivatives, and governance adjustments (detailed in Section 4).
 - **Supply Dynamics**: sSTB supply adjusts based on staking and redemption:
   $$S_{sSTB}(t) = S_{sSTB}(t-1) + \Delta_{stake}(t) - \Delta_{redeem}(t)$$
  
   Where:
 
-  - $\Delta_{stake}(t)$: New sSTB minted from CU token exchanges (after 90-day lockup).
+  - $\Delta_{stake}(t)$: New sSTB minted from immediate CU token exchanges.
   - $\Delta_{redeem}(t)$: sSTB burned for CU redemption.
 
 - **Scarcity Enforcement**: CU tokens are burned 1:1 upon sSTB issuance, ensuring a fixed relationship:
@@ -95,7 +95,8 @@ Liquidity providers (LPs) in sSTB/USDC or sSTB/ETH pools earn 10% APR in rSTB pl
 
 ## 3.4 Operational Mechanics
 
-- **Compute Provider Incentives**: Providers stake CUs, earning rSTB (5% APR) and insurance against impermanent loss (IL, see Section 7). After 90 days, CU tokens are exchanged for sSTB, burned to maintain scarcity.
+- **Compute Provider Incentives**: Providers stake CUs for a period of their choosing (minimum 7 days), earning rSTB (5% APR base, higher for longer periods) and insurance against impermanent loss (IL, see Section 7). CU tokens are immediately exchanged for sSTB and burned to maintain scarcity. The newly minted sSTB tokens are automatically staked for the chosen period.
+- **Collateralization Requirements**: Providers must maintain a minimum collateralization ratio of 120% of CU value. A recommended ratio of 150% or higher provides additional security against market fluctuations.
 - **User Access**: Users purchase sSTB via fiat on-ramps (e.g., MoonPay, Ramp Network), cross-chain bridges (e.g., Wormhole, Axelar), or DEXs, redeeming for CUs at USD 0.06/CU. Non-holders pay $P_{CU}$, incentivizing adoption.
 - **Cross-Chain Integration**: Native sSTB issuance on Ethereum, Solana, etc., with audited bridges ensures accessibility, while redundancy minimizes security risks.
 
@@ -137,5 +138,6 @@ The simulation results demonstrate that STAB3L can maintain the sSTB peg within 
 ## 3.8 Practical Considerations
 
 - **Initial Launch**: STAB3L launches with 100 million sSTB and 50 million rSTB, backed by 100 million CUs staked by initial providers (e.g., data centers, cloud providers).
+- **Staking Periods**: Providers can choose staking periods starting from a minimum of 7 days, with longer periods earning progressively higher rSTB rewards.
 - **Fee Structure**: 0.5% transaction fees on sSTB trades fund reserves, liquidity, and rSTB buybacks.
 - **Scalability**: The protocol scales CU supply via multi-chain deployment and provider incentives, detailed in Section 10. 

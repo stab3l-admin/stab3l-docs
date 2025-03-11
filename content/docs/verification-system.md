@@ -9,6 +9,14 @@ order: 3
 
 The STAB3L verification system is a critical component that ensures the authenticity and performance of compute resources offered on the platform. This document provides a detailed explanation of the verification methods, their implementation, and the security measures in place.
 
+{% hint style="info" %}
+This documentation is intended for developers and technical users who want to understand the inner workings of the STAB3L verification system.
+{% endhint %}
+
+{% hint style="warning" %}
+**Important**: CU tokens are NOT tradable assets. They are temporary tokens that are burned immediately when exchanged for sSTB. This burning mechanism is crucial for maintaining the peg and ensuring that each sSTB is backed by real compute resources.
+{% endhint %}
+
 ## Overview
 
 STAB3L employs two primary verification methods:
@@ -28,16 +36,21 @@ Providers can choose either verification method based on their hardware capabili
 The verification process follows these steps:
 
 1. **Provider Registration**: Providers register on the platform and select a verification method (ZKP or TEE).
+2. **Staking Period Selection**: Providers choose a staking period (minimum 7 days), with longer periods earning higher rewards.
+3. **Benchmark Execution**: Providers run standardized benchmarks on their compute resources.
+4. **Proof Generation**: The benchmarks generate cryptographic proofs (ZKPs) or attestations (TEEs).
+5. **On-chain Verification**: Smart contracts verify the proofs or attestations.
+6. **CU Value Assignment**: Based on the verified results, a standardized CU value is assigned (1 CU = 10^15 FLOPs, valued at $0.06).
+7. **Temporary CU Token Creation**: Verified compute resources are represented as temporary CU tokens.
+8. **Immediate Exchange for sSTB**: These temporary CU tokens are immediately exchanged for sSTB tokens.
+9. **CU Token Burning**: The temporary CU tokens are burned upon exchange for sSTB.
+10. **Automatic sSTB Staking**: The newly minted sSTB tokens are automatically staked for the chosen period.
+11. **Collateral Locking**: Provider's collateral (minimum 120% of CU value) is locked for the duration of the staking period.
+12. **rSTB Rewards**: Providers earn rSTB rewards throughout the staking period, with longer periods earning higher rewards.
 
-2. **Benchmark Execution**: Providers run standardized benchmarks on their compute resources.
-
-3. **Proof Generation**: The benchmarks generate cryptographic proofs (ZKPs) or attestations (TEEs).
-
-4. **On-chain Verification**: Smart contracts verify the proofs or attestations.
-
-5. **CU Value Assignment**: Based on the verified results, a standardized CU value is assigned.
-
-6. **Minting Authorization**: Once verified, providers are authorized to mint CU tokens representing their compute resources.
+{% hint style="info" %}
+The definition and value of 1 CU will be reviewed and potentially adjusted quarterly by the DAO through governance voting to ensure the CU standard remains relevant as compute technology evolves.
+{% endhint %}
 
 ## Zero-Knowledge Proofs (ZKPs)
 
@@ -446,9 +459,9 @@ STAB3L implements several security measures to ensure the integrity of the verif
 
 The verification system integrates with other STAB3L components:
 
-- **Minting System**: Verified providers can mint CU tokens representing their compute resources.
-- **Marketplace**: CU tokens are listed on the marketplace with their verified specifications.
-- **Redemption System**: When users redeem CU tokens, providers must deliver the verified compute resources.
+- **sSTB Minting System**: Verified compute resources are represented as temporary CU tokens that are immediately exchanged for sSTB tokens.
+- **Marketplace**: sSTB tokens can be traded on the marketplace, representing the verified compute resources.
+- **Redemption System**: When users redeem sSTB tokens, providers must deliver the verified compute resources.
 
 ## Future Enhancements
 
@@ -461,7 +474,7 @@ STAB3L is continuously improving its verification system. Planned enhancements i
 
 ## Conclusion
 
-The STAB3L verification system provides a robust and secure method for verifying compute resources. By using cryptographic techniques like ZKPs and TEEs, STAB3L ensures that CU tokens accurately represent the compute resources they claim to represent, creating a trustless marketplace for compute power.
+The STAB3L verification system provides a robust and secure method for verifying compute resources. By using cryptographic techniques like ZKPs and TEEs, STAB3L ensures that verified compute resources accurately back the sSTB tokens, creating a trustless marketplace for compute power.
 
 {% hint style="success" %}
 The verification system is a cornerstone of STAB3L's value proposition, enabling trustless trading of compute resources across blockchain ecosystems.

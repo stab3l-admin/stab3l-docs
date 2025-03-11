@@ -9,140 +9,150 @@ order: 7
 
 STAB3L is built by a team of experts in blockchain, distributed systems, and cloud computing. Our team is supported by a network of strategic advisors who share our vision of revolutionizing the compute resource market.
 
-## Core Team
+## Core Team and Advisors
 
 Our core team brings together extensive experience in blockchain technology, distributed systems, and cloud computing.
 
 {% tabs %}
 {% tab title="Leadership" %}
-### Leadership Team
-
 <div class="team-grid">
   <div class="team-member">
-    <img src="https://media.licdn.com/dms/image/D4E03AQGnXLQXnXQnQA/profile-displayphoto-shrink_800_800/0/1693347853058?e=1718841600&v=beta&t=Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd" alt="Konstantine Alexander" />
-    <h3>Konstantine Alexander</h3>
-    <p class="title">Co-Founder & CEO</p>
-    <p>Experienced entrepreneur and blockchain expert with a strong background in distributed systems. Former VP of Engineering at Coinbase, where he led the development of key infrastructure. Previously founded and scaled multiple successful tech startups. MBA from Harvard Business School and BS in Computer Science from Stanford University.</p>
+    <img src="/images/team/mitchell-mclennan.jpg" alt="Mitchell McLennan" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;" />
+    <h3>Mitchell McLennan</h3>
+    <p class="title">Co-Founder</p>
+    <p>Strategic advisor and business architect with extensive experience in emerging technologies and complex markets. Currently Managing Partner at The Ministry of Business, where he specializes in uncovering hidden revenue streams and creating strategic visibility across large organizations including government, transnational organizations, and NGOs. Also serves as Managing Partner at Present., leading the design and execution of influence architectures using their proprietary analytics platform. Brings a unique, trans-contextual perspective to innovation with expertise in blockchain, AI, and strategic growth initiatives.</p>
     <div class="social-links">
-      <a href="https://www.linkedin.com/in/konstantinealexander/" target="_blank">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/mitchellmclennan/" target="_blank">LinkedIn</a>
     </div>
   </div>
 
   <div class="team-member">
-    <img src="https://media.licdn.com/dms/image/C5603AQGvvwsq5hCPZA/profile-displayphoto-shrink_800_800/0/1517581161886?e=1718841600&v=beta&t=Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd" alt="Mitchell McLennan" />
-    <h3>Mitchell McLennan</h3>
-    <p class="title">Co-Founder & CTO</p>
-    <p>Blockchain architect and distributed systems expert with deep experience in cryptographic protocols and secure system design. Previously led engineering teams at Consensys and Ethereum Foundation, contributing to core protocol development. Holds multiple patents in distributed systems technology. MS in Computer Science from MIT with focus on cryptography and distributed systems.</p>
+    <img src="/images/team/konstantine-alexander.jpeg" alt="Konstantine Alexander" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;" />
+    <h3>Konstantine Alexander</h3>
+    <p class="title">Co-Founder</p>
+    <p>Serial entrepreneur with multiple successful ventures in technology and clean energy. Currently Vice President of Global Business Development at a stealth clean energy startup and Partner at ALIANGÉ. Previously served as Strategic Advisor for various blockchain and technology companies including LUKSO, FTR, and THE DEMATERIALISED. Former Head of New Business at Hypno, where he led growth initiatives for over 4 years. Brings extensive experience in business development, strategic partnerships, and go-to-market strategies across multiple industries.</p>
     <div class="social-links">
-      <a href="https://www.linkedin.com/in/mitchellmclennan/" target="_blank">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/konstantinealexander/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</div>
+{% endtab %}
+
+{% tab title="Advisors" %}
+<div class="advisor-grid">
+  <div class="advisor">
+    <img src="/images/team/sebastian-spritzer.jpeg" alt="Sebastian Spitzer" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;" />
+    <h3>Sebastian Spitzer</h3>
+    <p class="title">Strategic Advisor</p>
+    <p>Partnerships expert with extensive experience in blockchain, deep-tech, and venture capital. Currently leading Partnerships & Alliances at BforeAI, a Gartner Cool Vendor in Cybersecurity. Previously built and exited a B2B drop-shipping startup with $2M ARR, raised $5M for a gaming startup, and supported multiple startups from inception to $100M+ valuations. Advisor to emerging VC funds in the Bay Area with expertise in corporate venture capital, startup ecosystems, and strategic partnerships.</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/seba-s/" target="_blank">LinkedIn</a>
     </div>
   </div>
 </div>
 {% endtab %}
 {% endtabs %}
 
-## Advisors
-
-Our team is supported by a group of distinguished advisors who provide guidance on technology, business strategy, and governance.
-
-<div class="advisor-grid">
-  <div class="advisor">
-    <img src="https://media.licdn.com/dms/image/C4D03AQFnPJx9Qe0IQg/profile-displayphoto-shrink_800_800/0/1516240816202?e=1718841600&v=beta&t=Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd" alt="Darius Kirksey" />
-    <h3>Darius Kirksey</h3>
-    <p class="title">Strategic Advisor</p>
-    <p>Seasoned executive with over 25 years of experience in technology and finance. Currently Managing Director at Lightspeed Venture Partners, focusing on enterprise and infrastructure investments. Previously served as VP of Corporate Development at Cisco Systems, where he led numerous strategic acquisitions. Former investment banker at Goldman Sachs specializing in technology M&A. MBA from Wharton School of Business and BS in Electrical Engineering from Stanford University.</p>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/darius-k-9927951/" target="_blank">LinkedIn</a>
-    </div>
-  </div>
-
-  <div class="advisor">
-    <img src="https://media.licdn.com/dms/image/C5603AQEzQYPVnUzVlw/profile-displayphoto-shrink_800_800/0/1517581161886?e=1718841600&v=beta&t=Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd-Yd" alt="Peter McNulty" />
-    <h3>Peter McNulty</h3>
-    <p class="title">Technical Advisor</p>
-    <p>Distinguished technologist with extensive experience in cloud computing and distributed systems. Currently Chief Architect at Amazon Web Services (AWS), where he leads the design of next-generation cloud infrastructure. Previously held senior technical positions at Microsoft Azure and Google Cloud Platform. Recognized industry expert in scalable systems design and cloud-native architectures. Author of several influential papers on distributed computing and cloud security. PhD in Computer Science from Carnegie Mellon University.</p>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/peter-mcnulty-aa2959/" target="_blank">LinkedIn</a>
-    </div>
-  </div>
-</div>
-
 ## Partners
 
-STAB3L has established strategic partnerships with leading organizations in blockchain, cloud computing, and technology to accelerate the development and adoption of our platform.
+STAB3L plans to establish strategic partnerships with leading organizations in blockchain, cloud computing, and technology to accelerate the development and adoption of our platform.
 
-### Technology Partners
-
+{% tabs %}
+{% tab title="Technology Partners" %}
 <div class="partner-grid">
   <div class="partner">
-    <img src="https://stab3l.io/images/partners/arbitrum.png" alt="Arbitrum" />
+    <img src="https://cryptologos.cc/logos/arbitrum-arb-logo.svg" alt="Arbitrum" style="max-height: 40px; width: auto;" />
     <h3>Arbitrum</h3>
-    <p>Layer 2 scaling solution for Ethereum, providing high throughput and low fees for STAB3L's primary deployment.</p>
+    <p>Layer 2 scaling solution for Ethereum, planned to provide high throughput and low fees for STAB3L's primary deployment.</p>
   </div>
 
   <div class="partner">
-    <img src="https://stab3l.io/images/partners/polygon.png" alt="Polygon" />
+    <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg" alt="Polygon" style="max-height: 40px; width: auto;" />
     <h3>Polygon</h3>
-    <p>Scaling solution for Ethereum, collaborating with STAB3L on cross-chain integration and ecosystem expansion.</p>
+    <p>Scaling solution for Ethereum, with planned collaboration on cross-chain integration and ecosystem expansion.</p>
   </div>
 
   <div class="partner">
-    <img src="https://stab3l.io/images/partners/chainlink.png" alt="Chainlink" />
+    <img src="https://assets-global.website-files.com/5f6b7190899f41fb70882d08/5f760a499b56c47b8fa74fbb_chainlink-logo.svg" alt="Chainlink" style="max-height: 40px; width: auto;" />
     <h3>Chainlink</h3>
-    <p>Decentralized oracle network, providing secure and reliable data feeds for STAB3L's marketplace and verification system.</p>
+    <p>Decentralized oracle network, intended to provide secure and reliable data feeds for STAB3L's marketplace and verification system.</p>
   </div>
 
   <div class="partner">
-    <img src="https://stab3l.io/images/partners/the-graph.png" alt="The Graph" />
+    <img src="https://cryptologos.cc/logos/the-graph-grt-logo.svg" alt="The Graph" style="max-height: 40px; width: auto;" />
     <h3>The Graph</h3>
-    <p>Indexing protocol for blockchain data, powering STAB3L's data analytics and API services.</p>
+    <p>Indexing protocol for blockchain data, planned to power STAB3L's data analytics and API services.</p>
   </div>
 </div>
+{% endtab %}
 
-### Cloud and Infrastructure Partners
-
+{% tab title="Compute Partners" %}
 <div class="partner-grid">
   <div class="partner">
-    <img src="https://stab3l.io/images/partners/aws.png" alt="Amazon Web Services" />
-    <h3>Amazon Web Services</h3>
-    <p>Cloud computing provider, partnering with STAB3L to integrate AWS resources into the STAB3L marketplace.</p>
+    <img src="https://cryptologos.cc/logos/akash-network-akt-logo.svg" alt="Akash Network" style="max-height: 40px; width: auto;" />
+    <h3>Akash Network</h3>
+    <p>Decentralized cloud computing marketplace, planned integration for standardized compute units and provider verification.</p>
   </div>
 
   <div class="partner">
-    <img src="https://stab3l.io/images/partners/azure.png" alt="Microsoft Azure" />
-    <h3>Microsoft Azure</h3>
-    <p>Cloud computing provider, collaborating with STAB3L on confidential computing and TEE verification.</p>
+    <img src="https://assets.coingecko.com/coins/images/542/small/Golem_Submark_Positive_RGB.png" alt="Golem Network" style="max-height: 40px; width: auto;" />
+    <h3>Golem Network</h3>
+    <p>Decentralized marketplace for computing power, potential collaboration on compute unit benchmarking and standardization.</p>
   </div>
 
   <div class="partner">
-    <img src="https://stab3l.io/images/partners/gcp.png" alt="Google Cloud Platform" />
-    <h3>Google Cloud Platform</h3>
-    <p>Cloud computing provider, working with STAB3L to integrate GCP resources and enhance verification capabilities.</p>
+    <img src="https://assets.coingecko.com/coins/images/11636/small/rndr.png" alt="Render Network" style="max-height: 40px; width: auto;" />
+    <h3>Render Network</h3>
+    <p>Distributed GPU rendering platform, exploring integration for specialized compute resources and rendering capabilities.</p>
   </div>
 </div>
+{% endtab %}
+
+{% tab title="Cloud and Infrastructure Partners" %}
+<div class="partner-grid">
+  <div class="partner">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="Amazon Web Services" style="max-height: 40px; width: auto;" />
+    <h3>Amazon Web Services</h3>
+    <p>Cloud computing provider, with planned integration of AWS resources into the STAB3L marketplace.</p>
+  </div>
+
+  <div class="partner">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg" alt="Microsoft Azure" style="max-height: 40px; width: auto;" />
+    <h3>Microsoft Azure</h3>
+    <p>Cloud computing provider, with potential collaboration on confidential computing and TEE verification.</p>
+  </div>
+
+  <div class="partner">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud Platform" style="max-height: 40px; width: auto;" />
+    <h3>Google Cloud Platform</h3>
+    <p>Cloud computing provider, with plans to integrate GCP resources and enhance verification capabilities.</p>
+  </div>
+</div>
+{% endtab %}
+{% endtabs %}
 
 ## Join Our Team
 
-We're always looking for talented individuals who are passionate about blockchain, distributed systems, and revolutionizing the compute resource market. If you're interested in joining our team, check out our [careers page](https://stab3l.io/careers) for current openings.
+We're always looking for talented individuals who are passionate about blockchain, distributed systems, and revolutionizing the compute resource market. If you're interested in joining our team, check out our [careers page](https://stab3l.com/careers) for current openings.
 
 {% hint style="info" %}
-Even if you don't see a position that matches your skills, we encourage you to reach out to us at [careers@stab3l.io](mailto:careers@stab3l.io) with your resume and a brief introduction.
+Even if you don't see a position that matches your skills, we encourage you to reach out to us at [careers@stab3l.com](mailto:careers@stab3l.com) with your resume and a brief introduction.
 {% endhint %}
 
 ## Become a Partner
 
 If you're interested in partnering with STAB3L, we'd love to hear from you. We're always looking for strategic partnerships that can help us accelerate the development and adoption of our platform.
 
-To discuss partnership opportunities, please contact us at [partnerships@stab3l.io](mailto:partnerships@stab3l.io).
+To discuss partnership opportunities, please contact us at [partnerships@stab3l.com](mailto:partnerships@stab3l.com).
 
 ## Contact Us
 
-For general inquiries, please contact us at [info@stab3l.io](mailto:info@stab3l.io).
+For general inquiries, please contact us at [info@stab3l.com](mailto:info@stab3l.com).
 
-For media inquiries, please contact us at [media@stab3l.io](mailto:media@stab3l.io).
+For media inquiries, please contact us at [media@stab3l.com](mailto:media@stab3l.com).
 
 Follow us on social media:
-- [Twitter](https://twitter.com/stab3l_io)
+- [Twitter](https://twitter.com/stab3l)
 - [LinkedIn](https://linkedin.com/company/stab3l)
 - [Discord](https://discord.gg/stab3l)
 - [Telegram](https://t.me/stab3l_community) 
