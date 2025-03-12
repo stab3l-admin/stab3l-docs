@@ -7,6 +7,8 @@ import { Footer } from "@/components/footer";
 import { DocsToolbar } from "@/components/docs-toolbar";
 import { DocMeta } from "@/lib/docs";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from '@/components/theme-toggle'
+import TokenomicsPlaygroundModal from "./tokenomics-playground-modal"
 
 interface DocsLayoutClientProps {
   children: React.ReactNode;
@@ -95,6 +97,9 @@ export function DocsLayoutClient({ children, docs, categories }: DocsLayoutClien
       <div className="fixed bottom-0 left-0 right-0 border-t border-black dark:border-white">
         <Footer />
       </div>
+      
+      {/* Add the Tokenomics Playground Modal */}
+      <TokenomicsPlaygroundModal />
     </div>
   );
 } 

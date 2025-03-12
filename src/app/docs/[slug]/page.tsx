@@ -3,9 +3,9 @@ import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { getDocBySlug, getAllDocs } from "@/lib/docs";
 
 interface DocPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 /**
@@ -25,15 +25,18 @@ export async function generateStaticParams() {
  * Generate metadata for the page
  */
 export async function generateMetadata({ params }: DocPageProps) {
+  // Await the params object before accessing its properties
+  const resolvedParams = await params;
+  
   // Skip if this is a whitepaper document
-  if (params.slug.startsWith('whitepaper/')) {
+  if (resolvedParams.slug.startsWith('whitepaper/')) {
     return {
       title: "Not Found",
       description: "The page you're looking for doesn't exist.",
     };
   }
   
-  const doc = await getDocBySlug(params.slug);
+  const doc = await getDocBySlug(resolvedParams.slug);
   
   if (!doc) {
     return {
@@ -53,12 +56,15 @@ export async function generateMetadata({ params }: DocPageProps) {
  * Displays the content of a markdown file
  */
 export default async function DocPage({ params }: DocPageProps) {
+  // Await the params object before accessing its properties
+  const resolvedParams = await params;
+  
   // Skip if this is a whitepaper document
-  if (params.slug.startsWith('whitepaper/')) {
+  if (resolvedParams.slug.startsWith('whitepaper/')) {
     notFound();
   }
   
-  const doc = await getDocBySlug(params.slug);
+  const doc = await getDocBySlug(resolvedParams.slug);
   
   if (!doc) {
     notFound();

@@ -1,0 +1,65 @@
+/* Process Flow Styles */
+.process-flow-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  margin: 20px 0;
+  background-color: var(--background);
+  border-radius: 8px;
+  overflow: auto;
+}
+
+.process-step {
+  position: absolute;
+  width: 140px;
+  height: 80px;
+  background-color: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  cursor: move;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.process-step:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.process-step-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.process-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.process-step-text {
+  font-size: 14px;
+  color: var(--foreground);
+  word-wrap: break-word;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .process-step {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+/* Endpoint and connector styles will be handled by jsPlumb */ 

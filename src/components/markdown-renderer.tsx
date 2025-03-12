@@ -15,6 +15,7 @@ import { ChartComponent } from "@/components/ui/chart";
 import { parseChartData } from "@/lib/chart-parser";
 import dynamic from "next/dynamic";
 import Script from "next/script";
+import { TokenomicsButtonClient } from "./tokenomics-button-client";
 
 // Import the chart-renderer component
 const ChartRenderer = dynamic(() => import("@/components/chart-renderer").then(mod => mod.ChartRenderer), {
@@ -70,10 +71,20 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
     });
     
     setScriptContents(extractedScripts);
-    setProcessedContent(processCustomBlocks(contentWithoutScripts));
+    
+    // Process MDX imports and components
+    let processedWithComponents = processCustomBlocks(contentWithoutScripts);
+    
+    // Handle TokenomicsButtonClient component
+    processedWithComponents = processedWithComponents.replace(
+      /<TokenomicsButtonClient\s*\/>/g,
+      '<div class="tokenomics-button-placeholder"></div>'
+    );
+    
+    setProcessedContent(processedWithComponents);
   }, [content]);
 
-  // Execute scripts after render
+  // Execute scripts and handle components after render
   useEffect(() => {
     if (!contentRef.current) return;
     
@@ -149,6 +160,32 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             }
           }
         }
+      });
+      
+      // Handle TokenomicsButtonClient placeholders
+      const tokenomicsButtonPlaceholders = contentRef.current?.querySelectorAll('.tokenomics-button-placeholder');
+      tokenomicsButtonPlaceholders?.forEach((placeholder) => {
+        // Create a container for the button
+        const container = document.createElement('div');
+        placeholder.replaceWith(container);
+        
+        // Render the TokenomicsButtonClient component
+        const root = document.createElement('div');
+        container.appendChild(root);
+        
+        // Create a new instance of the component
+        const button = document.createElement('div');
+        button.className = "mt-8 mb-8 flex justify-center";
+        
+        const buttonElement = document.createElement('button');
+        buttonElement.className = "bg-black hover:bg-black/80 dark:bg-white dark:hover:bg-white/80 text-white dark:text-black font-mono font-medium py-3 px-6 rounded-none border border-black dark:border-white transition-all duration-200";
+        buttonElement.textContent = "Launch Tokenomics Playground";
+        buttonElement.onclick = () => {
+          document.dispatchEvent(new CustomEvent('openTokenomicsPlayground'));
+        };
+        
+        button.appendChild(buttonElement);
+        root.appendChild(button);
       });
     };
     
