@@ -5,9 +5,9 @@ import Script from "next/script";
 import React from "react";
 
 interface DocPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 /**
@@ -27,8 +27,11 @@ export async function generateStaticParams() {
  * Generate metadata for the whitepaper page
  */
 export async function generateMetadata({ params }: DocPageProps) {
+  // Await the params object before accessing its properties
+  const resolvedParams = await params;
+  
   // Prepend 'whitepaper/' to the slug to match our storage format
-  const fullSlug = `whitepaper/${params.slug}`;
+  const fullSlug = `whitepaper/${resolvedParams.slug}`;
   const doc = await getDocBySlug(fullSlug);
   
   if (!doc) {
@@ -49,8 +52,11 @@ export async function generateMetadata({ params }: DocPageProps) {
  * Displays the content of a whitepaper markdown file
  */
 export default async function WhitepaperDocPage({ params }: DocPageProps) {
+  // Await the params object before accessing its properties
+  const resolvedParams = await params;
+  
   // Prepend 'whitepaper/' to the slug to match our storage format
-  const fullSlug = `whitepaper/${params.slug}`;
+  const fullSlug = `whitepaper/${resolvedParams.slug}`;
   const doc = await getDocBySlug(fullSlug);
   
   if (!doc) {

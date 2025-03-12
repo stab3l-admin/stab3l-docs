@@ -5,9 +5,9 @@ import Script from "next/script";
 import React from "react";
 
 interface DocPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 /**
@@ -27,8 +27,11 @@ export async function generateStaticParams() {
  * Generate metadata for the litepaper page
  */
 export async function generateMetadata({ params }: DocPageProps) {
+  // Await the params object before accessing its properties
+  const resolvedParams = await params;
+  
   // Prepend 'litepaper/' to the slug to match our storage format
-  const fullSlug = `litepaper/${params.slug}`;
+  const fullSlug = `litepaper/${resolvedParams.slug}`;
   const doc = await getDocBySlug(fullSlug);
   
   if (!doc) {
@@ -49,8 +52,11 @@ export async function generateMetadata({ params }: DocPageProps) {
  * Displays the content of a litepaper markdown file
  */
 export default async function LitepaperDocPage({ params }: DocPageProps) {
+  // Await the params object before accessing its properties
+  const resolvedParams = await params;
+  
   // Prepend 'litepaper/' to the slug to match our storage format
-  const fullSlug = `litepaper/${params.slug}`;
+  const fullSlug = `litepaper/${resolvedParams.slug}`;
   const doc = await getDocBySlug(fullSlug);
   
   if (!doc) {
